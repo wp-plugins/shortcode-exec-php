@@ -1,0 +1,87 @@
+
+/*
+	Style sheet Shortcode Exec PHP WordPress Plugin
+*/
+
+/* Sustainable Plugins Sponsorship Network */
+#scep_sponsorship {
+	font-size: 9px;
+}
+
+/* Admin panel */
+#scep_admin_panel {
+	float: left;
+}
+
+/* Resources info panel */
+#scep_resources_panel {
+	float: right;
+	padding: 10px;
+	width: 180px;
+	margin-top: 30px;
+	border: 1px solid #CCCCCC;
+	background-color: #FFFEEB;
+}
+
+/* Heading info panel */
+#scep_resources_panel h3 {
+	margin: 0.5em 0 1em 0;
+}
+
+/* Donate form info panel */
+#scep_resources_panel form {
+	margin: 1em 0 0.5em 0;
+}
+
+/* Option checkboxes */
+#option_table input[type="checkbox"] {
+	margin: 5px 1px;
+}
+
+/* Shortcode configuration */
+.scep_table_center {
+	text-align: center;
+}
+
+#shortcode_table th {
+	font-style: italic;
+	padding: 3px !important;
+	width: auto;
+}
+
+#shortcode_table td {
+	padding: 0;
+}
+
+#shortcode_table input[type="checkbox"] {
+	margin: 5px 1px;
+}
+
+#shortcode_table input[type="text"] {
+	width: 100px;
+}
+
+#shortcode_table textarea {
+	font-family: monospace;
+	font-size: 12px;
+	height: 200px;
+	width: 500px;
+}
+
+/* Shortcode examples */
+#example_table {
+	width: auto;
+}
+
+#example_table td {
+	padding: 0 5px;
+}
+
+.example_title {
+	font-weight: bold;
+}
+
+.example_explanation {
+	font-family: monospace;
+}
+
