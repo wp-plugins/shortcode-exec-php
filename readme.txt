@@ -40,7 +40,7 @@ See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel 
 
 = What happens when I disable a shortcode? =
 
-The shortcode will not be handled and will appear unprocessed in your posts, pages or widgets.
+The shortcode will not be handled and will appear unprocessed in your posts, pages and/or widgets.
 
 = Who can access the settings and PHP code snippets? =
 
