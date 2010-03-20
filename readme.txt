@@ -1,0 +1,90 @@
+﻿=== Shortcode Exec PHP ===
+Contributors: Marcel Bokhorst
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Shortcode%20Exec%20PHP%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
+Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, sidebar, widget, widgets
+Requires at least: 2.5
+Tested up to: 2.9.2
+Stable tag: 0.1
+
+Execute reusable PHP code in posts, pages and widgets using shortcodes
+
+== Description ==
+
+Using this plugin you can execute arbitrary [PHP](http://www.php.net/ "PHP") code using shortcodes in your posts, pages and optionally in your widgets, just like manually defined shortcodes. The shortcodes and associated PHP code snippets are defined using the settings of this plugin. It is possible to parse and use shortcode parameters and to use shortcode content. Defined shortcodes can be deleted and disabled.
+
+Advantages over other solutions are that your posts, pages and widgets do not have to contain PHP code and that PHP code snippets can be reused.
+
+Please report any issue you have with this plugin on the [support page](http://blog.bokhorst.biz/3626/computers-en-internet/wordpress-plugin-shortcode-exec-php/ "Marcel's weblog"), so I can at least try to fix it.
+
+See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
+
+== Installation ==
+
+*Using the WordPress dashboard*
+
+1. Login to your weblog
+1. Go to Plugins
+1. Select Add New
+1. Search for *Shortcode Exec PHP*
+1. Select Install
+1. Select Install Now
+1. Select Activate Plugin
+
+*Manual*
+
+1. Download and unzip the plugin
+1. Upload the entire shortcode-exec-php/ directory to the /wp-content/plugins/ directory
+1. Activate the plugin through the Plugins menu in WordPress
+
+== Frequently Asked Questions ==
+
+= What happens when I disable a shortcode? =
+
+The shortcode will not be handled and will appear unprocessed in your posts, pages or widgets.
+
+= Who can access the settings and PHP code snippets? =
+
+Users with *manage\_options* capability (administrators).
+
+= Who can use the defined shortcodes? =
+
+Anyone who can create or modify posts, pages and/or widgets.
+
+= How are PHP errors handled? =
+
+Because the [PHP eval function](http://php.net/manual/en/function.eval.php "PHP eval function") is used, errors cannot be handled unfortunately, so test your code thoroughly.
+
+= How many shortcodes can I define? =
+
+Unlimited.
+
+= Where are the shortcode definitions stored? =
+
+The shortcode name, enabled indication and PHP code snippet are stored as options.
+
+= How can I change the styling of the settings? =
+
+1. Copy *shortcode-exec-php.css* to your theme directory to prevent it from being overwritten by an update
+2. Change the style sheet to your wishes; the style sheet contains documentation
+
+= Where can I ask questions, report bugs and request features? =
+
+You can write a comment on the [support page](http://blog.bokhorst.biz/3626/computers-en-internet/wordpress-plugin-shortcode-exec-php/ "Marcel's weblog").
+
+== Screenshots ==
+
+1. PHP code snippets
+
+== Changelog ==
+
+= 0.1 =
+* Initial version
+
+= 0.0 =
+* Development version
+
+== Upgrade Notice ==
+
+= 0.1 =
+Initial version
+
