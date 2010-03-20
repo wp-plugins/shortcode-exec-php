@@ -6,7 +6,7 @@ Requires at least: 2.5
 Tested up to: 2.9.2
 Stable tag: 0.1
 
-Execute reusable PHP code in posts, pages and widgets using shortcodes
+Execute arbitrary, reusable PHP code in posts, pages and widgets using shortcodes
 
 == Description ==
 
@@ -60,7 +60,7 @@ Unlimited.
 
 = Where are the shortcode definitions stored? =
 
-The shortcode name, enabled indication and PHP code snippet are stored as options.
+The shortcode name, enabled indication and PHP code snippet are stored as WordPress options.
 
 = How can I change the styling of the settings? =
 
