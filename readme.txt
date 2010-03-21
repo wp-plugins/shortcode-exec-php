@@ -12,7 +12,11 @@ Execute arbitrary, reusable PHP code in posts, pages and widgets using shortcode
 
 Using this plugin you can execute arbitrary [PHP](http://www.php.net/ "PHP") code using shortcodes in your posts, pages and optionally in your widgets, just like manually defined shortcodes. The shortcodes and associated PHP code snippets are defined using the settings of this plugin. It is possible to parse and use shortcode parameters and to use shortcode content. Defined shortcodes can be deleted and disabled.
 
-Advantages over other solutions are that your posts, pages and widgets do not have to contain PHP code and that PHP code snippets can be reused.
+Advantages over other solutions:
+
+1. Your posts, pages and widgets do not have to contain PHP
+1. PHP code snippets can be reused
+1. All PHP code is organized at one place
 
 Please report any issue you have with this plugin on the [support page](http://blog.bokhorst.biz/3626/computers-en-internet/wordpress-plugin-shortcode-exec-php/ "Marcel's weblog"), so I can at least try to fix it.
 
