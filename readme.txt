@@ -6,7 +6,7 @@ Requires at least: 2.5
 Tested up to: 2.9.2
 Stable tag: 0.1
 
-Execute arbitrary, reusable PHP code in posts, pages and widgets using shortcodes
+Execute arbitrary, reusable PHP code in posts, pages and widgets using shortcodes in a safe way
 
 == Description ==
 
