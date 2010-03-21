@@ -18,6 +18,8 @@ Advantages over other solutions:
 1. PHP code snippets can be reused
 1. All PHP code is organized at one place
 
+For those concerned about security (hopefully everybody): only administrators can define shortcodes and associated PHP code snippets (see also the [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")).
+
 Please report any issue you have with this plugin on the [support page](http://blog.bokhorst.biz/3626/computers-en-internet/wordpress-plugin-shortcode-exec-php/ "Marcel's weblog"), so I can at least try to fix it.
 
 See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
