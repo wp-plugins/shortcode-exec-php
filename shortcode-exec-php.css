@@ -1,0 +1,110 @@
+
+/*
+	Style sheet Shortcode Exec PHP WordPress Plugin
+*/
+
+/* Sustainable Plugins Sponsorship Network */
+#scep_sponsorship {
+	font-size: 9px;
+}
+
+/* Admin panel */
+#scep_admin_panel {
+	float: left;
+}
+
+/* Resources info panel */
+#scep_resources_panel {
+	float: right;
+	padding: 10px;
+	width: 180px;
+	margin-top: 30px;
+	border: 1px solid #CCCCCC;
+	background-color: #FFFEEB;
+}
+
+/* Heading info panel */
+#scep_resources_panel h3 {
+	margin: 0.5em 0 1em 0;
+}
+
+/* Donate form info panel */
+#scep_resources_panel form {
+	margin: 1em 0 0.5em 0;
+}
+
+/* Option titles */
+#option_table th {
+	width: 500px;
+	padding: 0px;
+}
+
+/* Option checkboxes */
+#option_table input[type="checkbox"] {
+	margin: 0;
+}
+
+/* Option table cell with input */
+#option_table .scep_cell_input {
+	padding: 0 6px 4px;
+}
+
+/ * Option inputs */
+#option_table input[type="text"] {
+	width: 50px;
+}
+
+/* Code box height */
+#scep_option_width, #scep_option_height {
+	width: 50px;
+}
+
+/* Shortcode configuration */
+.scep_table_center {
+	text-align: center !important;
+}
+
+/* Shortcode table headers */
+#shortcode_table th {
+	font-style: italic;
+	padding: 3px !important;
+	width: auto;
+}
+
+/* Shortcode table cells */
+#shortcode_table td {
+	padding: 0;
+}
+
+/* Shortcode table checkboxes */
+#shortcode_table input[type="checkbox"] {
+	margin: 5px 1px;
+}
+
+/* Shortcode table inputs */
+#shortcode_table input[type="text"] {
+	width: 120px;
+}
+
+/* Shortcode table code snippets */
+#shortcode_table textarea {
+	font-family: monospace;
+	font-size: 12px;
+}
+
+/* Shortcode examples */
+#example_table {
+	width: auto;
+}
+
+#example_table td {
+	padding: 0 5px;
+}
+
+.example_title {
+	font-weight: bold;
+}
+
+.example_explanation {
+	font-family: monospace;
+}
