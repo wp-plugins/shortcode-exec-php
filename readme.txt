@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, sidebar, widget, widgets
 Requires at least: 2.5
 Tested up to: 2.9.2
-Stable tag: 0.1
+Stable tag: 0.2
 
 Execute arbitrary, reusable PHP code in posts, pages and widgets using shortcodes in a safe way
 
@@ -83,6 +83,11 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Changelog ==
 
+= 0.2 =
+* Added options to enable shortcodes in excerps, comments and RSS feeds
+* Added options to change width and height of PHP code snippet textarea
+* Improved layout of options
+
 = 0.1 =
 * Initial version
 
@@ -93,4 +98,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 = 0.1 =
 Initial version
+
+= 0.2 =
+Added options to enable shortcodes in excerps, comments and RSS feeds and to set the size of the PHP code snippet box
 

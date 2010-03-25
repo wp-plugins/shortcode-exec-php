@@ -7,8 +7,14 @@
 
 // Define constants
 define('c_scep_option_widget', 'scep_widget');
+define('c_scep_option_excerpt', 'scep_excerpt');
+define('c_scep_option_comment', 'scep_comment');
+define('c_scep_option_rss', 'scep_rss');
 define('c_scep_option_cleanup', 'scep_cleanup');
 define('c_scep_option_donated', 'scep_donated');
+define('c_scep_option_codewidth', 'scep_codewidth');
+define('c_scep_option_codeheight', 'scep_codeheight');
+
 define('c_scep_option_names', 'scep_names');
 define('c_scep_option_enabled', 'scep_enabled_');
 define('c_scep_option_phpcode', 'scep_phpcode_');
@@ -45,6 +51,27 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			if (get_option(c_scep_option_widget))
 				add_filter('widget_text', 'do_shortcode');
 
+			// Enable shortcodes for excerpts
+			if (get_option(c_scep_option_excerpt))
+			{
+				add_filter('the_excerpt', 'do_shortcode');
+				if (get_option(c_scep_option_comment))
+					add_filter('comment_excerpt', 'do_shortcode');
+			}
+
+			// Enable shortcodes for comments
+			if (get_option(c_scep_option_comment))
+				add_filter('comment_text', 'do_shortcode');
+
+			// Enable shortcodes for RSS
+			if (get_option(c_scep_option_rss)) {
+				add_filter('the_content_rss', 'do_shortcode');
+				if (get_option(c_scep_option_excerpt))
+					add_filter('the_excerpt_rss', 'do_shortcode');
+				if (get_option(c_scep_option_comment))
+					add_filter('comment_text_rss', 'do_shortcode');
+			}
+
 			// Wire shortcode handlers
 			$name = get_option(c_scep_option_names);
 			for ($i = 0; $i < count($name); $i++)
@@ -70,6 +97,11 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 		// Handle plugin activation
 		function Activate() {
+			if (!get_option(c_scep_option_codewidth))
+				update_option(c_scep_option_codewidth,  500);
+			if (!get_option(c_scep_option_codeheight))
+				update_option(c_scep_option_codeheight, 200);
+
 			if (!get_option(c_scep_option_names)) {
 				// Define example shortcode
 				$name = array();
@@ -85,6 +117,11 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			// Cleanup if requested
 			if (get_option(c_scep_option_cleanup)) {
 				delete_option(c_scep_option_widget);
+				delete_option(c_scep_option_excerpt);
+				delete_option(c_scep_option_comment);
+				delete_option(c_scep_option_rss);
+				delete_option(c_scep_option_codewidth);
+				delete_option(c_scep_option_codeheight);
 				delete_option(c_scep_option_cleanup);
 				delete_option(c_scep_option_donated);
 
@@ -119,9 +156,14 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 				if (current_user_can('manage_options')) {
 					// Update settings
-					update_option(c_scep_option_widget,  $_POST[c_scep_option_widget]);
-					update_option(c_scep_option_cleanup, $_POST[c_scep_option_cleanup]);
-					update_option(c_scep_option_donated, $_POST[c_scep_option_donated]);
+					update_option(c_scep_option_widget,	 $_POST[c_scep_option_widget]);
+					update_option(c_scep_option_excerpt,	$_POST[c_scep_option_excerpt]);
+					update_option(c_scep_option_comment,	$_POST[c_scep_option_comment]);
+					update_option(c_scep_option_rss,		$_POST[c_scep_option_rss]);
+					update_option(c_scep_option_codewidth,  $_POST[c_scep_option_codewidth]);
+					update_option(c_scep_option_codeheight, $_POST[c_scep_option_codeheight]);
+					update_option(c_scep_option_cleanup,	$_POST[c_scep_option_cleanup]);
+					update_option(c_scep_option_donated,	$_POST[c_scep_option_donated]);
 
 					echo '<div id="message" class="updated fade"><p><strong>' . __('Settings updated', c_scep_text_domain) . '</strong></p></div>';
 
@@ -186,8 +228,18 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 			// Get current settings
 			$scep_widget  = get_option(c_scep_option_widget)  ? 'checked="checked"' : '';
+			$scep_excerpt = get_option(c_scep_option_excerpt) ? 'checked="checked"' : '';
+			$scep_comment = get_option(c_scep_option_comment) ? 'checked="checked"' : '';
+			$scep_rss	 = get_option(c_scep_option_rss)	 ? 'checked="checked"' : '';
 			$scep_cleanup = get_option(c_scep_option_cleanup) ? 'checked="checked"' : '';
 			$scep_donated = get_option(c_scep_option_donated) ? 'checked="checked"' : '';
+			$scep_width   = get_option(c_scep_option_codewidth);
+			$scep_height  = get_option(c_scep_option_codeheight);
+
+			if ($scep_width <= 0)
+				$scep_width = 500;
+			if ($scep_height <= 0)
+				$scep_height = 200;
 ?>
 			<h3><?php _e('Options', c_scep_text_domain); ?></h3>
 			<table id="option_table" class="form-table">
@@ -196,6 +248,38 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				<label for="scep_option_widget"><?php _e('Execute shortcodes in (sidebar) widgets', c_scep_text_domain); ?></label>
 			</th><td>
 				<input id="scep_option_widget" name="<?php echo c_scep_option_widget; ?>" type="checkbox"<?php echo $scep_widget; ?> />
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_excerpt"><?php _e('Execute shortcodes in excerpts', c_scep_text_domain); ?></label>
+			</th><td>
+				<input id="scep_option_excerpt" name="<?php echo c_scep_option_excerpt; ?>" type="checkbox"<?php echo $scep_excerpt; ?> />
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_comment"><?php _e('Execute shortcodes in comments', c_scep_text_domain); ?></label>
+			</th><td>
+				<input id="scep_option_comment" name="<?php echo c_scep_option_comment; ?>" type="checkbox"<?php echo $scep_comment; ?> />
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_rss"><?php _e('Execute shortcodes in RSS feeds', c_scep_text_domain); ?></label>
+			</th><td>
+				<input id="scep_option_rss" name="<?php echo c_scep_option_rss; ?>" type="checkbox"<?php echo $scep_rss; ?> />
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_width"><?php _e('Width of code snippet box', c_scep_text_domain); ?></label>
+			</th><td class="scep_cell_input">
+				<input id="scep_option_width" name="<?php echo c_scep_option_codewidth; ?>" type="text" value="<?php echo $scep_width; ?>" />
+				<span>px</span>
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_height"><?php _e('Height of code snippet box', c_scep_text_domain); ?></label>
+			</th><td class="scep_cell_input">
+				<input id="scep_option_height" name="<?php echo c_scep_option_codeheight; ?>" type="text" value="<?php echo $scep_height; ?>" />
+				<span>px</span>
 			</td></tr>
 
 			<tr valign="top"><th scope="row">
@@ -231,15 +315,17 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				echo '<td class="scep_table_center"><input name="' . c_scep_form_delete . $i . '" type="checkbox"></td>';
 				echo '<td class="scep_table_center"><input name="' . c_scep_form_enabled . $i . '" type="checkbox" ' . ($enabled ? 'checked="checked"' : '') . '></td>';
 				echo '<td>[<input name="' . c_scep_form_shortcode . $i . '" type="text" value="' . $name[$i] . '">]</td>';
-				echo '<td><textarea name="' . c_scep_form_phpcode . $i . '">' . htmlentities($code, ENT_NOQUOTES) . '</textarea></td>';
+				echo '<td><textarea name="' . c_scep_form_phpcode . $i . '" style="width:' . $scep_width . 'px;height:' . $scep_height . 'px;">';
+				echo htmlentities($code, ENT_NOQUOTES) . '</textarea></td>';
 				echo '</tr>';
 			}
 ?>
 			<tr valign="top">
 			<td />
 			<td class="scep_table_center"><input name="<?php echo c_scep_form_enabled . '_new'; ?>" type="checkbox" checked="checked"></td>
-			<td><input name="<?php echo c_scep_form_shortcode . '_new'; ?>" type="text" value=""></td>
-			<td><textarea class="scep_table_code" name="<?php echo c_scep_form_phpcode . '_new'; ?>"></textarea></td>
+			<td>[<input name="<?php echo c_scep_form_shortcode . '_new'; ?>" type="text" value="">]</td>
+			<td><textarea class="scep_table_code" name="<?php echo c_scep_form_phpcode . '_new'; ?>" style="width:<?php echo $scep_width; ?>px;height:<?php echo $scep_height; ?>px;" >
+			</textarea></td>
 			</tr>
 			</table>
 
