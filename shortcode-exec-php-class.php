@@ -142,72 +142,73 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				add_options_page(
 					__('Shortcode Exec PHP Administration', c_scep_text_domain),
 					__('Shortcode Exec PHP', c_scep_text_domain),
-					0,
+					'manage_options',
 					$this->main_file,
 					array(&$this, 'Administration'));
 		}
 
 		// Handle option page
 		function Administration() {
+			if (!current_user_can('manage_options'))
+				return;
+			
 			// Check post back
 			if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
 				// Check security
 				check_admin_referer(c_scep_nonce_form);
 
-				if (current_user_can('manage_options')) {
-					// Update settings
-					update_option(c_scep_option_widget,	 $_POST[c_scep_option_widget]);
-					update_option(c_scep_option_excerpt,	$_POST[c_scep_option_excerpt]);
-					update_option(c_scep_option_comment,	$_POST[c_scep_option_comment]);
-					update_option(c_scep_option_rss,		$_POST[c_scep_option_rss]);
-					update_option(c_scep_option_codewidth,  $_POST[c_scep_option_codewidth]);
-					update_option(c_scep_option_codeheight, $_POST[c_scep_option_codeheight]);
-					update_option(c_scep_option_cleanup,	$_POST[c_scep_option_cleanup]);
-					update_option(c_scep_option_donated,	$_POST[c_scep_option_donated]);
+				// Update settings
+				update_option(c_scep_option_widget,		$_POST[c_scep_option_widget]);
+				update_option(c_scep_option_excerpt,	$_POST[c_scep_option_excerpt]);
+				update_option(c_scep_option_comment,	$_POST[c_scep_option_comment]);
+				update_option(c_scep_option_rss,		$_POST[c_scep_option_rss]);
+				update_option(c_scep_option_codewidth,  $_POST[c_scep_option_codewidth]);
+				update_option(c_scep_option_codeheight, $_POST[c_scep_option_codeheight]);
+				update_option(c_scep_option_cleanup,	$_POST[c_scep_option_cleanup]);
+				update_option(c_scep_option_donated,	$_POST[c_scep_option_donated]);
 
-					echo '<div id="message" class="updated fade"><p><strong>' . __('Settings updated', c_scep_text_domain) . '</strong></p></div>';
+				echo '<div id="message" class="updated fade"><p><strong>' . __('Settings updated', c_scep_text_domain) . '</strong></p></div>';
 
-					// Update shortcodes
-					$name = get_option(c_scep_option_names);
+				// Update shortcodes
+				$name = get_option(c_scep_option_names);
 
-					// Remove previous shortnames and handlers
-					for ($i = 0; $i < count($name); $i++) {
-						remove_shortcode($name[$i]);
-						delete_option(c_scep_option_enabled . $name[$i]);
-						delete_option(c_scep_option_phpcode . $name[$i]);
-					}
+				// Remove previous shortnames and handlers
+				for ($i = 0; $i < count($name); $i++) {
+					remove_shortcode($name[$i]);
+					delete_option(c_scep_option_enabled . $name[$i]);
+					delete_option(c_scep_option_phpcode . $name[$i]);
+				}
 
-					// Add current shortnames
-					$cur_name = array();
-					for ($i = 0; $i < count($name); $i++) {
-						if (!$_POST[c_scep_form_delete . $i]) {
-							$shortcode = $_POST[c_scep_form_shortcode . $i];
-							$enabled = $_POST[c_scep_form_enabled . $i];
-							$code = stripslashes(html_entity_decode($_POST[c_scep_form_phpcode . $i], ENT_NOQUOTES));
-							$cur_name[] = $shortcode;
-							add_option(c_scep_option_enabled . $shortcode, $enabled);
-							add_option(c_scep_option_phpcode . $shortcode, $code);
-						}
-					}
-
-					// Add new shortname
-					$shortcode = $_POST[c_scep_form_shortcode . '_new'];
-					$enabled = $_POST[c_scep_form_enabled . '_new'];
-					$code = stripslashes(html_entity_decode($_POST[c_scep_form_phpcode . '_new'], ENT_NOQUOTES));
-					if ($shortcode) {
+				// Add current shortnames
+				$cur_name = array();
+				for ($i = 0; $i < count($name); $i++) {
+					if (!$_POST[c_scep_form_delete . $i]) {
+						$shortcode = $_POST[c_scep_form_shortcode . $i];
+						$enabled = $_POST[c_scep_form_enabled . $i];
+						$code = stripslashes(html_entity_decode($_POST[c_scep_form_phpcode . $i], ENT_NOQUOTES));
 						$cur_name[] = $shortcode;
 						add_option(c_scep_option_enabled . $shortcode, $enabled);
 						add_option(c_scep_option_phpcode . $shortcode, $code);
 					}
-
-					// Persist names
-					update_option(c_scep_option_names, $cur_name);
-
-					// Wire new shortcodes
-					for ($i = 0; $i < count($cur_name); $i++)
-						if (get_option(c_scep_option_enabled . $cur_name[$i]))
-							add_shortcode($cur_name[$i], array(&$this, 'Shortcode_handler'));
 				}
+
+				// Add new shortname
+				$shortcode = $_POST[c_scep_form_shortcode . '_new'];
+				$enabled = $_POST[c_scep_form_enabled . '_new'];
+				$code = stripslashes(html_entity_decode($_POST[c_scep_form_phpcode . '_new'], ENT_NOQUOTES));
+				if ($shortcode) {
+					$cur_name[] = $shortcode;
+					add_option(c_scep_option_enabled . $shortcode, $enabled);
+					add_option(c_scep_option_phpcode . $shortcode, $code);
+				}
+
+				// Persist names
+				update_option(c_scep_option_names, $cur_name);
+
+				// Wire new shortcodes
+				for ($i = 0; $i < count($cur_name); $i++)
+					if (get_option(c_scep_option_enabled . $cur_name[$i]))
+						add_shortcode($cur_name[$i], array(&$this, 'Shortcode_handler'));
 			}
 
 			// Sustainable Plugins Sponsorship Network
@@ -230,7 +231,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$scep_widget  = get_option(c_scep_option_widget)  ? 'checked="checked"' : '';
 			$scep_excerpt = get_option(c_scep_option_excerpt) ? 'checked="checked"' : '';
 			$scep_comment = get_option(c_scep_option_comment) ? 'checked="checked"' : '';
-			$scep_rss	 = get_option(c_scep_option_rss)	 ? 'checked="checked"' : '';
+			$scep_rss     = get_option(c_scep_option_rss)	  ? 'checked="checked"' : '';
 			$scep_cleanup = get_option(c_scep_option_cleanup) ? 'checked="checked"' : '';
 			$scep_donated = get_option(c_scep_option_donated) ? 'checked="checked"' : '';
 			$scep_width   = get_option(c_scep_option_codewidth);
@@ -308,6 +309,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 <?php
 			// Render shortcode definitions
 			$name = get_option(c_scep_option_names);
+			sort($name);
 			for ($i = 0; $i < count($name); $i++) {
 				$enabled = get_option(c_scep_option_enabled . $name[$i]);
 				$code = get_option(c_scep_option_phpcode . $name[$i]);
