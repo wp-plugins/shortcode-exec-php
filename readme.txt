@@ -44,6 +44,10 @@ See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel 
 
 == Frequently Asked Questions ==
 
+= Why does the shortcode output appear before the text? =
+
+Probably because you used the *echo* statement in stead of the *return* statement.
+
 = What happens when I disable a shortcode? =
 
 The shortcode will not be handled and will appear unprocessed in your posts, pages and/or widgets.
