@@ -14,7 +14,7 @@ Using this plugin you can execute arbitrary [PHP](http://www.php.net/ "PHP") cod
 
 Advantages over other solutions:
 
-1. Your posts, pages and widgets do not have to contain PHP
+1. Your posts, pages, comments and widgets do not have to contain PHP
 1. PHP code snippets can be reused
 1. All PHP code is organized at one place
 
