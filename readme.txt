@@ -51,7 +51,7 @@ Probably because you used the *echo* statement in stead of the *return* statemen
 
 = What happens when I disable a shortcode? =
 
-The shortcode will not be handled and will appear unprocessed in your posts, pages and/or widgets.
+The shortcode will not be handled and will appear unprocessed.
 
 = Who can access the settings and PHP code snippets? =
 
@@ -59,7 +59,7 @@ Users with *manage\_options* capability (administrators).
 
 = Who can use the defined shortcodes? =
 
-Anyone who can create or modify posts, pages and/or widgets.
+Anyone who can create or modify posts, pages and/or widgets or can write comments (if enabled).
 
 = How are PHP errors handled? =
 
@@ -90,7 +90,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 = 0.4 =
 * Syntax highlighting
-* In-place add, update and delete of shortcodes (using ajax)
+* In-place add, update and delete of shortcodes (using AJAX)
 * Shortcodes can be tested in the administration backend
 
 = 0.3 =
