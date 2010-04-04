@@ -6,7 +6,7 @@ Requires at least: 2.5
 Tested up to: 2.9.2
 Stable tag: 0.4
 
-Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe way
+Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a easy and safe way
 
 == Description ==
 
