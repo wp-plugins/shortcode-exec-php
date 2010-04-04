@@ -26,6 +26,19 @@ Author URI: http://blog.bokhorst.biz/about/
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/*
+	Acknowledgments
+
+	EditArea by Christophe Dolivet
+	See http://www.cdolivet.com/index.php?page=editArea for details
+	This script is publised under the GNU Lesser General Public License
+
+	jQuery JavaScript Library
+	This library is published under both the GNU General Public License and MIT License
+
+	All licenses are GPL compatible (see http://www.gnu.org/philosophy/license-list.html#GPLCompatibleLicenses)
+*/
+
 #error_reporting(E_ALL);
 
 // Needed for ajax calls
