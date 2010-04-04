@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds
 Requires at least: 2.5
 Tested up to: 2.9.2
-Stable tag: 0.3
+Stable tag: 0.4
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe way
 
@@ -87,6 +87,11 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Changelog ==
 
+= 0.4 =
+* Syntax highlighting
+* In-place add, update and delete of shortcodes (using ajax)
+* Shortcodes can be tested in the administration backend
+
 = 0.3 =
 * Only administrators can see options and shortcode definitions now
 * Shortcodes are sorted alphabetically in the administration backend
@@ -104,6 +109,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Upgrade Notice ==
 
+= 0.4 =
+Easier editing, syntax highlighting, shortcode testing
+
 = 0.3 =
 Better security, shortcode sorting
 
@@ -113,4 +121,14 @@ Added options to enable shortcodes in excerps, comments and RSS feeds and to set
 = 0.1 =
 Initial version
 
+== Acknowledgments ==
+
+This plugin uses:
+
+* [EditArea](http://www.cdolivet.com/index.php?page=editArea "EditArea")
+by *Christophe Dolivet* and published under the GNU Lesser General Public License
+
+* [jQuery JavaScript Library](http://jquery.com/ "jQuery") published under both the GNU General Public License and MIT License
+
+All licenses are [GPL-Compatible Free Software Licenses](http://www.gnu.org/philosophy/license-list.html#GPLCompatibleLicenses "GPL compatible").
 
