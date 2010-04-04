@@ -131,5 +131,5 @@ by *Christophe Dolivet* and published under the GNU Lesser General Public Licens
 
 * [jQuery JavaScript Library](http://jquery.com/ "jQuery") published under both the GNU General Public License and MIT License
 
-All licenses are [GPL-Compatible Free Software Licenses](http://www.gnu.org/philosophy/license-list.html#GPLCompatibleLicenses "GPL compatible").
+All licenses are [GPL-Compatible Free Software Licenses](http://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses "GPL compatible").
 
