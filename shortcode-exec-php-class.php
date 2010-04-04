@@ -101,7 +101,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				// I18n
 				load_plugin_textdomain(c_scep_text_domain, false, basename(dirname(__FILE__)));
 
-				// Enqueue script
+				// Enqueue scripts
+				wp_enqueue_script('jquery');
 				$plugin_dir = '/' . PLUGINDIR .  '/' . basename(dirname($this->main_file));
 				wp_enqueue_script('editarea', $plugin_dir . '/editarea/edit_area/edit_area_full.js');
 
