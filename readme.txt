@@ -17,6 +17,7 @@ Advantages over other solutions:
 1. Your posts, pages, comments and widgets do not have to contain PHP
 1. PHP code snippets can be reused
 1. All PHP code is organized at one place
+1. Syntax highlighting
 
 For those concerned about security (hopefully everybody): only administrators can define shortcodes and associated PHP code snippets (see also the [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")).
 
