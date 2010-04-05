@@ -119,7 +119,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 == Upgrade Notice ==
 
 = 0.4.1 =
-* Compatibility
+Compatibility
 
 = 0.4 =
 Easier editing, syntax highlighting, shortcode testing
