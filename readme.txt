@@ -3,23 +3,24 @@ Contributors: Marcel Bokhorst
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Shortcode%20Exec%20PHP%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX
 Requires at least: 2.5
-Tested up to: 2.9.2
+Tested up to: 3.0-beta1
 Stable tag: 0.4
 
-Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in an easy and safe way
+Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
 == Description ==
 
-Using this plugin you can execute arbitrary [PHP](http://www.php.net/ "PHP") code using [shortcodes](http://codex.wordpress.org/Shortcode_API "Shortcode API") in your posts, pages, comments, widgets and RSS feeds, just like manually defined shortcodes. The shortcodes and associated PHP code snippets are defined using the settings of this plugin. It is possible to parse and use shortcode parameters and to use shortcode content. Defined shortcodes can be deleted and disabled.
+Using this plugin you can execute arbitrary [PHP](http://www.php.net/ "PHP") code using [shortcodes](http://codex.wordpress.org/Shortcode_API "Shortcode API") in your posts, pages, comments, widgets and RSS feeds, just like manually defined shortcodes. The shortcodes and associated PHP code are defined using the settings of this plugin. It is possible to parse and use shortcode parameters and to use shortcode content. Defined shortcodes can be deleted and disabled.
 
 Advantages over other solutions:
 
-1. Your posts, pages, comments and widgets do not have to contain PHP
-1. PHP code snippets can be reused
+1. Your texts do not have to contain PHP code
+1. PHP code can be reused (by reusing the shortcode)
 1. All PHP code is organized at one place
-1. Syntax highlighting
+1. [Syntax highlighting](http://en.wikipedia.org/wiki/Syntax_highlighting "Syntax highlighting")
+1. You can test your PHP code before using it
 
-For those concerned about security (hopefully everybody): only administrators can define shortcodes and associated PHP code snippets (see also the [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")).
+For those concerned about security (hopefully everybody): only administrators can define shortcodes and associated PHP code (see also the [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")).
 
 Please report any issue you have with this plugin on the [support page](http://blog.bokhorst.biz/3626/computers-en-internet/wordpress-plugin-shortcode-exec-php/ "Marcel's weblog"), so I can at least try to fix it.
 
@@ -47,13 +48,13 @@ See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel 
 
 = Why does the shortcode output appear before the text? =
 
-Probably because you used the *echo* statement in stead of the *return* statement.
+Probably because you used the *echo* statement instead of the *return* statement.
 
 = What happens when I disable a shortcode? =
 
 The shortcode will not be handled and will appear unprocessed.
 
-= Who can access the settings and PHP code snippets? =
+= Who can access the settings and the PHP code? =
 
 Users with *manage\_options* capability (administrators).
 
@@ -71,12 +72,16 @@ Unlimited.
 
 = Where are the shortcode definitions stored? =
 
-The shortcode name, enabled indication and PHP code snippet are stored as WordPress options.
+The shortcode name, enabled indication and PHP code are stored as WordPress options.
 
 = How can I change the styling of the settings? =
 
 1. Copy *shortcode-exec-php.css* to your theme directory to prevent it from being overwritten by an update
 2. Change the style sheet to your wishes; the style sheet contains documentation
+
+= How do I test a shortcode with parameters? =
+
+Indirectly, by using default values.
 
 = Where can I ask questions, report bugs and request features? =
 
@@ -84,7 +89,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Screenshots ==
 
-1. PHP code snippets
+1. Shortcode exec PHP
 
 == Changelog ==
 
@@ -99,7 +104,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 = 0.2 =
 * Added options to enable shortcodes in excerps, comments and RSS feeds
-* Added options to change width and height of PHP code snippet textarea
+* Added options to change width and height of PHP code textarea
 * Improved layout of options
 
 = 0.1 =
@@ -117,7 +122,7 @@ Easier editing, syntax highlighting, shortcode testing
 Better security, shortcode sorting
 
 = 0.2 =
-Added options to enable shortcodes in excerps, comments and RSS feeds and to set the size of the PHP code snippet box
+Added options to enable shortcodes in excerps, comments and RSS feeds and to set the size of the PHP code box
 
 = 0.1 =
 Initial version
