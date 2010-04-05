@@ -62,6 +62,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			if (is_admin()) {
 				add_action('admin_head', array(&$this, 'Admin_head'));
 				add_action('admin_menu', array(&$this, 'Admin_menu'));
+				add_action('wp_ajax_scep_ajax', array(&$this, 'Check_ajax'));
 			}
 
 			// Enable shortcodes for widgets
@@ -348,9 +349,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					input.attr('disabled', 'disabled');
 
 					$.ajax({
-						url: '<?php echo $this->plugin_url  . '/' . basename($this->main_file); ?>',
+						url: ajaxurl,
 						type: 'GET',
 						data: {
+							action: 'scep_ajax',
 							<?php echo c_scep_param_nonce; ?>: '<?php echo $nonce; ?>',
 							<?php echo c_scep_action_arg; ?>:  '<?php echo c_scep_action_new; ?>',
 							<?php echo c_scep_param_shortcode; ?>: shortcode,
@@ -402,9 +404,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					wait.show();
 
 					$.ajax({
-						url: '<?php echo $this->plugin_url  . '/' . basename($this->main_file); ?>',
+						url: ajaxurl,
 						type: 'GET',
 						data: {
+							action: 'scep_ajax',
 							<?php echo c_scep_param_nonce; ?>: '<?php echo $nonce; ?>',
 							<?php echo c_scep_action_arg; ?>:  action,
 							<?php echo c_scep_param_name; ?>: orgname,
@@ -616,8 +619,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 			// Check WordPress version
 			global $wp_version;
-			if (version_compare($wp_version, '2.5') < 0)
-				die('Shortcode Exec PHP requires at least WordPress 2.5');
+			if (version_compare($wp_version, '2.8') < 0)
+				die('Shortcode Exec PHP requires at least WordPress 2.8');
 
 			// Check basic prerequisities
 			WPShortcodeExecPHP::Check_function('register_activation_hook');

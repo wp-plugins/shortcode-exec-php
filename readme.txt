@@ -2,9 +2,9 @@
 Contributors: Marcel Bokhorst
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Shortcode%20Exec%20PHP%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX
-Requires at least: 2.5
+Requires at least: 2.8
 Tested up to: 3.0-beta1
-Stable tag: 0.4
+Stable tag: 0.4.1
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -93,6 +93,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Changelog ==
 
+= 0.4.1 =
+* More compatible ajax handling
+
 = 0.4 =
 * Syntax highlighting
 * In-place add, update and delete of shortcodes (using AJAX)
@@ -114,6 +117,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 0.4.1 =
+* Compatibility
 
 = 0.4 =
 Easier editing, syntax highlighting, shortcode testing
