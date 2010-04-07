@@ -162,9 +162,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			// Initialize EditArea
 			$name = get_option(c_scep_option_names);
 			echo '<script language="javascript" type="text/javascript">' . PHP_EOL;
-			echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . '0", syntax: "php", start_highlight: true});' . PHP_EOL;
 			for ($i = 0; $i < count($name); $i++)
 				echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . ($i + 1) . '", syntax: "php", start_highlight: true});' . PHP_EOL;
+			echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . '0", syntax: "php", start_highlight: true, EA_load_callback: "window.scrollTo(0,0);"});' . PHP_EOL;
 			echo '</script>' . PHP_EOL;
 		}
 
@@ -338,8 +338,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			jQuery(document).ready(function($) {
 				/* new shortcode */
 				$('#scep-new').submit(function() {
+					editid = '<?php echo c_scep_form_phpcode; ?>0';
 					shortcode = $('[name=<?php echo c_scep_form_shortcode; ?>0]').val();
-					phpcode = editAreaLoader.getValue('<?php echo c_scep_form_phpcode; ?>0');
+					phpcode = editAreaLoader.getValue(editid);
 					msg = $('[name=scep_message]', this);
 					wait = $('[name=scep_wait]', this);
 					input = $('input,textarea', this);
@@ -347,6 +348,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					msg.text('');
 					wait.show();
 					input.attr('disabled', 'disabled');
+					editAreaLoader.execCommand(editid, 'set_editable', false);
 
 					$.ajax({
 						url: ajaxurl,
@@ -363,13 +365,15 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						success: function(result) {
 							wait.hide();
 							input.removeAttr('disabled');
+							editAreaLoader.execCommand(editid, 'set_editable', true);
+
 							index = result.substring(0, result.indexOf('|'));
 							html = result.substring(result.indexOf('|') + 1);
 							if (index > 0) {
 								$('#scep-new').before(html);
 								editAreaLoader.init({id: '<?php echo c_scep_form_phpcode; ?>' + index, syntax: 'php', start_highlight: true});
 								$('[name=<?php echo c_scep_form_shortcode; ?>0]').val('');
-								editAreaLoader.setValue('<?php echo c_scep_form_phpcode; ?>0', '');
+								editAreaLoader.setValue(editid, '');
 							}
 							else
 								msg.text(html);
@@ -377,6 +381,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						error: function(x, stat, e) {
 							wait.hide();
 							input.removeAttr('disabled');
+							editAreaLoader.execCommand(editid, 'set_editable', true);
 							msg.text(x.status);
 						}
 					});
@@ -388,9 +393,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					action = this.name;
 					entry = this.form;
 					orgname = this.form.name;
+					editid = '<?php echo c_scep_form_phpcode; ?>' + this.form.id;
 					shortcode = $('[name=<?php echo c_scep_form_shortcode; ?>' + this.form.id + ']').val();
 					enabled = $('[name=<?php echo c_scep_form_enabled; ?>' + this.form.id + ']').attr('checked');
-					phpcode = editAreaLoader.getValue('<?php echo c_scep_form_phpcode; ?>' + this.form.id);
+					phpcode = editAreaLoader.getValue(editid);
 					msg = $('[name=scep_message]', this.form);
 					wait = $('[name=scep_wait]', this.form);
 					input = $('input,textarea', this.form);
@@ -400,6 +406,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							return false;
 
 					input.attr('disabled', 'true');
+					editAreaLoader.execCommand(editid, 'set_editable', false);
 					msg.text('');
 					wait.show();
 
@@ -420,6 +427,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						success: function(result) {
 							wait.hide();
 							input.removeAttr('disabled');
+							editAreaLoader.execCommand(editid, 'set_editable', true);
+
 							if (action == '<?php echo c_scep_action_test; ?>')
 								alert(result);
 							else if (action == '<?php echo c_scep_action_delete; ?>')
@@ -430,6 +439,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						error: function(x, stat, e) {
 							wait.hide();
 							input.removeAttr('disabled');
+							editAreaLoader.execCommand(editid, 'set_editable', true);
 							msg.text(x.status);
 						}
 					});
