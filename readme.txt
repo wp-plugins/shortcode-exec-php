@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX
 Requires at least: 2.8
 Tested up to: 3.0-beta1
-Stable tag: 0.5
+Stable tag: 0.6
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -93,6 +93,10 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Changelog ==
 
+= 0.6 =
+* Added Revert button, which will undo unsaved/untested changes
+* Better error handling
+
 = 0.5 =
 * Scrolling to top after loading EditArea´s
 * Disabling EditArea´s on test, save, etc.
@@ -122,6 +126,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Upgrade Notice ==
 
+= 0.6 =
+Revert button
+
 = 0.5 =
 Better EditArea handling
 
@@ -150,4 +157,3 @@ by *Christophe Dolivet* and published under the GNU Lesser General Public Licens
 * [jQuery JavaScript Library](http://jquery.com/ "jQuery") published under both the GNU General Public License and MIT License
 
 All licenses are [GPL-Compatible Free Software Licenses](http://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses "GPL compatible").
-

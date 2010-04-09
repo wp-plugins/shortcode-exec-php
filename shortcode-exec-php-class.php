@@ -36,6 +36,7 @@ define('c_scep_action_save', 'save');
 define('c_scep_action_test', 'test');
 define('c_scep_action_delete', 'delete');
 define('c_scep_action_new', 'new');
+define('c_scep_action_revert', 'revert');
 
 define('c_scep_nonce_ajax', 'scep-nonce-ajax');
 
@@ -382,13 +383,13 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							wait.hide();
 							input.removeAttr('disabled');
 							editAreaLoader.execCommand(editid, 'set_editable', true);
-							msg.text(x.status);
+							msg.text('<?php _e('Error', c_scep_text_domain); ?>' + ' ' + x.status);
 						}
 					});
 					return false;
 				});
 
-				/* test, save, delete shortcode */
+				/* test, save, revert, delete shortcode */
 				$('.scep-update').live('click', function() {
 					action = this.name;
 					entry = this.form;
@@ -431,6 +432,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 							if (action == '<?php echo c_scep_action_test; ?>')
 								alert(result);
+							else if (action == '<?php echo c_scep_action_revert; ?>')
+								editAreaLoader.setValue(editid, result);
 							else if (action == '<?php echo c_scep_action_delete; ?>')
 								$(entry).remove();
 							else
@@ -440,7 +443,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							wait.hide();
 							input.removeAttr('disabled');
 							editAreaLoader.execCommand(editid, 'set_editable', true);
-							msg.text(x.status);
+							msg.text('<?php _e('Error', c_scep_text_domain); ?>' + ' ' + x.status);
 						}
 					});
 					return false;
@@ -472,8 +475,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<tr><td align="right">
 			<span name="scep_message" class="scep_message"></span>
 			<img src="<?php echo $this->plugin_url  . '/img/ajax-loader.gif'; ?>" alt="wait" name="scep_wait" style="display: none;" />
-			<input type="button" class="button-primary scep-update" name="<?php echo c_scep_action_test; ?>" value="<?php _e('Test', c_scep_text_domain) ?>" />
 			<input type="button" class="button-primary scep-update" name="<?php echo c_scep_action_save; ?>" value="<?php _e('Save', c_scep_text_domain) ?>" />
+			<input type="button" class="button-primary scep-update" name="<?php echo c_scep_action_test; ?>" value="<?php _e('Test', c_scep_text_domain) ?>" />
+			<input type="button" class="button-primary scep-update" name="<?php echo c_scep_action_revert; ?>" value="<?php _e('Revert', c_scep_text_domain) ?>" />
 			<input type="button" class="button-primary scep-update" name="<?php echo c_scep_action_delete; ?>" value="<?php _e('Delete', c_scep_text_domain) ?>" />
 			</td></tr>
 			</table>
@@ -573,6 +577,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						else
 							echo '[' . $shortcode . '] ' . __('not enabled', c_scep_text_domain);
 				}
+
+				// Revert
+				else if ($_GET[c_scep_action_arg] == c_scep_action_revert)
+					echo get_option(c_scep_option_phpcode . $name, $phpcode);
 
 				// Delete
 				else if ($_GET[c_scep_action_arg] == c_scep_action_delete) {
