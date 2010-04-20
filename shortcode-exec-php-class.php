@@ -267,14 +267,14 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			</td></tr>
 
 			<tr valign="top"><th scope="row">
-				<label for="scep_option_width"><?php _e('Width of code snippet box', c_scep_text_domain); ?></label>
+				<label for="scep_option_width"><?php _e('Width of code box', c_scep_text_domain); ?></label>
 			</th><td class="scep_cell_input">
 				<input id="scep_option_width" name="<?php echo c_scep_option_codewidth; ?>" type="text" value="<?php echo $scep_width; ?>" />
 				<span>px</span>
 			</td></tr>
 
 			<tr valign="top"><th scope="row">
-				<label for="scep_option_height"><?php _e('Height of code snippet box', c_scep_text_domain); ?></label>
+				<label for="scep_option_height"><?php _e('Height of code box', c_scep_text_domain); ?></label>
 			</th><td class="scep_cell_input">
 				<input id="scep_option_height" name="<?php echo c_scep_option_codeheight; ?>" type="text" value="<?php echo $scep_height; ?>" />
 				<span>px</span>
@@ -505,7 +505,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<ul>
 			<li><a href="http://wordpress.org/extend/plugins/shortcode-exec-php/faq/" target="_blank"><?php _e('Frequently asked questions', c_scep_text_domain); ?></a></li>
 			<li><a href="http://codex.wordpress.org/Shortcode_API" target="_blank"><?php _e('Shortcode API', c_scep_text_domain); ?></a></li>
-			<li><a href="http://www.php.net/manual/" target="_blank">PHP manual</a></li>
+			<li><a href="http://www.php.net/manual/" target="_blank"><?php _e('PHP manual', c_scep_text_domain); ?></a></li>
 			<li><a href="http://blog.bokhorst.biz/" target="_blank"><?php _e('Support page', c_scep_text_domain); ?></a></li>
 			<li><a href="http://blog.bokhorst.biz/about/" target="_blank"><?php _e('About the author', c_scep_text_domain); ?></a></li>
 			</ul>
