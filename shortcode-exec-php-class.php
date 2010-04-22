@@ -471,7 +471,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<input name="<?php echo c_scep_form_enabled . $i; ?>" type="checkbox" <?php if ($enabled) echo 'checked="checked"'; ?>></td></tr>
 			<tr><td><textarea name="<?php echo c_scep_form_phpcode . $i; ?>" id="<?php echo c_scep_form_phpcode . $i; ?>"
 			style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"
-			><?php echo htmlentities($code, ENT_NOQUOTES); ?></textarea></td></tr>
+			><?php echo htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
 			<tr><td align="right">
 			<span name="scep_message" class="scep_message"></span>
 			<img src="<?php echo $this->plugin_url  . '/img/ajax-loader.gif'; ?>" alt="wait" name="scep_wait" style="display: none;" />
