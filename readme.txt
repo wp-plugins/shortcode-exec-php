@@ -83,6 +83,22 @@ The shortcode name, enabled indication and PHP code are stored as WordPress opti
 
 Indirectly, by using default values.
 
+= Should I use PHP opening and closing tags? =
+
+No, omit both *`<?php`* and *`?>`*.
+
+= How can I use a third party script that echoes its output? =
+
+You can try this:
+
+	ob_start();
+ 	
+	[PHP script or function call]
+ 
+	$result = ob_get_contents();
+	ob_end_clean();
+	return $result;
+
 = Where can I ask questions, report bugs and request features? =
 
 You can write a comment on the [support page](http://blog.bokhorst.biz/3626/computers-en-internet/wordpress-plugin-shortcode-exec-php/ "Marcel's weblog").
