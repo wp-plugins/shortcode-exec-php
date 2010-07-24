@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX
 Requires at least: 2.8
 Tested up to: 3.0
-Stable tag: 1.2
+Stable tag: 1.2.1
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -97,6 +97,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Changelog ==
 
+= 1.2.1 =
+* Constructor compatibility with PHP 5.3.3+
+
 = 1.2 =
 * Added option to handle echoed output
 * Updated Dutch (nl\_NL) and Flemish (be_NL) translations
@@ -140,6 +143,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Compatibility
 
 = 1.2 =
 Option to handle echoed output

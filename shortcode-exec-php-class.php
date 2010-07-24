@@ -52,7 +52,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		var $plugin_url = null;
 
 		// Constructor
-		function WPShortcodeExecPHP() {
+		function __construct() {
 			$bt = debug_backtrace();
 			$this->main_file = $bt[0]['file'];
 			$this->plugin_url = WP_PLUGIN_URL . '/' . basename(dirname($this->main_file));
