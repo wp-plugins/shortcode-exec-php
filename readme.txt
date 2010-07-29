@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX
 Requires at least: 2.8
 Tested up to: 3.0
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -76,7 +76,7 @@ The shortcode name, enabled indication and PHP code are stored as WordPress opti
 
 = How can I change the styling of the settings? =
 
-1. Copy *shortcode-exec-php.css* to your theme directory to prevent it from being overwritten by an update
+1. Copy *shortcode-exec-php.css* to your upload directory to prevent it from being overwritten by an update
 2. Change the style sheet to your wishes; the style sheet contains documentation
 
 = How do I test a shortcode with parameters? =
@@ -96,6 +96,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 1. Shortcode exec PHP
 
 == Changelog ==
+
+= 1.2.2 =
+* Added option to store css in upload folder
 
 = 1.2.1 =
 * Constructor compatibility with PHP 5.3.3+
@@ -143,6 +146,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.2.2 =
+Compatibility
 
 = 1.2.1 =
 Compatibility

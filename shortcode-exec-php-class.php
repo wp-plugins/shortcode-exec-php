@@ -113,7 +113,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 				// Enqueue style sheet
 				$css_name = $this->Change_extension(basename($this->main_file), '.css');
-				if (file_exists(TEMPLATEPATH . '/' . $css_name))
+				if (file_exists(WP_CONTENT_DIR . '/uploads/' . $css_name))
+					$css_url = WP_CONTENT_URL . '/uploads/' . $css_name;
+				else if (file_exists(TEMPLATEPATH . '/' . $css_name))
 					$css_url = get_bloginfo('template_directory') . '/' . $css_name;
 				else
 					$css_url = $this->plugin_url . '/' . $css_name;
