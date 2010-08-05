@@ -10,6 +10,7 @@ define('c_scep_option_widget', 'scep_widget');
 define('c_scep_option_excerpt', 'scep_excerpt');
 define('c_scep_option_comment', 'scep_comment');
 define('c_scep_option_rss', 'scep_rss');
+define('c_scep_option_noent', 'scep_noent');
 define('c_scep_option_cleanup', 'scep_cleanup');
 define('c_scep_option_donated', 'scep_donated');
 define('c_scep_option_codewidth', 'scep_codewidth');
@@ -150,6 +151,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				delete_option(c_scep_option_excerpt);
 				delete_option(c_scep_option_comment);
 				delete_option(c_scep_option_rss);
+				delete_option(c_scep_option_noent);
 				delete_option(c_scep_option_codewidth);
 				delete_option(c_scep_option_codeheight);
 				delete_option(c_scep_option_cleanup);
@@ -202,6 +204,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				update_option(c_scep_option_excerpt, $_POST[c_scep_option_excerpt]);
 				update_option(c_scep_option_comment, $_POST[c_scep_option_comment]);
 				update_option(c_scep_option_rss, $_POST[c_scep_option_rss]);
+				update_option(c_scep_option_noent, $_POST[c_scep_option_noent]); 
 				update_option(c_scep_option_codewidth, $_POST[c_scep_option_codewidth]);
 				update_option(c_scep_option_codeheight, $_POST[c_scep_option_codeheight]);
 				update_option(c_scep_option_cleanup, $_POST[c_scep_option_cleanup]);
@@ -229,14 +232,15 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$nonce = wp_create_nonce(c_scep_nonce_ajax);
 
 			// Get current settings
-			$scep_widget  = get_option(c_scep_option_widget) ? 'checked="checked"' : '';
+			$scep_widget = get_option(c_scep_option_widget) ? 'checked="checked"' : '';
 			$scep_excerpt = get_option(c_scep_option_excerpt) ? 'checked="checked"' : '';
 			$scep_comment = get_option(c_scep_option_comment) ? 'checked="checked"' : '';
-			$scep_rss	 = get_option(c_scep_option_rss) ? 'checked="checked"' : '';
+			$scep_rss = get_option(c_scep_option_rss) ? 'checked="checked"' : '';
+			$scep_noent	= get_option(c_scep_option_noent) ? 'checked="checked"' : '';
 			$scep_cleanup = get_option(c_scep_option_cleanup) ? 'checked="checked"' : '';
 			$scep_donated = get_option(c_scep_option_donated) ? 'checked="checked"' : '';
-			$scep_width   = get_option(c_scep_option_codewidth);
-			$scep_height  = get_option(c_scep_option_codeheight);
+			$scep_width = get_option(c_scep_option_codewidth);
+			$scep_height = get_option(c_scep_option_codeheight);
 
 			// Default size
 			if ($scep_width <= 0)
@@ -271,6 +275,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				<label for="scep_option_rss"><?php _e('Execute shortcodes in RSS feeds', c_scep_text_domain); ?></label>
 			</th><td>
 				<input id="scep_option_rss" name="<?php echo c_scep_option_rss; ?>" type="checkbox"<?php echo $scep_rss; ?> />
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_noent"><?php _e('Disable html entity encoding', c_scep_text_domain); ?></label>
+			</th><td>
+				<input id="scep_option_noent" name="<?php echo c_scep_option_noent; ?>" type="checkbox"<?php echo $scep_noent; ?> />
 			</td></tr>
 
 			<tr valign="top"><th scope="row">
@@ -483,7 +493,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<input name="<?php echo c_scep_form_buffer . $i; ?>" type="checkbox" <?php if ($buffer) echo 'checked="checked"'; ?>></td></tr>
 			<tr><td><textarea name="<?php echo c_scep_form_phpcode . $i; ?>" id="<?php echo c_scep_form_phpcode . $i; ?>"
 			style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"
-			><?php echo $code; ?></textarea></td></tr>
+			><?php echo get_option(c_scep_option_noent) ? $code : htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
 			<tr><td align="right">
 			<span name="scep_message" class="scep_message"></span>
 			<img src="<?php echo $this->plugin_url  . '/img/ajax-loader.gif'; ?>" alt="wait" name="scep_wait" style="display: none;" />
@@ -566,7 +576,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				$shortcode = trim($_REQUEST[c_scep_param_shortcode]);
 				$enabled = ($_REQUEST[c_scep_param_enabled] == 'true');
 				$buffer = ($_REQUEST[c_scep_param_buffer] == 'true');
-				$phpcode = stripslashes($_REQUEST[c_scep_param_phpcode]);
+				$phpcode = $_REQUEST[c_scep_param_phpcode];
+				if (!get_option(c_scep_option_noent))
+					$phpcode = html_entity_decode($phpcode, ENT_NOQUOTES);
+				$phpcode = stripslashes($phpcode);
 
 				// Save, test
 				if ($_GET[c_scep_action_arg] == c_scep_action_save || $_GET[c_scep_action_arg] == c_scep_action_test) {

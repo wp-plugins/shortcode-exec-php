@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Shortcode Exec PHP\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/shortcode-exec-php\n"
 "POT-Creation-Date: 2010-04-19 05:47+0000\n"
-"PO-Revision-Date: 2010-07-14 23:15+0100\n"
+"PO-Revision-Date: 2010-08-05 09:41+0100\n"
 "Last-Translator: Marcel Bokhorst\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -40,6 +40,9 @@ msgstr "Voer shortcodes in commentaar uit"
 
 msgid "Execute shortcodes in RSS feeds"
 msgstr "Voer shortcodes in RSS feeds uit"
+
+msgid "Disable html entity encoding"
+msgstr "Zet html entity encoding uit"
 
 msgid "Width of code box"
 msgstr "Breedte van de code box"
