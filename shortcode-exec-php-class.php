@@ -17,9 +17,11 @@ define('c_scep_option_codeheight', 'scep_codeheight');
 
 define('c_scep_option_names', 'scep_names');
 define('c_scep_option_enabled', 'scep_enabled_');
+define('c_scep_option_buffer', 'scep_buffer_');
 define('c_scep_option_phpcode', 'scep_phpcode_');
 
 define('c_scep_form_enabled', 'scep_enabled');
+define('c_scep_form_buffer', 'scep_buffer');
 define('c_scep_form_shortcode', 'scep_shortcode');
 define('c_scep_form_phpcode', 'scep_phpcode');
 
@@ -31,6 +33,7 @@ define('c_scep_param_nonce', 'nonce');
 define('c_scep_param_name', 'name');
 define('c_scep_param_shortcode', 'shortcode');
 define('c_scep_param_enabled', 'enabled');
+define('c_scep_param_buffer', 'buffer');
 define('c_scep_param_phpcode', 'phpcode');
 define('c_scep_action_save', 'save');
 define('c_scep_action_test', 'test');
@@ -49,7 +52,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		var $plugin_url = null;
 
 		// Constructor
-		function WPShortcodeExecPHP() {
+		function __construct() {
 			$bt = debug_backtrace();
 			$this->main_file = $bt[0]['file'];
 			$this->plugin_url = WP_PLUGIN_URL . '/' . basename(dirname($this->main_file));
@@ -110,7 +113,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 				// Enqueue style sheet
 				$css_name = $this->Change_extension(basename($this->main_file), '.css');
-				if (file_exists(TEMPLATEPATH . '/' . $css_name))
+				if (file_exists(WP_CONTENT_DIR . '/uploads/' . $css_name))
+					$css_url = WP_CONTENT_URL . '/uploads/' . $css_name;
+				else if (file_exists(TEMPLATEPATH . '/' . $css_name))
 					$css_url = get_bloginfo('template_directory') . '/' . $css_name;
 				else
 					$css_url = $this->plugin_url . '/' . $css_name;
@@ -132,6 +137,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				$name[] = 'hello_world';
 				update_option(c_scep_option_names, $name);
 				update_option(c_scep_option_enabled . $name[0], true);
+				update_option(c_scep_option_buffer . $name[0], false);
 				update_option(c_scep_option_phpcode . $name[0], "return 'Hello world!';");
 			}
 		}
@@ -152,6 +158,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				$name = get_option(c_scep_option_names);
 				for ($i = 0; $i < count($name); $i++) {
 					delete_option(c_scep_option_enabled . $name[$i]);
+					delete_option(c_scep_option_buffer . $name[$i]);
 					delete_option(c_scep_option_phpcode . $name[$i]);
 				}
 				delete_option(c_scep_option_names);
@@ -307,8 +314,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			sort($name);
 			for ($i = 0; $i < count($name); $i++) {
 				$enabled = get_option(c_scep_option_enabled . $name[$i]);
+				$buffer = get_option(c_scep_option_buffer . $name[$i]);
 				$code = get_option(c_scep_option_phpcode . $name[$i]);
-				$this->Render_shortcode_form($name[$i], $i + 1, $enabled, $code);
+				$this->Render_shortcode_form($name[$i], $i + 1, $enabled, $buffer, $code);
 			}
 ?>
 			<form method="post" action="" id="scep-new">
@@ -397,6 +405,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					editid = '<?php echo c_scep_form_phpcode; ?>' + this.form.id;
 					shortcode = $('[name=<?php echo c_scep_form_shortcode; ?>' + this.form.id + ']').val();
 					enabled = $('[name=<?php echo c_scep_form_enabled; ?>' + this.form.id + ']').attr('checked');
+					buffer = $('[name=<?php echo c_scep_form_buffer; ?>' + this.form.id + ']').attr('checked');
 					phpcode = editAreaLoader.getValue(editid);
 					msg = $('[name=scep_message]', this.form);
 					wait = $('[name=scep_wait]', this.form);
@@ -421,6 +430,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							<?php echo c_scep_param_name; ?>: orgname,
 							<?php echo c_scep_param_shortcode; ?>: shortcode,
 							<?php echo c_scep_param_enabled; ?>: enabled,
+							<?php echo c_scep_param_buffer; ?>: buffer,
 							<?php echo c_scep_param_phpcode; ?>: phpcode
 						},
 						dataType: 'text',
@@ -455,7 +465,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		}
 
 		// Render shortcode edit form
-		function Render_shortcode_form($name, $i, $enabled, $code) {
+		function Render_shortcode_form($name, $i, $enabled, $buffer, $code) {
 			$scep_width   = get_option(c_scep_option_codewidth);
 			$scep_height  = get_option(c_scep_option_codeheight);
 
@@ -468,10 +478,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<table>
 			<tr><td>[<input name="<?php echo c_scep_form_shortcode . $i; ?>" type="text" value="<?php echo $name; ?>">]
 			<span><?php _e('Enabled', c_scep_text_domain) ?></span>
-			<input name="<?php echo c_scep_form_enabled . $i; ?>" type="checkbox" <?php if ($enabled) echo 'checked="checked"'; ?>></td></tr>
+			<input name="<?php echo c_scep_form_enabled . $i; ?>" type="checkbox" <?php if ($enabled) echo 'checked="checked"'; ?>>
+			<span><?php _e('Output echoed', c_scep_text_domain) ?></span>
+			<input name="<?php echo c_scep_form_buffer . $i; ?>" type="checkbox" <?php if ($buffer) echo 'checked="checked"'; ?>></td></tr>
 			<tr><td><textarea name="<?php echo c_scep_form_phpcode . $i; ?>" id="<?php echo c_scep_form_phpcode . $i; ?>"
 			style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"
-			><?php echo htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
+			><?php echo $code; ?></textarea></td></tr>
 			<tr><td align="right">
 			<span name="scep_message" class="scep_message"></span>
 			<img src="<?php echo $this->plugin_url  . '/img/ajax-loader.gif'; ?>" alt="wait" name="scep_wait" style="display: none;" />
@@ -521,7 +533,18 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 		// Shortcode execution
 		function Shortcode_handler($atts, $content, $code) {
-			return eval(get_option(c_scep_option_phpcode . $code));
+			$buffer = get_option(c_scep_option_buffer . $code);
+			if ($buffer)
+				ob_start();
+			$result = eval(get_option(c_scep_option_phpcode . $code));
+			if ($buffer) {
+				$output = ob_get_contents();
+				ob_end_clean();
+			}
+			else
+				$output = '';
+
+			return $output . $result;
 		}
 
 		// Handle ajax calls
@@ -542,7 +565,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				$name = $_REQUEST[c_scep_param_name];
 				$shortcode = trim($_REQUEST[c_scep_param_shortcode]);
 				$enabled = ($_REQUEST[c_scep_param_enabled] == 'true');
-				$phpcode = stripslashes(html_entity_decode($_REQUEST[c_scep_param_phpcode], ENT_NOQUOTES));
+				$buffer = ($_REQUEST[c_scep_param_buffer] == 'true');
+				$phpcode = stripslashes($_REQUEST[c_scep_param_phpcode]);
 
 				// Save, test
 				if ($_GET[c_scep_action_arg] == c_scep_action_save || $_GET[c_scep_action_arg] == c_scep_action_test) {
@@ -556,6 +580,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						}
 					update_option(c_scep_option_names, $names);
 					update_option(c_scep_option_enabled . $shortcode, $enabled);
+					update_option(c_scep_option_buffer . $shortcode, $buffer);
 					update_option(c_scep_option_phpcode . $shortcode, $phpcode);
 
 					if ($_GET[c_scep_action_arg] == c_scep_action_save)
@@ -567,6 +592,11 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							$result = eval($phpcode);
 							$output = ob_get_contents();
 							ob_end_clean();
+
+							if ($buffer) {
+								$result = $output . $result;
+								$output = false;
+							}
 
 							echo '[' . $shortcode . ']="' . $result . '"';
 							if ($output) {
@@ -593,6 +623,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						}
 					update_option(c_scep_option_names, $names);
 					delete_option(c_scep_option_enabled . $name, $enabled);
+					delete_option(c_scep_option_buffer . $name, $buffer);
 					delete_option(c_scep_option_phpcode . $name, $phpcode);
 				}
 
@@ -611,9 +642,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						$names[] = $shortcode;
 						update_option(c_scep_option_names, $names);
 						add_option(c_scep_option_enabled . $shortcode, true);
+						add_option(c_scep_option_buffer . $shortcode, false);
 						add_option(c_scep_option_phpcode . $shortcode, $phpcode);
 						echo count($names) . '|';
-						echo $this->Render_shortcode_form($shortcode, count($names), true, $phpcode);
+						echo $this->Render_shortcode_form($shortcode, count($names), true, false, $phpcode);
 					}
 					else {
 						echo '0|' . __('Name missing', c_scep_text_domain);
