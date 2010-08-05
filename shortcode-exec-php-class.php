@@ -483,7 +483,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<input name="<?php echo c_scep_form_buffer . $i; ?>" type="checkbox" <?php if ($buffer) echo 'checked="checked"'; ?>></td></tr>
 			<tr><td><textarea name="<?php echo c_scep_form_phpcode . $i; ?>" id="<?php echo c_scep_form_phpcode . $i; ?>"
 			style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"
-			><?php echo htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
+			><?php echo $code; ?></textarea></td></tr>
 			<tr><td align="right">
 			<span name="scep_message" class="scep_message"></span>
 			<img src="<?php echo $this->plugin_url  . '/img/ajax-loader.gif'; ?>" alt="wait" name="scep_wait" style="display: none;" />
@@ -566,7 +566,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				$shortcode = trim($_REQUEST[c_scep_param_shortcode]);
 				$enabled = ($_REQUEST[c_scep_param_enabled] == 'true');
 				$buffer = ($_REQUEST[c_scep_param_buffer] == 'true');
-				$phpcode = stripslashes(html_entity_decode($_REQUEST[c_scep_param_phpcode], ENT_NOQUOTES));
+				$phpcode = stripslashes($_REQUEST[c_scep_param_phpcode]);
 
 				// Save, test
 				if ($_GET[c_scep_action_arg] == c_scep_action_save || $_GET[c_scep_action_arg] == c_scep_action_test) {
