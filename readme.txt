@@ -49,6 +49,7 @@ See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel 
 = Why does the shortcode output appear before the text? =
 
 Probably because you used the *echo* statement instead of the *return* statement.
+Try checking the option 'Output echoed' just above the shortcode definition.
 
 = What happens when I disable a shortcode? =
 
