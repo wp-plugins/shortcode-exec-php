@@ -73,7 +73,7 @@ Unlimited.
 
 = Where are the shortcode definitions stored? =
 
-The shortcode name, enabled indication and PHP code are stored as WordPress options.
+The shortcode name, options and PHP code are stored as WordPress options.
 
 = How can I change the styling of the settings? =
 
