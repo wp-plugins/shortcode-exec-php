@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 1.4
+Stable tag: 1.5
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -98,6 +98,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Changelog ==
 
+= 1.5 =
+* Using https transport when needed
+
 = 1.4 =
 * 'I have donated' removes donate button
 
@@ -157,6 +160,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.5 =
+Compatibility
 
 = 1.4 =
 New feature: remove donate button

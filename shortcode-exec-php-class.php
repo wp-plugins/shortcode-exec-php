@@ -57,6 +57,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$bt = debug_backtrace();
 			$this->main_file = $bt[0]['file'];
 			$this->plugin_url = WP_PLUGIN_URL . '/' . basename(dirname($this->main_file));
+			if (strpos($this->plugin_url, 'http') === 0 && is_ssl())
+				$this->plugin_url = str_replace('http://', 'https://', $this->plugin_url);
 
 			// Register (de)activation hook
 			register_activation_hook($this->main_file, array(&$this, 'Activate'));
