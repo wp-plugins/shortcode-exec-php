@@ -15,6 +15,8 @@ define('c_scep_option_cleanup', 'scep_cleanup');
 define('c_scep_option_donated', 'scep_donated');
 define('c_scep_option_codewidth', 'scep_codewidth');
 define('c_scep_option_codeheight', 'scep_codeheight');
+define('c_scep_option_backtrace_limit', 'scep_backtrace_limit');
+define('c_scep_option_recursion_limit', 'scep_recursion_limit');
 
 define('c_scep_option_names', 'scep_names');
 define('c_scep_option_enabled', 'scep_enabled_');
@@ -102,6 +104,17 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			for ($i = 0; $i < count($name); $i++)
 				if (get_option(c_scep_option_enabled . $name[$i]))
 					add_shortcode($name[$i], array(&$this, 'Shortcode_handler'));
+
+			$this->Configure_prce();
+		}
+
+		function Configure_prce() {
+			$backtrace_limit = get_option(c_scep_option_backtrace_limit);
+			if ($backtrace_limit)
+				ini_set('pcre.backtrack_limit', $backtrace_limit);
+			$recursion_limit = get_option(c_scep_option_recursion_limit);
+			if ($recursion_limit)
+				ini_set('pcre.recursion_limit', $recursion_limit);
 		}
 
 		function Init() {
@@ -156,6 +169,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				delete_option(c_scep_option_noent);
 				delete_option(c_scep_option_codewidth);
 				delete_option(c_scep_option_codeheight);
+				delete_option(c_scep_option_backtrace_limit);
+				delete_option(c_scep_option_recursion_limit);
 				delete_option(c_scep_option_cleanup);
 				delete_option(c_scep_option_donated);
 
@@ -209,8 +224,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				update_option(c_scep_option_noent, $_POST[c_scep_option_noent]);
 				update_option(c_scep_option_codewidth, $_POST[c_scep_option_codewidth]);
 				update_option(c_scep_option_codeheight, $_POST[c_scep_option_codeheight]);
+				update_option(c_scep_option_backtrace_limit, $_POST[c_scep_option_backtrace_limit]);
+				update_option(c_scep_option_recursion_limit, $_POST[c_scep_option_recursion_limit]);
 				update_option(c_scep_option_cleanup, $_POST[c_scep_option_cleanup]);
 				update_option(c_scep_option_donated, $_POST[c_scep_option_donated]);
+
+				$this->Configure_prce();
 
 				echo '<div id="message" class="updated fade"><p><strong>' . __('Settings updated', c_scep_text_domain) . '</strong></p></div>';
 			}
@@ -243,6 +262,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$scep_donated = get_option(c_scep_option_donated) ? 'checked="checked"' : '';
 			$scep_width = get_option(c_scep_option_codewidth);
 			$scep_height = get_option(c_scep_option_codeheight);
+			$scep_backtrace_limit = get_option(c_scep_option_backtrace_limit);
+			$scep_recursion_limit = get_option(c_scep_option_recursion_limit);
 
 			// Default size
 			if ($scep_width <= 0)
@@ -297,6 +318,20 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			</th><td class="scep_cell_input">
 				<input id="scep_option_height" name="<?php echo c_scep_option_codeheight; ?>" type="text" value="<?php echo $scep_height; ?>" />
 				<span>px</span>
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_backtrace"><a href="http://php.net/manual/en/pcre.configuration.php" target="_blank"><?php _e('PCRE backtrack limit', c_scep_text_domain); ?></a></label>
+			</th><td class="scep_cell_input">
+				<input id="scep_option_backtrace" name="<?php echo c_scep_option_backtrace_limit; ?>" type="text" value="<?php echo $scep_backtrace_limit; ?>" />
+				<span>(<?php echo number_format(ini_get('pcre.backtrack_limit')); ?>)</span>
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_recursion"><a href="http://php.net/manual/en/pcre.configuration.php" target="_blank"><?php _e('PCRE recursion limit', c_scep_text_domain); ?></a></label>
+			</th><td class="scep_cell_input">
+				<input id="scep_option_recursion" name="<?php echo c_scep_option_recursion_limit; ?>" type="text" value="<?php echo $scep_recursion_limit; ?>" />
+				<span>(<?php echo number_format(ini_get('pcre.recursion_limit')); ?>)</span>
 			</td></tr>
 
 			<tr valign="top"><th scope="row">

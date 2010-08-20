@@ -51,7 +51,8 @@
 
 /* Option inputs */
 #scep_option_table input[type="text"] {
-	width: 50px;
+	width: 75px;
+	text-align: right;
 }
 
 /* Code box height */
