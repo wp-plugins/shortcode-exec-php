@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 1.5
+Stable tag: 1.6.1
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -98,6 +98,12 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Changelog ==
 
+= 1.6.1 =
+* Added Farsi (fa\_IR) translation by [Hamid](http://hamidoffice.com/ "Hamid")
+
+= 1.6 =
+* Added options to configure PCRE
+
 = 1.5 =
 * Using https transport when needed
 
@@ -160,6 +166,12 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.6.1 =
+Farsi translation
+
+= 1.6 =
+New feature: PCRE configuration
 
 = 1.5 =
 Compatibility
