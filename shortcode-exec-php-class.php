@@ -15,7 +15,7 @@ define('c_scep_option_cleanup', 'scep_cleanup');
 define('c_scep_option_donated', 'scep_donated');
 define('c_scep_option_codewidth', 'scep_codewidth');
 define('c_scep_option_codeheight', 'scep_codeheight');
-define('c_scep_option_backtrace_limit', 'scep_backtrace_limit');
+define('c_scep_option_backtrack_limit', 'scep_backtrack_limit');
 define('c_scep_option_recursion_limit', 'scep_recursion_limit');
 
 define('c_scep_option_names', 'scep_names');
@@ -109,12 +109,15 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		}
 
 		function Configure_prce() {
-			$backtrace_limit = get_option(c_scep_option_backtrace_limit);
-			if ($backtrace_limit)
-				ini_set('pcre.backtrack_limit', $backtrace_limit);
+			$backtrack_limit = get_option(c_scep_option_backtrack_limit);
+			if ($backtrack_limit < 100000)
+				$backtrack_limit = 100000;
+			ini_set('pcre.backtrack_limit', $backtrack_limit);
+
 			$recursion_limit = get_option(c_scep_option_recursion_limit);
-			if ($recursion_limit)
-				ini_set('pcre.recursion_limit', $recursion_limit);
+			if ($recursion_limit < 100000)
+				$recursion_limit = 100000;
+			ini_set('pcre.recursion_limit', $recursion_limit);
 		}
 
 		function Init() {
@@ -156,6 +159,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				update_option(c_scep_option_buffer . $name[0], false);
 				update_option(c_scep_option_phpcode . $name[0], "return 'Hello world!';");
 			}
+
+			// Fix spelling mistake
+			if (get_option('scep_backtrace_limit')) {
+				update_option(c_scep_option_backtrack_limit, get_option('scep_backtrace_limit'));
+				delete_option('scep_backtrace_limit');
+			}
 		}
 
 		// Handle plugin deactivation
@@ -169,7 +178,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				delete_option(c_scep_option_noent);
 				delete_option(c_scep_option_codewidth);
 				delete_option(c_scep_option_codeheight);
-				delete_option(c_scep_option_backtrace_limit);
+				delete_option(c_scep_option_backtrack_limit);
 				delete_option(c_scep_option_recursion_limit);
 				delete_option(c_scep_option_cleanup);
 				delete_option(c_scep_option_donated);
@@ -224,7 +233,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				update_option(c_scep_option_noent, $_POST[c_scep_option_noent]);
 				update_option(c_scep_option_codewidth, $_POST[c_scep_option_codewidth]);
 				update_option(c_scep_option_codeheight, $_POST[c_scep_option_codeheight]);
-				update_option(c_scep_option_backtrace_limit, $_POST[c_scep_option_backtrace_limit]);
+				update_option(c_scep_option_backtrack_limit, $_POST[c_scep_option_backtrack_limit]);
 				update_option(c_scep_option_recursion_limit, $_POST[c_scep_option_recursion_limit]);
 				update_option(c_scep_option_cleanup, $_POST[c_scep_option_cleanup]);
 				update_option(c_scep_option_donated, $_POST[c_scep_option_donated]);
@@ -262,7 +271,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$scep_donated = get_option(c_scep_option_donated) ? 'checked="checked"' : '';
 			$scep_width = get_option(c_scep_option_codewidth);
 			$scep_height = get_option(c_scep_option_codeheight);
-			$scep_backtrace_limit = get_option(c_scep_option_backtrace_limit);
+			$scep_backtrack_limit = get_option(c_scep_option_backtrack_limit);
 			$scep_recursion_limit = get_option(c_scep_option_recursion_limit);
 
 			// Default size
@@ -321,9 +330,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			</td></tr>
 
 			<tr valign="top"><th scope="row">
-				<label for="scep_option_backtrace"><a href="http://php.net/manual/en/pcre.configuration.php" target="_blank"><?php _e('PCRE backtrack limit', c_scep_text_domain); ?></a></label>
+				<label for="scep_option_backtrack"><a href="http://php.net/manual/en/pcre.configuration.php" target="_blank"><?php _e('PCRE backtrack limit', c_scep_text_domain); ?></a></label>
 			</th><td class="scep_cell_input">
-				<input id="scep_option_backtrace" name="<?php echo c_scep_option_backtrace_limit; ?>" type="text" value="<?php echo $scep_backtrace_limit; ?>" />
+				<input id="scep_option_backtrack" name="<?php echo c_scep_option_backtrack_limit; ?>" type="text" value="<?php echo $scep_backtrack_limit; ?>" />
 				<span>(<?php echo number_format(ini_get('pcre.backtrack_limit')); ?>)</span>
 			</td></tr>
 
@@ -693,10 +702,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						$names[] = $shortcode;
 						update_option(c_scep_option_names, $names);
 						add_option(c_scep_option_enabled . $shortcode, true);
-						add_option(c_scep_option_buffer . $shortcode, false);
+						add_option(c_scep_option_buffer . $shortcode, true);
 						add_option(c_scep_option_phpcode . $shortcode, $phpcode);
 						echo count($names) . '|';
-						echo $this->Render_shortcode_form($shortcode, count($names), true, false, $phpcode);
+						echo $this->Render_shortcode_form($shortcode, count($names), true, true, $phpcode);
 					}
 					else {
 						echo '0|' . __('Name missing', c_scep_text_domain);
