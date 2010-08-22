@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 1.7
+Stable tag: 1.8
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -46,11 +46,6 @@ See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel 
 
 == Frequently Asked Questions ==
 
-= Why does the shortcode output appear before the text? =
-
-Probably because you used the *echo* statement instead of the *return* statement.
-Try checking the option 'Output echoed' just above the shortcode definition.
-
 = What happens when I disable a shortcode? =
 
 The shortcode will not be handled and will appear unprocessed.
@@ -70,6 +65,10 @@ Because the [PHP eval function](http://php.net/manual/en/function.eval.php "PHP 
 = How many shortcodes can I define? =
 
 Unlimited.
+
+= I get a blank page when I use a shortcode on a large post/page =
+
+This can happen if the PCRE backtrace value is too low. Try increasing it using the plugin settings.
 
 = Where are the shortcode definitions stored? =
 
@@ -97,6 +96,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 1. Shortcode exec PHP
 
 == Changelog ==
+
+= 1.8 =
+* Using default PCRE configuration as minimum
 
 = 1.7 =
 * Buffer output by default for new shortcodes
@@ -170,6 +172,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.8 =
+Better minimum PCRE configuration
 
 = 1.7 =
 Buffer output by default for new shortcodes

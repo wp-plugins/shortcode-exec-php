@@ -53,6 +53,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		// Class variables
 		var $main_file = null;
 		var $plugin_url = null;
+		var $default_backtrack_limit = null;
+		var $default_recursion_limit = null;
 
 		// Constructor
 		function __construct() {
@@ -105,18 +107,20 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				if (get_option(c_scep_option_enabled . $name[$i]))
 					add_shortcode($name[$i], array(&$this, 'Shortcode_handler'));
 
+			$this->default_backtrack_limit = ini_get('pcre.backtrack_limit');
+			$this->default_recursion_limit = ini_get('pcre.recursion_limit');
 			$this->Configure_prce();
 		}
 
 		function Configure_prce() {
 			$backtrack_limit = get_option(c_scep_option_backtrack_limit);
-			if ($backtrack_limit < 100000)
-				$backtrack_limit = 100000;
+			if ($backtrack_limit < $this->default_backtrack_limit)
+				$backtrack_limit = $this->default_backtrack_limit;
 			ini_set('pcre.backtrack_limit', $backtrack_limit);
 
 			$recursion_limit = get_option(c_scep_option_recursion_limit);
-			if ($recursion_limit < 100000)
-				$recursion_limit = 100000;
+			if ($recursion_limit < $this->default_recursion_limit)
+				$recursion_limit = $this->default_recursion_limit;
 			ini_set('pcre.recursion_limit', $recursion_limit);
 		}
 
