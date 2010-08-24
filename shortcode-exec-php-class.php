@@ -421,7 +421,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 					$.ajax({
 						url: ajaxurl,
-						type: 'GET',
+						type: 'POST',
 						data: {
 							action: 'scep_ajax',
 							<?php echo c_scep_param_nonce; ?>: '<?php echo $nonce; ?>',
@@ -482,7 +482,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 					$.ajax({
 						url: ajaxurl,
-						type: 'GET',
+						type: 'POST',
 						data: {
 							action: 'scep_ajax',
 							<?php echo c_scep_param_nonce; ?>: '<?php echo $nonce; ?>',
@@ -633,7 +633,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				$phpcode = stripslashes($phpcode);
 
 				// Save, test
-				if ($_GET[c_scep_action_arg] == c_scep_action_save || $_GET[c_scep_action_arg] == c_scep_action_test) {
+				if ($_POST[c_scep_action_arg] == c_scep_action_save || $_POST[c_scep_action_arg] == c_scep_action_test) {
 					// Persist new definition
 					$names = get_option(c_scep_option_names);
 					for ($i = 0; $i < count($names); $i++)
@@ -647,7 +647,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					update_option(c_scep_option_buffer . $shortcode, $buffer);
 					update_option(c_scep_option_phpcode . $shortcode, $phpcode);
 
-					if ($_GET[c_scep_action_arg] == c_scep_action_save)
+					if ($_POST[c_scep_action_arg] == c_scep_action_save)
 						echo __('Saved', c_scep_text_domain);
 					else
 						// Test shortcode
@@ -673,11 +673,11 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				}
 
 				// Revert
-				else if ($_GET[c_scep_action_arg] == c_scep_action_revert)
+				else if ($_POST[c_scep_action_arg] == c_scep_action_revert)
 					echo get_option(c_scep_option_phpcode . $name, $phpcode);
 
 				// Delete
-				else if ($_GET[c_scep_action_arg] == c_scep_action_delete) {
+				else if ($_POST[c_scep_action_arg] == c_scep_action_delete) {
 					$names = get_option(c_scep_option_names);
 					for ($i = 0; $i < count($names); $i++)
 						if ($names[$i] == $name) {
@@ -692,7 +692,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				}
 
 				// New
-				else if ($_GET[c_scep_action_arg] == c_scep_action_new) {
+				else if ($_POST[c_scep_action_arg] == c_scep_action_new) {
 					// Check unique
 					$names = get_option(c_scep_option_names);
 					for ($i = 0; $i < count($names); $i++)
