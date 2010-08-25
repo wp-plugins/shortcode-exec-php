@@ -52,7 +52,7 @@ The shortcode will not be handled and will appear unprocessed.
 
 = Who can access the settings and the PHP code? =
 
-Users with *manage\_options* capability (administrators).
+Users with *manage\_options* (single user) or *manage\_network* (multi user) capability (administrators).
 
 = Who can use the defined shortcodes? =
 
