@@ -68,7 +68,7 @@ Unlimited.
 
 = I get a blank page when I use a shortcode on a large post/page =
 
-This can happen if the PCRE backtrace value is too low. Try increasing it using the plugin settings.
+This can happen if the [PCRE backtrack](http://php.net/manual/en/pcre.configuration.php "PCRE backtrack") value is too low. Try increasing it using the plugin settings.
 
 = Where are the shortcode definitions stored? =
 
