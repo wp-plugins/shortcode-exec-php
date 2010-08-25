@@ -180,7 +180,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 == Upgrade Notice ==
 
 = 1.10 =
-Support for multi user sites
+Security
 
 = 1.9 =
 Compatibility
