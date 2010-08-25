@@ -233,8 +233,14 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 		// Handle option page
 		function Administration() {
-			if (!current_user_can('manage_options'))
-				die('Unauthorized');
+			global $wpmu_version;
+			if ((function_exists('is_multisite') && is_multisite()) || !empty($wpmu_version)) {
+				if (!current_user_can('manage_network'))
+					die('Unauthorized');
+			}
+			else
+				if (!current_user_can('manage_options'))
+					die('Unauthorized');
 
 			// Check post back
 			if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
