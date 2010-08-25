@@ -210,13 +210,25 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 		// Register options page
 		function Admin_menu() {
-			if (function_exists('add_options_page'))
-				add_options_page(
-					__('Shortcode Exec PHP Administration', c_scep_text_domain),
-					__('Shortcode Exec PHP', c_scep_text_domain),
-					'manage_options',
-					$this->main_file,
-					array(&$this, 'Administration'));
+			global $wpmu_version;
+			if ((function_exists('is_multisite') && is_multisite()) || !empty($wpmu_version)) {
+				if (function_exists('add_submenu_page'))
+					add_submenu_page(
+						'wpmu-admin.php',
+						__('Shortcode Exec PHP Administration', c_scep_text_domain),
+						__('Shortcode Exec PHP', c_scep_text_domain),
+						'manage_network',
+						$this->main_file,
+						array(&$this, 'Administration'));
+			}
+			else
+				if (function_exists('add_options_page'))
+					add_options_page(
+						__('Shortcode Exec PHP Administration', c_scep_text_domain),
+						__('Shortcode Exec PHP', c_scep_text_domain),
+						'manage_options',
+						$this->main_file,
+						array(&$this, 'Administration'));
 		}
 
 		// Handle option page
