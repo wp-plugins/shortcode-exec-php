@@ -99,6 +99,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 = 1.11 =
 * Added option to make shortcodes global for multi user sites
+* Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
 
 = 1.10 =
 * Support for multi user sites
