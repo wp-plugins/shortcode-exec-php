@@ -20,6 +20,7 @@ define('c_scep_option_backtrack_limit', 'scep_backtrack_limit');
 define('c_scep_option_recursion_limit', 'scep_recursion_limit');
 
 define('c_scep_option_names', 'scep_names');
+define('c_scep_option_deleted', 'scep_deleted');
 define('c_scep_option_enabled', 'scep_enabled_');
 define('c_scep_option_buffer', 'scep_buffer_');
 define('c_scep_option_phpcode', 'scep_phpcode_');
@@ -409,6 +410,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 <?php
 			// Render shortcode definitions
 			$name = self::Get_option(c_scep_option_names);
+			self::Update_option(c_scep_option_deleted, 0);
 			sort($name);
 			for ($i = 0; $i < count($name); $i++) {
 				$enabled = self::Get_option(c_scep_option_enabled . $name[$i]);
@@ -591,6 +593,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<input type="button" class="button-primary scep-update" name="<?php echo c_scep_action_delete; ?>" value="<?php _e('Delete', c_scep_text_domain) ?>" />
 			</td></tr>
 			</table>
+			<hr />
 			</form>
 <?php
 		}
@@ -727,6 +730,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					self::Delete_option(c_scep_option_enabled . $name, $enabled);
 					self::Delete_option(c_scep_option_buffer . $name, $buffer);
 					self::Delete_option(c_scep_option_phpcode . $name, $phpcode);
+					self::Update_option(c_scep_option_deleted, self::Get_option(c_scep_option_deleted) + 1);
 				}
 
 				// New
@@ -746,8 +750,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						self::Add_option(c_scep_option_enabled . $shortcode, true);
 						self::Add_option(c_scep_option_buffer . $shortcode, true);
 						self::Add_option(c_scep_option_phpcode . $shortcode, $phpcode);
-						echo count($names) . '|';
-						echo $this->Render_shortcode_form($shortcode, count($names), true, true, $phpcode);
+						$index = count($names) + self::Get_option(c_scep_option_deleted);
+						echo $index . '|';
+						echo $this->Render_shortcode_form($shortcode, $index, true, true, $phpcode);
 					}
 					else {
 						echo '0|' . __('Name missing', c_scep_text_domain);
