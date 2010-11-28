@@ -53,6 +53,9 @@ msgstr "Breedte van de code box"
 msgid "Height of code box"
 msgstr "Hoogte van de code box"
 
+msgid "Do not display code editor initially"
+msgstr "Toon code editor initiëel niet"
+
 msgid "Delete options and shortcodes on deactivation (and when upgrading!)"
 msgstr "Verwijder opties en shortcodes bij het deactiveren (en bij upgraden!)"
 

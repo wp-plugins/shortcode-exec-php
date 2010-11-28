@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Shortcode Exec PHP\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/shortcode-exec-php\n"
 "POT-Creation-Date: 2010-04-19 05:47+0000\n"
-"PO-Revision-Date: 2010-08-30 15:08+0100\n"
+"PO-Revision-Date: 2010-11-28 10:56+0100\n"
 "Last-Translator: Marcel Bokhorst\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -52,6 +52,9 @@ msgstr "Breedte van de code box"
 
 msgid "Height of code box"
 msgstr "Hoogte van de code box"
+
+msgid "Do not display code editor initially"
+msgstr "Toon code editor initiëel niet"
 
 msgid "Delete options and shortcodes on deactivation (and when upgrading!)"
 msgstr "Verwijder opties en shortcodes bij het deactiveren (en bij upgraden!)"
