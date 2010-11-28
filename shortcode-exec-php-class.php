@@ -18,6 +18,7 @@ define('c_scep_option_codewidth', 'scep_codewidth');
 define('c_scep_option_codeheight', 'scep_codeheight');
 define('c_scep_option_backtrack_limit', 'scep_backtrack_limit');
 define('c_scep_option_recursion_limit', 'scep_recursion_limit');
+define('c_scep_option_editarea_later', 'scep_editarea_later');
 
 define('c_scep_option_names', 'scep_names');
 define('c_scep_option_deleted', 'scep_deleted');
@@ -72,7 +73,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			// Register actions
 			add_action('init', array(&$this, 'Init'), 0);
 			if (is_admin()) {
-				add_action('admin_head', array(&$this, 'Admin_head'));
 				add_action('admin_menu', array(&$this, 'Admin_menu'));
 				add_action('wp_ajax_scep_ajax', array(&$this, 'Check_ajax'));
 			}
@@ -184,6 +184,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				self::Delete_option(c_scep_option_noent);
 				self::Delete_option(c_scep_option_codewidth);
 				self::Delete_option(c_scep_option_codeheight);
+				self::Delete_option(c_scep_option_editarea_later);
 				self::Delete_option(c_scep_option_backtrack_limit);
 				self::Delete_option(c_scep_option_recursion_limit);
 				self::Delete_option(c_scep_option_cleanup);
@@ -203,10 +204,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		function Admin_head() {
 			// Initialize EditArea
 			$name = self::Get_option(c_scep_option_names);
+			$display = self::Get_option(c_scep_option_editarea_later) ? 'later' : 'onload';
+
 			echo '<script language="javascript" type="text/javascript">' . PHP_EOL;
 			for ($i = 0; $i < count($name); $i++)
-				echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . ($i + 1) . '", syntax: "php", start_highlight: true});' . PHP_EOL;
-			echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . '0", syntax: "php", start_highlight: true, EA_load_callback: "window.scrollTo(0,0);"});' . PHP_EOL;
+				echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . ($i + 1) . '", syntax: "php", start_highlight: true, display: "' . $display . '"});' . PHP_EOL;
+			echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . '0", syntax: "php", start_highlight: true, display: "' . $display . '", EA_load_callback: "window.scrollTo(0,0);"});' . PHP_EOL;
 			echo '</script>' . PHP_EOL;
 		}
 
@@ -214,7 +217,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		function Admin_menu() {
 			if (self::Is_multisite()) {
 				if (function_exists('add_submenu_page'))
-					add_submenu_page(
+					$plugin_page = add_submenu_page(
 						'wpmu-admin.php',
 						__('Shortcode Exec PHP Administration', c_scep_text_domain),
 						__('Shortcode Exec PHP', c_scep_text_domain),
@@ -224,12 +227,15 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			}
 			else
 				if (function_exists('add_options_page'))
-					add_options_page(
+					$plugin_page = add_options_page(
 						__('Shortcode Exec PHP Administration', c_scep_text_domain),
 						__('Shortcode Exec PHP', c_scep_text_domain),
 						'manage_options',
 						$this->main_file,
 						array(&$this, 'Administration'));
+
+			// Hook admin head for option page
+			add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
 		}
 
 		// Handle option page
@@ -257,6 +263,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				self::Update_option(c_scep_option_noent, $_POST[c_scep_option_noent]);
 				self::Update_option(c_scep_option_codewidth, $_POST[c_scep_option_codewidth]);
 				self::Update_option(c_scep_option_codeheight, $_POST[c_scep_option_codeheight]);
+				self::Update_option(c_scep_option_editarea_later, $_POST[c_scep_option_editarea_later]);
 				self::Update_option(c_scep_option_backtrack_limit, $_POST[c_scep_option_backtrack_limit]);
 				self::Update_option(c_scep_option_recursion_limit, $_POST[c_scep_option_recursion_limit]);
 				self::Update_option(c_scep_option_cleanup, $_POST[c_scep_option_cleanup]);
@@ -303,12 +310,13 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$scep_comment = (self::Get_option(c_scep_option_comment) ? 'checked="checked"' : '');
 			$scep_rss = (self::Get_option(c_scep_option_rss) ? 'checked="checked"' : '');
 			$scep_noent	= (self::Get_option(c_scep_option_noent) ? 'checked="checked"' : '');
-			$scep_cleanup = (self::Get_option(c_scep_option_cleanup) ? 'checked="checked"' : '');
-			$scep_donated = (self::Get_option(c_scep_option_donated) ? 'checked="checked"' : '');
 			$scep_width = (self::Get_option(c_scep_option_codewidth));
 			$scep_height = (self::Get_option(c_scep_option_codeheight));
+			$scep_editarea_later = (self::Get_option(c_scep_option_editarea_later) ? 'checked="checked"' : '');
 			$scep_backtrack_limit = (self::Get_option(c_scep_option_backtrack_limit));
 			$scep_recursion_limit = (self::Get_option(c_scep_option_recursion_limit));
+			$scep_cleanup = (self::Get_option(c_scep_option_cleanup) ? 'checked="checked"' : '');
+			$scep_donated = (self::Get_option(c_scep_option_donated) ? 'checked="checked"' : '');
 
 			// Default size
 			if ($scep_width <= 0)
@@ -370,6 +378,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			</th><td class="scep_cell_input">
 				<input id="scep_option_height" name="<?php echo c_scep_option_codeheight; ?>" type="text" value="<?php echo $scep_height; ?>" />
 				<span>px</span>
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_editarea_later"><?php _e('Do not display code editor initially', c_scep_text_domain); ?></label>
+			</th><td>
+				<input id="scep_option_editarea_later" name="<?php echo c_scep_option_editarea_later; ?>" type="checkbox"<?php echo $scep_editarea_later; ?> />
 			</td></tr>
 
 			<tr valign="top"><th scope="row">
@@ -450,6 +464,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					editid = '<?php echo c_scep_form_phpcode; ?>0';
 					shortcode = $('[name=<?php echo c_scep_form_shortcode; ?>0]').val();
 					phpcode = editAreaLoader.getValue(editid);
+					display = '<?php echo self::Get_option(c_scep_option_editarea_later) ? 'later' : 'onload'; ?>';
 					msg = $('[name=scep_message]', this);
 					wait = $('[name=scep_wait]', this);
 					input = $('input,textarea', this);
@@ -480,7 +495,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							html = result.substring(result.indexOf('|') + 1);
 							if (index > 0) {
 								$('#scep-new').before(html);
-								editAreaLoader.init({id: '<?php echo c_scep_form_phpcode; ?>' + index, syntax: 'php', start_highlight: true});
+								editAreaLoader.init({id: '<?php echo c_scep_form_phpcode; ?>' + index, syntax: 'php', start_highlight: true, display: display});
 								$('[name=<?php echo c_scep_form_shortcode; ?>0]').val('');
 								editAreaLoader.setValue(editid, '');
 							}
