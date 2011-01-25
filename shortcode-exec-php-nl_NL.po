@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Shortcode Exec PHP\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/shortcode-exec-php\n"
 "POT-Creation-Date: 2010-04-19 05:47+0000\n"
-"PO-Revision-Date: 2010-11-28 10:56+0100\n"
+"PO-Revision-Date: 2011-01-25 14:07+0100\n"
 "Last-Translator: Marcel Bokhorst\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -130,4 +130,7 @@ msgstr "Shortcode bestaat"
 
 msgid "Name missing"
 msgstr "Naam mist"
+
+msgid "Insert"
+msgstr "Invoegen"
 
