@@ -2,7 +2,7 @@
 
 /*
 	Support class Shortcode Exec PHP Plugin
-	Copyright (c) 2010 by Marcel Bokhorst
+	Copyright (c) 2010, 2011 by Marcel Bokhorst
 */
 
 // Define constants
