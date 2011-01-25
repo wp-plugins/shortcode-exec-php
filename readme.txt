@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 1.13
+Stable tag: 1.14
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -96,6 +96,11 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 1. Shortcode exec PHP
 
 == Changelog ==
+
+= 1.14 =
+* New feature: TinyMCE editor insert shortcode button
+* Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
+* Tested with WordPress version 3.1 RC 3
 
 = 1.13 =
 * Added option to turn off code editor initially
@@ -192,6 +197,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.14 =
+TinyMCE editor insert shortcode button
 
 = 1.13 =
 New option, bug fix
