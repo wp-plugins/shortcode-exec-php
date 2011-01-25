@@ -15,7 +15,7 @@
 
 			// Register button
 			ed.addButton('Shortcode', {
-				title: 'Shortcode.desc',
+				title: 'Shortcode',
 				cmd: 'mceShortcode',
 				image: url + '/shortcode.gif'
 			});
