@@ -2,7 +2,7 @@
 
 /*
 	Support class Shortcode Exec PHP Plugin
-	Copyright (c) 2010 by Marcel Bokhorst
+	Copyright (c) 2010, 2011 by Marcel Bokhorst
 */
 
 // Define constants
@@ -19,6 +19,7 @@ define('c_scep_option_codeheight', 'scep_codeheight');
 define('c_scep_option_backtrack_limit', 'scep_backtrack_limit');
 define('c_scep_option_recursion_limit', 'scep_recursion_limit');
 define('c_scep_option_editarea_later', 'scep_editarea_later');
+define('c_scep_option_tinymce', 'scep_tinymce');
 
 define('c_scep_option_names', 'scep_names');
 define('c_scep_option_deleted', 'scep_deleted');
@@ -46,6 +47,7 @@ define('c_scep_action_test', 'test');
 define('c_scep_action_delete', 'delete');
 define('c_scep_action_new', 'new');
 define('c_scep_action_revert', 'revert');
+define('c_scep_action_tinymce', 'tinymce');
 
 define('c_scep_nonce_ajax', 'scep-nonce-ajax');
 
@@ -145,6 +147,15 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					$css_url = $this->plugin_url . '/' . $css_name;
 				wp_register_style('scep_style', $css_url);
 				wp_enqueue_style('scep_style');
+
+				// http://codex.wordpress.org/TinyMCE_Custom_Buttons
+				if (self::Get_option(c_scep_option_tinymce))
+					if (current_user_can('edit_posts') || current_user_can('edit_pages'))
+						if (get_user_option('rich_editing') == 'true') {
+							add_filter('tiny_mce_version', array(&$this, 'TinyMCE_version') );
+							add_filter('mce_external_plugins', array(&$this, 'TinyMCE_plugin'));
+							add_filter('mce_buttons', array(&$this, 'TinyMCE_button'));
+						}
 			}
 		}
 
@@ -266,6 +277,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				self::Update_option(c_scep_option_editarea_later, $_POST[c_scep_option_editarea_later]);
 				self::Update_option(c_scep_option_backtrack_limit, $_POST[c_scep_option_backtrack_limit]);
 				self::Update_option(c_scep_option_recursion_limit, $_POST[c_scep_option_recursion_limit]);
+				self::Update_option(c_scep_option_tinymce, $_POST[c_scep_option_tinymce]);
 				self::Update_option(c_scep_option_cleanup, $_POST[c_scep_option_cleanup]);
 				self::Update_option(c_scep_option_donated, $_POST[c_scep_option_donated]);
 
@@ -315,6 +327,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$scep_editarea_later = (self::Get_option(c_scep_option_editarea_later) ? 'checked="checked"' : '');
 			$scep_backtrack_limit = (self::Get_option(c_scep_option_backtrack_limit));
 			$scep_recursion_limit = (self::Get_option(c_scep_option_recursion_limit));
+			$scep_option_tinymce = (self::Get_option(c_scep_option_tinymce) ? 'checked="checked"' : '');
 			$scep_cleanup = (self::Get_option(c_scep_option_cleanup) ? 'checked="checked"' : '');
 			$scep_donated = (self::Get_option(c_scep_option_donated) ? 'checked="checked"' : '');
 
@@ -398,6 +411,13 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			</th><td class="scep_cell_input">
 				<input id="scep_option_recursion" name="<?php echo c_scep_option_recursion_limit; ?>" type="text" value="<?php echo $scep_recursion_limit; ?>" />
 				<span>(<?php echo number_format(ini_get('pcre.recursion_limit')); ?>)</span>
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_tinymce"><?php _e('Add button to TinyMCE editor', c_scep_text_domain); ?></label>
+				<span class="scep_explanation"><?php _e('This will expose defined shortcodes to contributors, authors and editors', c_scep_text_domain); ?></span>
+			</th><td>
+				<input id="scep_option_tinymce" name="<?php echo c_scep_option_tinymce; ?>" type="checkbox"<?php echo $scep_option_tinymce; ?> />
 			</td></tr>
 
 			<tr valign="top"><th scope="row">
@@ -667,6 +687,11 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		// Handle ajax calls
 		function Check_ajax() {
 			if (isset($_REQUEST[c_scep_action_arg])) {
+				if ($_REQUEST[c_scep_action_arg] == c_scep_action_tinymce) {
+					$this->TinyMCE_handle();
+					exit();
+				}
+
 				// Security check
 				$nonce = $_REQUEST[c_scep_param_nonce];
 				if (!wp_verify_nonce($nonce, c_scep_nonce_ajax))
@@ -781,6 +806,67 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 				exit();
 			}
+		}
+
+		// TinyMCE integration
+
+		function TinyMCE_version($version) {
+			return $version . 's';
+		}
+
+		function TinyMCE_plugin($plugins) {
+			$plugins['Shortcode'] =  $this->plugin_url . '/tinymce/shortcode.js';
+			return $plugins;
+		}
+
+		function TinyMCE_button($buttons) {
+			array_push($buttons, 'separator', 'Shortcode');
+			return $buttons;
+		}
+
+		function TinyMCE_handle() {
+			// Load text domain
+			load_plugin_textdomain(c_scep_text_domain, false, basename(dirname($this->main_file)));
+
+			// Send header
+			header('Content-Type: text/html; charset=' . get_option('blog_charset'));
+?>
+			<html xmlns="http://www.w3.org/1999/xhtml">
+			<head>
+			<title>Shortcode</title>
+			<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/jquery.js"></script>
+			<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
+			<script type='text/javascript'>
+				/* <![CDATA[ */
+				jQuery(document).ready(function($) {
+					$('#scep-tinymce-form').submit(function() {
+						if (window.tinyMCE) {
+							window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, '[' + $('#scep-tinymce-shortcode').val() + ']');
+							tinyMCEPopup.editor.execCommand('mceRepaint');
+							tinyMCEPopup.close();
+						}
+						return false;
+					});
+				});
+				/* ]]> */
+			</script>
+			</head>
+			<body>
+			<form method="post" action="#" id="scep-tinymce-form">
+			<select id="scep-tinymce-shortcode">
+<?php
+			$names = self::Get_option(c_scep_option_names);
+			foreach($names as $name)
+				echo '<option value="' . $name . '">' . htmlspecialchars($name) . '</option>' . PHP_EOL;
+?>
+			</select>
+			<br />
+			<br />
+			<input type="submit" value="<?php _e('Insert', c_scep_text_domain); ?>" />
+			</form>
+			</body>
+			</html>
+<?php
 		}
 
 		// Helpers global option management

@@ -66,6 +66,13 @@
 	color: red;
 }
 
+.scep_explanation {
+	font-size: 9px;
+	text-decoration: italic;
+	display: block;
+	padding-bottom: 10px;
+}
+
 /* Shortcode examples */
 #scep_example_table {
 	width: auto;
