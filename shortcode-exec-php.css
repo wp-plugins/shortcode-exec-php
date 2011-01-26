@@ -37,6 +37,7 @@
 #scep_option_table th {
 	width: 500px;
 	padding: 0px;
+	vertical-align: middle;
 }
 
 /* Option checkboxes */
