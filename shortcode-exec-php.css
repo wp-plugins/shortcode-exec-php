@@ -37,6 +37,7 @@
 #scep_option_table th {
 	width: 500px;
 	padding: 0px;
+	vertical-align: middle;
 }
 
 /* Option checkboxes */
@@ -64,6 +65,17 @@
 	float: left;
 	font-weight: bold;
 	color: red;
+}
+
+.scep_explanation {
+	font-size: 9px;
+	text-decoration: italic;
+	display: block;
+	padding-bottom: 10px;
+}
+
+.scep_parameters {
+	font-size: 9px;
 }
 
 /* Shortcode examples */
