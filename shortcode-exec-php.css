@@ -74,6 +74,10 @@
 	padding-bottom: 10px;
 }
 
+.scep_parameters {
+	font-size: 9px;
+}
+
 /* Shortcode examples */
 #scep_example_table {
 	width: auto;

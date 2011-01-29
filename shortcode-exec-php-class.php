@@ -27,6 +27,7 @@ define('c_scep_option_deleted', 'scep_deleted');
 define('c_scep_option_enabled', 'scep_enabled_');
 define('c_scep_option_buffer', 'scep_buffer_');
 define('c_scep_option_phpcode', 'scep_phpcode_');
+define('c_scep_option_param', 'scep_param_');
 
 define('c_scep_form_enabled', 'scep_enabled');
 define('c_scep_form_buffer', 'scep_buffer');
@@ -210,6 +211,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					self::Delete_option(c_scep_option_enabled . $name[$i]);
 					self::Delete_option(c_scep_option_buffer . $name[$i]);
 					self::Delete_option(c_scep_option_phpcode . $name[$i]);
+					self::Delete_option(c_scep_option_param . $name[$i]);
 				}
 				self::Delete_option(c_scep_option_names);
 			}
@@ -224,7 +226,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			echo '<script language="javascript" type="text/javascript">' . PHP_EOL;
 			for ($i = 0; $i < count($name); $i++)
 				echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . ($i + 1) . '", syntax: "php", start_highlight: true, display: "' . $display . '"});' . PHP_EOL;
-			echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . '0", syntax: "php", start_highlight: true, display: "' . $display . '", EA_load_callback: "window.scrollTo(0,0);"});' . PHP_EOL;
+			if ($display == 'onload')
+				echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . '0", syntax: "php", start_highlight: true, EA_load_callback: "window.scrollTo(0,0);"});' . PHP_EOL;
+			else
+				echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . '0", syntax: "php", start_highlight: true, display: "later"});' . PHP_EOL;
 			echo '</script>' . PHP_EOL;
 		}
 
@@ -250,7 +255,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						array(&$this, 'Administration'));
 
 				if (function_exists('add_submenu_page'))
-					add_submenu_page(
+					$tools_page = add_submenu_page(
 						'tools.php',
 						__('Shortcode Exec PHP Administration', c_scep_text_domain),
 						__('Shortcode Exec PHP', c_scep_text_domain),
@@ -262,6 +267,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			// Hook admin head for option page
 			if ($plugin_page)
 				add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
+			if ($tools_page)
+				add_action('admin_head-' . $tools_page, array(&$this, 'Admin_head'));
 		}
 
 		// Handle option page
@@ -307,6 +314,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						update_site_option(c_scep_option_enabled . $name[$i], get_option(c_scep_option_enabled . $name[$i]));
 						update_site_option(c_scep_option_buffer . $name[$i], get_option(c_scep_option_buffer . $name[$i]));
 						update_site_option(c_scep_option_phpcode . $name[$i], get_option(c_scep_option_phpcode . $name[$i]));
+						update_site_option(c_scep_option_param . $name[$i], get_option(c_scep_option_param . $name[$i]));
 					}
 				}
 
@@ -657,6 +665,14 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<input name="<?php echo c_scep_form_enabled . $i; ?>" type="checkbox" <?php if ($enabled) echo 'checked="checked"'; ?>>
 			<span><?php _e('Output echoed', c_scep_text_domain) ?></span>
 			<input name="<?php echo c_scep_form_buffer . $i; ?>" type="checkbox" <?php if ($buffer) echo 'checked="checked"'; ?>></td></tr>
+<?php
+			$params = self::Get_option(c_scep_option_param . $name);
+			if ($params) {
+				echo '<tr><td><span class="scep_parameters">' . __('Last attributes:', c_scep_text_domain) . ' ';
+				echo substr(print_r($params, true), 6);
+				echo '</span></td></tr>';
+			}
+?>
 			<tr><td><textarea name="<?php echo c_scep_form_phpcode . $i; ?>" id="<?php echo c_scep_form_phpcode . $i; ?>"
 			style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"
 			><?php echo self::Get_option(c_scep_option_noent) ? $code : htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
@@ -711,6 +727,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 		// Shortcode execution
 		function Shortcode_handler($atts, $content, $code) {
+			// Log last used parameters
+			if ($atts)
+				self::Update_option(c_scep_option_param . $code, $atts);
+			else
+				self::Delete_option(c_scep_option_param . $code);
+
 			$buffer = self::Get_option(c_scep_option_buffer . $code);
 			if ($buffer)
 				ob_start();
@@ -808,9 +830,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							break;
 						}
 					self::Update_option(c_scep_option_names, $names);
-					self::Delete_option(c_scep_option_enabled . $name, $enabled);
-					self::Delete_option(c_scep_option_buffer . $name, $buffer);
-					self::Delete_option(c_scep_option_phpcode . $name, $phpcode);
+					self::Delete_option(c_scep_option_enabled . $name);
+					self::Delete_option(c_scep_option_buffer . $name);
+					self::Delete_option(c_scep_option_phpcode . $name);
+					self::Delete_option(c_scep_option_param . $name);
 					self::Update_option(c_scep_option_deleted, self::Get_option(c_scep_option_deleted) + 1);
 				}
 
@@ -896,9 +919,11 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<form method="post" action="#" id="scep-tinymce-form">
 			<select id="scep-tinymce-shortcode">
 <?php
-			$names = self::Get_option(c_scep_option_names);
-			foreach($names as $name)
-				echo '<option value="' . $name . '">' . htmlspecialchars($name) . '</option>' . PHP_EOL;
+			if (self::Get_option(c_scep_option_tinymce) && current_user_can(self::Get_option(c_scep_option_tinymce_cap))) {
+				$names = self::Get_option(c_scep_option_names);
+				foreach($names as $name)
+					echo '<option value="' . $name . '">' . htmlspecialchars($name) . '</option>' . PHP_EOL;
+			}
 ?>
 			</select>
 			<br />
