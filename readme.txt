@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 1.17
+Stable tag: 1.18
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -56,7 +56,9 @@ Users with *manage\_options* (single user) or *manage\_network* (multi user) cap
 
 = Who can use the defined shortcodes? =
 
-Anyone who can create or modify posts, pages and/or widgets or can write comments (if enabled).
+Anyone who can create or modify posts, pages and/or widgets or can write comments.
+Shortcode execution for widgets, excerpts, comments and RSS feeds are disabled by default (unless another plugin or your theme does enable it).
+It is possible to restrict shortcode execution for posts and pages based on the capabilities of the post or page author (since version 1.18).
 
 = How are PHP errors handled? =
 
@@ -96,6 +98,15 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 1. Shortcode exec PHP
 
 == Changelog ==
+
+= 1.18 =
+* Enhancement: case insensitive sorting of shortcodes
+* Better compatiblity with other TinyMCE buttons
+* New feature: shortcuts for jumping to shortcode definitions
+* New feature: required capability for authors to use shortcodes, see [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")
+* Bugfix: shortcode processing in RSS feeds can be turned off now
+* Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
+* More donate buttons ...
 
 = 1.17 =
 * Bugfix: made EditArea working on tools page
@@ -214,6 +225,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.18 =
+New features, enhancements, bugfix, compatibility
 
 = 1.17 =
 Security, bug fixes

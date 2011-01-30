@@ -33,6 +33,12 @@
 	margin: 1em 0 0.5em 0;
 }
 
+/* Shortcuts */
+#scep_shortcuts {
+	display: block;
+	margin: 20px 0 0;
+}
+
 /* Option titles */
 #scep_option_table th {
 	width: 500px;

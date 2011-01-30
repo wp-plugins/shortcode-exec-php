@@ -1,12 +1,12 @@
 (function() {
-	tinymce.create('tinymce.plugins.ShortcodePlugin', {
+	tinymce.create('tinymce.plugins.ShortcodeExecPHP', {
 		init: function(ed, url) {
 			// Register command
-			ed.addCommand('mceShortcode', function() {
+			ed.addCommand('mceShortcodeExecPHP', function() {
 				ed.windowManager.open({
 					file: ajaxurl + '?action=scep_ajax&scep_action=tinymce',
-					width: 320 + ed.getLang('Shortcode.delta_width', 0),
-					height: 120 + ed.getLang('Shortcode.delta_height', 0),
+					width: 320 + ed.getLang('ShortcodeExecPHP.delta_width', 0),
+					height: 120 + ed.getLang('ShortcodeExecPHP.delta_height', 0),
 					inline: 1
 				}, {
 					plugin_url: url // Plugin absolute URL
@@ -14,15 +14,15 @@
 			});
 
 			// Register button
-			ed.addButton('Shortcode', {
+			ed.addButton('ShortcodeExecPHP', {
 				title: 'Shortcode',
-				cmd: 'mceShortcode',
+				cmd: 'mceShortcodeExecPHP',
 				image: url + '/shortcode.gif'
 			});
 
 			// Add a node change handler, selects the button in the UI when a image is selected
 			ed.onNodeChange.add(function(ed, cm, n) {
-				cm.setActive('Shortcode', n.nodeName == 'IMG');
+				cm.setActive('ShortcodeExecPHP', n.nodeName == 'IMG');
 			});
 		},
 
@@ -32,7 +32,7 @@
 
 		getInfo: function() {
 			return {
-				longname : 'Shortcode plugin',
+				longname : 'Shortcode Exec PHP plugin',
 				author : 'Marcel Bokhorst',
 				authorurl : 'http://blog.bokhorst.biz/about/',
 				infourl : 'http://blog.bokhorst.biz/3626/computers-en-internet/wordpress-plugin-shortcode-exec-php/',
@@ -42,5 +42,5 @@
 	});
 
 	// Register plugin
-	tinymce.PluginManager.add('Shortcode', tinymce.plugins.ShortcodePlugin);
+	tinymce.PluginManager.add('ShortcodeExecPHP', tinymce.plugins.ShortcodeExecPHP);
 })();
