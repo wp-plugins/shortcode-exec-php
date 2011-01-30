@@ -57,7 +57,7 @@ Users with *manage\_options* (single user) or *manage\_network* (multi user) cap
 = Who can use the defined shortcodes? =
 
 Anyone who can create or modify posts, pages and/or widgets or can write comments.
-Shortcode execution in widgets, excerpts, comments and RSS feeds are disabled by default (unless another plugin or your theme does enable it).
+Shortcode execution in widgets, excerpts, comments and RSS feeds is disabled by default (unless another plugin or your theme does enable it).
 It is possible to restrict shortcode execution in posts and pages based on the capabilities of the post or page author (since version 1.18).
 
 = How are PHP errors handled? =
