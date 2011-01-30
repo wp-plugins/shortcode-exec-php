@@ -66,6 +66,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 		// Constructor
 		function __construct() {
+			global $wp_version;
+
 			$bt = debug_backtrace();
 			$this->main_file = $bt[0]['file'];
 			$this->plugin_url = WP_PLUGIN_URL . '/' . basename(dirname($this->main_file));
@@ -79,7 +81,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			// Register actions
 			add_action('init', array(&$this, 'Init'), 0);
 			if (is_admin()) {
-				add_action('admin_menu', array(&$this, 'Admin_menu'));
+				if (self::Is_multisite() && version_compare($wp_version, '3.1') >= 0)
+					add_action('network_admin_menu', array(&$this, 'Admin_menu_network'));
+				else
+					add_action('admin_menu', array(&$this, 'Admin_menu'));
 				add_action('wp_ajax_scep_ajax', array(&$this, 'Check_ajax'));
 			}
 
@@ -101,7 +106,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 			// Enable shortcodes for RSS
 			if (self::Get_option(c_scep_option_rss)) {
-				global $wp_version;
 				if (version_compare($wp_version, '2.9') < 0)
 					add_filter('the_content_rss', 'do_shortcode');
 				else
@@ -281,15 +285,36 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				add_action('admin_head-' . $tools_page, array(&$this, 'Admin_head'));
 		}
 
+		function Admin_menu_network() {
+			if (function_exists('add_options_page'))
+				$plugin_page = add_options_page(
+					__('Shortcode Exec PHP Administration', c_scep_text_domain),
+					__('Shortcode Exec PHP', c_scep_text_domain),
+					'manage_network',
+					$this->main_file,
+					array(&$this, 'Administration'));
+
+			if (function_exists('add_submenu_page'))
+				$tools_page = add_submenu_page(
+					'tools.php',
+					__('Shortcode Exec PHP Administration', c_scep_text_domain),
+					__('Shortcode Exec PHP', c_scep_text_domain),
+					'manage_network',
+					$this->main_file,
+					array(&$this, 'Administration'));
+
+			// Hook admin head for option page
+			if ($plugin_page)
+				add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
+			if ($tools_page)
+				add_action('admin_head-' . $tools_page, array(&$this, 'Admin_head'));
+		}
+
 		// Handle option page
 		function Administration() {
-			if (self::Is_multisite()) {
-				if (!current_user_can('manage_network'))
-					die('Unauthorized');
-			}
-			else
-				if (!current_user_can('manage_options'))
-					die('Unauthorized');
+			// Secirity check
+			if (!current_user_can(self::Is_multisite() ? 'manage_network' : 'manage_options'))
+				die('Unauthorized');
 
 			// Check post back
 			if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
