@@ -286,17 +286,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		}
 
 		function Admin_menu_network() {
-			if (function_exists('add_options_page'))
-				$plugin_page = add_options_page(
-					__('Shortcode Exec PHP Administration', c_scep_text_domain),
-					__('Shortcode Exec PHP', c_scep_text_domain),
-					'manage_network',
-					$this->main_file,
-					array(&$this, 'Administration'));
-
 			if (function_exists('add_submenu_page'))
-				$tools_page = add_submenu_page(
-					'tools.php',
+				$plugin_page = add_submenu_page(
+					'settings.php',
 					__('Shortcode Exec PHP Administration', c_scep_text_domain),
 					__('Shortcode Exec PHP', c_scep_text_domain),
 					'manage_network',
@@ -306,8 +298,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			// Hook admin head for option page
 			if ($plugin_page)
 				add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
-			if ($tools_page)
-				add_action('admin_head-' . $tools_page, array(&$this, 'Admin_head'));
 		}
 
 		// Handle option page
