@@ -1,10 +1,10 @@
 ﻿=== Shortcode Exec PHP ===
 Contributors: Marcel Bokhorst
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Shortcode%20Exec%20PHP%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
-Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu
+Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 1.13
+Stable tag: 1.20
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -56,7 +56,9 @@ Users with *manage\_options* (single user) or *manage\_network* (multi user) cap
 
 = Who can use the defined shortcodes? =
 
-Anyone who can create or modify posts, pages and/or widgets or can write comments (if enabled).
+Anyone who can create or modify posts, pages and/or widgets or can write comments.
+Shortcode execution in widgets, excerpts, comments and RSS feeds is disabled by default (unless another plugin or your theme does enable it).
+It is possible to restrict shortcode execution in posts and pages based on the capabilities of the post or page author (since version 1.18).
 
 = How are PHP errors handled? =
 
@@ -96,6 +98,43 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 1. Shortcode exec PHP
 
 == Changelog ==
+
+= 1.20 =
+* Bugfix: support for WordPress 3.1, tested and working now
+
+= 1.19 =
+* Support for WordPress 3.1 network of sites (multisite)
+
+= 1.18 =
+* Enhancement: case insensitive sorting of shortcodes
+* Better compatiblity with other TinyMCE buttons
+* New feature: shortcuts for jumping to shortcode definitions
+* New feature: required capability for authors to use shortcodes, see [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")
+* Bugfix: shortcode processing in RSS feeds can be turned off now
+* Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
+* More donate buttons ...
+
+= 1.17 =
+* Bugfix: made EditArea working on tools page
+* Bugfix: display toggle editor for new shortcode when not displaying initially
+* Bugfix: no scroll to top when enabling editor for new shortcode the first time
+* Extra security check for TinyMCE editor shortcode button popup
+* New feature: display last used shortcode attributes
+* Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
+
+= 1.16 =
+* Added option to select required capability for TinyMCE button
+* Added tools menu entry for non-network sites
+* Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
+
+= 1.15 =
+* TinyMCE editor button by default disabled for security reasons
+* Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
+
+= 1.14 =
+* New feature: TinyMCE editor insert shortcode button
+* Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
+* Tested with WordPress version 3.1 RC 3
 
 = 1.13 =
 * Added option to turn off code editor initially
@@ -192,6 +231,27 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.20 =
+Bugfix
+
+= 1.19 =
+Compatibility
+
+= 1.18 =
+New features, enhancements, bugfix, compatibility
+
+= 1.17 =
+Security, bug fixes
+
+= 1.16 =
+Select required capability for TinyMCE button
+
+= 1.15 =
+Security
+
+= 1.14 =
+TinyMCE editor insert shortcode button
 
 = 1.13 =
 New option, bug fix

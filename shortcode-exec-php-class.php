@@ -2,7 +2,7 @@
 
 /*
 	Support class Shortcode Exec PHP Plugin
-	Copyright (c) 2010 by Marcel Bokhorst
+	Copyright (c) 2010, 2011 by Marcel Bokhorst
 */
 
 // Define constants
@@ -19,17 +19,22 @@ define('c_scep_option_codeheight', 'scep_codeheight');
 define('c_scep_option_backtrack_limit', 'scep_backtrack_limit');
 define('c_scep_option_recursion_limit', 'scep_recursion_limit');
 define('c_scep_option_editarea_later', 'scep_editarea_later');
+define('c_scep_option_tinymce', 'scep_tinymce');
+define('c_scep_option_tinymce_cap', 'scep_tinymce_cap');
+define('c_scep_option_author_cap', 'scep_author_cap');
 
 define('c_scep_option_names', 'scep_names');
 define('c_scep_option_deleted', 'scep_deleted');
 define('c_scep_option_enabled', 'scep_enabled_');
 define('c_scep_option_buffer', 'scep_buffer_');
 define('c_scep_option_phpcode', 'scep_phpcode_');
+define('c_scep_option_param', 'scep_param_');
 
 define('c_scep_form_enabled', 'scep_enabled');
 define('c_scep_form_buffer', 'scep_buffer');
 define('c_scep_form_shortcode', 'scep_shortcode');
 define('c_scep_form_phpcode', 'scep_phpcode');
+define('c_scep_form_entry', 'scep_entry');
 
 define('c_scep_nonce_form', 'scep-nonce-form');
 define('c_scep_text_domain', 'shortcode-exec-php');
@@ -46,6 +51,7 @@ define('c_scep_action_test', 'test');
 define('c_scep_action_delete', 'delete');
 define('c_scep_action_new', 'new');
 define('c_scep_action_revert', 'revert');
+define('c_scep_action_tinymce', 'tinymce');
 
 define('c_scep_nonce_ajax', 'scep-nonce-ajax');
 
@@ -60,6 +66,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 		// Constructor
 		function __construct() {
+			global $wp_version;
+
 			$bt = debug_backtrace();
 			$this->main_file = $bt[0]['file'];
 			$this->plugin_url = WP_PLUGIN_URL . '/' . basename(dirname($this->main_file));
@@ -73,7 +81,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			// Register actions
 			add_action('init', array(&$this, 'Init'), 0);
 			if (is_admin()) {
-				add_action('admin_menu', array(&$this, 'Admin_menu'));
+				if (self::Is_multisite() && version_compare($wp_version, '3.1') >= 0)
+					add_action('network_admin_menu', array(&$this, 'Admin_menu_network'));
+				else
+					add_action('admin_menu', array(&$this, 'Admin_menu'));
 				add_action('wp_ajax_scep_ajax', array(&$this, 'Check_ajax'));
 			}
 
@@ -95,7 +106,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 			// Enable shortcodes for RSS
 			if (self::Get_option(c_scep_option_rss)) {
-				add_filter('the_content_rss', 'do_shortcode');
+				if (version_compare($wp_version, '2.9') < 0)
+					add_filter('the_content_rss', 'do_shortcode');
+				else
+					add_filter('the_content_feed',  'do_shortcode');
 				if (self::Get_option(c_scep_option_excerpt))
 					add_filter('the_excerpt_rss', 'do_shortcode');
 				if (self::Get_option(c_scep_option_comment))
@@ -145,6 +159,17 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					$css_url = $this->plugin_url . '/' . $css_name;
 				wp_register_style('scep_style', $css_url);
 				wp_enqueue_style('scep_style');
+
+				// http://codex.wordpress.org/TinyMCE_Custom_Buttons
+				if (self::Get_option(c_scep_option_tinymce) &&
+					current_user_can(self::Get_option(c_scep_option_tinymce_cap)) &&
+					current_user_can(self::Get_option(c_scep_option_author_cap)))
+					if (current_user_can('edit_posts') || current_user_can('edit_pages'))
+						if (get_user_option('rich_editing') == 'true') {
+							add_filter('tiny_mce_version', array(&$this, 'TinyMCE_version') );
+							add_filter('mce_external_plugins', array(&$this, 'TinyMCE_plugin'));
+							add_filter('mce_buttons', array(&$this, 'TinyMCE_button'));
+						}
 			}
 		}
 
@@ -170,6 +195,11 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				self::Update_option(c_scep_option_backtrack_limit, self::Get_option('scep_backtrace_limit'));
 				self::Delete_option('scep_backtrace_limit');
 			}
+
+			if (!self::Get_option(c_scep_option_tinymce_cap))
+				self::Update_option(c_scep_option_tinymce_cap, 'edit_posts');
+			if (!self::Get_option(c_scep_option_author_cap))
+				self::Update_option(c_scep_option_author_cap, 'edit_posts');
 		}
 
 		// Handle plugin deactivation
@@ -195,6 +225,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					self::Delete_option(c_scep_option_enabled . $name[$i]);
 					self::Delete_option(c_scep_option_buffer . $name[$i]);
 					self::Delete_option(c_scep_option_phpcode . $name[$i]);
+					self::Delete_option(c_scep_option_param . $name[$i]);
 				}
 				self::Delete_option(c_scep_option_names);
 			}
@@ -209,7 +240,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			echo '<script language="javascript" type="text/javascript">' . PHP_EOL;
 			for ($i = 0; $i < count($name); $i++)
 				echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . ($i + 1) . '", syntax: "php", start_highlight: true, display: "' . $display . '"});' . PHP_EOL;
-			echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . '0", syntax: "php", start_highlight: true, display: "' . $display . '", EA_load_callback: "window.scrollTo(0,0);"});' . PHP_EOL;
+			if ($display == 'onload')
+				echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . '0", syntax: "php", start_highlight: true, EA_load_callback: "window.scrollTo(0,0);"});' . PHP_EOL;
+			else
+				echo 'editAreaLoader.init({id: "' . c_scep_form_phpcode . '0", syntax: "php", start_highlight: true, display: "later"});' . PHP_EOL;
 			echo '</script>' . PHP_EOL;
 		}
 
@@ -225,7 +259,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						$this->main_file,
 						array(&$this, 'Administration'));
 			}
-			else
+			else {
 				if (function_exists('add_options_page'))
 					$plugin_page = add_options_page(
 						__('Shortcode Exec PHP Administration', c_scep_text_domain),
@@ -234,19 +268,43 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						$this->main_file,
 						array(&$this, 'Administration'));
 
+				if (function_exists('add_submenu_page'))
+					$tools_page = add_submenu_page(
+						'tools.php',
+						__('Shortcode Exec PHP Administration', c_scep_text_domain),
+						__('Shortcode Exec PHP', c_scep_text_domain),
+						'manage_options',
+						$this->main_file,
+						array(&$this, 'Administration'));
+			}
+
 			// Hook admin head for option page
-			add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
+			if ($plugin_page)
+				add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
+			if ($tools_page)
+				add_action('admin_head-' . $tools_page, array(&$this, 'Admin_head'));
+		}
+
+		function Admin_menu_network() {
+			if (function_exists('add_submenu_page'))
+				$plugin_page = add_submenu_page(
+					'settings.php',
+					__('Shortcode Exec PHP Administration', c_scep_text_domain),
+					__('Shortcode Exec PHP', c_scep_text_domain),
+					'manage_network',
+					$this->main_file,
+					array(&$this, 'Administration'));
+
+			// Hook admin head for option page
+			if ($plugin_page)
+				add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
 		}
 
 		// Handle option page
 		function Administration() {
-			if (self::Is_multisite()) {
-				if (!current_user_can('manage_network'))
-					die('Unauthorized');
-			}
-			else
-				if (!current_user_can('manage_options'))
-					die('Unauthorized');
+			// Secirity check
+			if (!current_user_can(self::Is_multisite() ? 'manage_network' : 'manage_options'))
+				die('Unauthorized');
 
 			// Check post back
 			if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
@@ -266,6 +324,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				self::Update_option(c_scep_option_editarea_later, $_POST[c_scep_option_editarea_later]);
 				self::Update_option(c_scep_option_backtrack_limit, $_POST[c_scep_option_backtrack_limit]);
 				self::Update_option(c_scep_option_recursion_limit, $_POST[c_scep_option_recursion_limit]);
+				self::Update_option(c_scep_option_tinymce, $_POST[c_scep_option_tinymce]);
+				self::Update_option(c_scep_option_tinymce_cap, $_POST[c_scep_option_tinymce_cap]);
+				self::Update_option(c_scep_option_author_cap, $_POST[c_scep_option_author_cap]);
 				self::Update_option(c_scep_option_cleanup, $_POST[c_scep_option_cleanup]);
 				self::Update_option(c_scep_option_donated, $_POST[c_scep_option_donated]);
 
@@ -279,6 +340,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						update_site_option(c_scep_option_enabled . $name[$i], get_option(c_scep_option_enabled . $name[$i]));
 						update_site_option(c_scep_option_buffer . $name[$i], get_option(c_scep_option_buffer . $name[$i]));
 						update_site_option(c_scep_option_phpcode . $name[$i], get_option(c_scep_option_phpcode . $name[$i]));
+						update_site_option(c_scep_option_param . $name[$i], get_option(c_scep_option_param . $name[$i]));
 					}
 				}
 
@@ -290,6 +352,21 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 			echo '<div class="wrap">';
 
+			// Get shortcodes
+			$name = self::Get_option(c_scep_option_names);
+			self::Update_option(c_scep_option_deleted, 0);
+			usort($name, strcasecmp);
+
+			// Render shortcuts
+			if (count($name)) {
+				echo '<span id="scep_shortcuts">' . __('Go to', c_scep_text_domain);
+				for ($i = 0; $i < count($name); $i++) {
+					echo ($i ? ', ' : ' ');
+					echo '<a href="#' . $name[$i] . '">' . $name[$i] . '</a>';
+				}
+				echo '</span>';
+			}
+
 			// Render info panel
 			$this->Render_info_panel();
 
@@ -297,6 +374,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 			// Render title
 			echo '<h2>' . __('Shortcode Exec PHP Administration', c_scep_text_domain) . '</h2>';
+
+			// Render options form
 			echo '<form method="post" action="">';
 
 			// Security
@@ -315,6 +394,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$scep_editarea_later = (self::Get_option(c_scep_option_editarea_later) ? 'checked="checked"' : '');
 			$scep_backtrack_limit = (self::Get_option(c_scep_option_backtrack_limit));
 			$scep_recursion_limit = (self::Get_option(c_scep_option_recursion_limit));
+			$scep_option_tinymce = (self::Get_option(c_scep_option_tinymce) ? 'checked="checked"' : '');
+			$scep_option_tinymce_cap = self::Get_option(c_scep_option_tinymce_cap);
+			$scep_option_author_cap = self::Get_option(c_scep_option_author_cap);
 			$scep_cleanup = (self::Get_option(c_scep_option_cleanup) ? 'checked="checked"' : '');
 			$scep_donated = (self::Get_option(c_scep_option_donated) ? 'checked="checked"' : '');
 
@@ -323,6 +405,15 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				$scep_width = 600;
 			if ($scep_height <= 0)
 				$scep_height = 200;
+
+			// Get list of capabilities
+			global $wp_roles;
+			$capabilities = array();
+			foreach ($wp_roles->role_objects as $key => $role)
+				if (is_array($role->capabilities))
+					foreach ($role->capabilities as $cap => $grant)
+						$capabilities[$cap] = $cap;
+			sort($capabilities);
 
 			// Render options
 ?>
@@ -401,6 +492,44 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			</td></tr>
 
 			<tr valign="top"><th scope="row">
+				<label for="scep_option_tinymce"><?php _e('Add button to TinyMCE editor', c_scep_text_domain); ?></label>
+			</th><td>
+				<input id="scep_option_tinymce" name="<?php echo c_scep_option_tinymce; ?>" type="checkbox"<?php echo $scep_option_tinymce; ?> />
+			</td></tr>
+
+			<tr valign="middle"><th scope="row">
+				<label for="scep_option_tinymce_cap"><?php _e('Required capability for TinyMCE button', c_scep_text_domain); ?></label>
+			</th><td>
+				<select id="scep_option_tinymce_cap" name="<?php echo c_scep_option_tinymce_cap; ?>">
+<?php
+					// List capabilities and select current
+					foreach ($capabilities as $cap) {
+						echo '<option value="' . $cap . '"';
+						if ($cap == $scep_option_tinymce_cap)
+							echo ' selected';
+						echo '>' . $cap . '</option>';
+					}
+?>
+				</select>
+			</td></tr>
+
+			<tr valign="middle"><th scope="row">
+				<label for="scep_option_author_cap"><?php _e('Required capability for authors to execute shortcodes', c_scep_text_domain); ?></label>
+			</th><td>
+				<select id="scep_option_author_cap" name="<?php echo c_scep_option_author_cap; ?>">
+<?php
+					// List capabilities and select current
+					foreach ($capabilities as $cap) {
+						echo '<option value="' . $cap . '"';
+						if ($cap == $scep_option_author_cap)
+							echo ' selected';
+						echo '>' . $cap . '</option>';
+					}
+?>
+				</select>
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
 				<label for="scep_option_cleanup"><?php _e('Delete options and shortcodes on deactivation (and when upgrading!)', c_scep_text_domain); ?></label>
 			</th><td>
 				<input id="scep_option_cleanup" name="<?php echo c_scep_option_cleanup; ?>" type="checkbox"<?php echo $scep_cleanup; ?> />
@@ -423,9 +552,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<h3><?php _e('Shortcodes', c_scep_text_domain); ?></h3>
 <?php
 			// Render shortcode definitions
-			$name = self::Get_option(c_scep_option_names);
-			self::Update_option(c_scep_option_deleted, 0);
-			sort($name);
 			for ($i = 0; $i < count($name); $i++) {
 				$enabled = self::Get_option(c_scep_option_enabled . $name[$i]);
 				$buffer = self::Get_option(c_scep_option_buffer . $name[$i]);
@@ -433,6 +559,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				$this->Render_shortcode_form($name[$i], $i + 1, $enabled, $buffer, $code);
 			}
 ?>
+			<table><tr><td>
 			<form method="post" action="" id="scep-new">
 			<table>
 			<tr><td>[<input name="<?php echo c_scep_form_shortcode; ?>0" type="text" value="">]</td></tr>
@@ -445,6 +572,19 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<input type="submit" class="button-primary" value="<?php _e('Add', c_scep_text_domain); ?>" /></td></tr>
 			</table>
 			</form>
+			</td>
+			<td style="vertical-align: bottom;">
+<?php		if (!self::Get_option(c_scep_option_donated)) { ?>
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+			<input type="hidden" name="cmd" value="_s-xclick">
+			<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHXwYJKoZIhvcNAQcEoIIHUDCCB0wCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYA+jwcbmGBajEHvs2bMGN3J3QtEs8DtNVoK9FsNz2Nr2sv+5blWVXaSKHsmcXG+rr7X8TO0DFpTY94Tnfn2jCDoKqH9q0xXAaaNt5OoJ7nhFaAvbVHuS5DgGdF/rvebX9iv0Z/diEpEDTOGrEtZDcG8Z5KPyKvu7bxsGMuhd2NkyzELMAkGBSsOAwIaBQAwgdwGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIlapxhFG+HAKAgbhEGIsmKchv4zAxzGhudwDNRrD4x1G5dDIy4qdnTQkIeJOz42iUOjX6RH7IifkrQ85ygNyvrwztJyHtBVnV3GVrlC1h1eZ3ScC+O/XQEFVZORJyvU/cXvx9rR495Dr480eAo5e6vyfLPyI5qX+tZjR1RjzGsPEFekpCOXXl0ED6ltyLKIcWOpWa/obWA2rmWVRdp1Osv2TRWlEDzyG70zJaqQkDWg9FCTttfxY19ti79B+wbCrlwUDCoIIDhzCCA4MwggLsoAMCAQICAQAwDQYJKoZIhvcNAQEFBQAwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMB4XDTA0MDIxMzEwMTMxNVoXDTM1MDIxMzEwMTMxNVowgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBR07d/ETMS1ycjtkpkvjXZe9k+6CieLuLsPumsJ7QC1odNz3sJiCbs2wC0nLE0uLGaEtXynIgRqIddYCHx88pb5HTXv4SZeuv0Rqq4+axW9PLAAATU8w04qqjaSXgbGLP3NmohqM6bV9kZZwZLR/klDaQGo1u9uDb9lr4Yn+rBQIDAQABo4HuMIHrMB0GA1UdDgQWBBSWn3y7xm8XvVk/UtcKG+wQ1mSUazCBuwYDVR0jBIGzMIGwgBSWn3y7xm8XvVk/UtcKG+wQ1mSUa6GBlKSBkTCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb22CAQAwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOBgQCBXzpWmoBa5e9fo6ujionW1hUhPkOBakTr3YCDjbYfvJEiv/2P+IobhOGJr85+XHhN0v4gUkEDI8r2/rNk1m0GA8HKddvTjyGw/XqXa+LSTlDYkqI8OwR8GEYj4efEtcRpRYBxV8KxAW93YDWzFGvruKnnLbDAF6VR5w/cCMn5hzGCAZowggGWAgEBMIGUMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbQIBADAJBgUrDgMCGgUAoF0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTAwMzE5MTE0NTMwWjAjBgkqhkiG9w0BCQQxFgQUHw0s+smNEvlxkv828TdodfeN13QwDQYJKoZIhvcNAQEBBQAEgYBKTcyETnFUcZ9VeQrbQubUO0rzyoCqxGuGzcUel/7xVBCITWUfhoUDGtFcDuucQFKrwFLOKwKlDwF9BJN0HREETkZXIWPtMPowKO79w9AI0jEUUv8srA0zquMSoN4hTntwLkNJ29e8OWpX2FN54eCiVkVAKnS5EapQP2ayBW4/WQ==-----END PKCS7-----">
+			<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+			</form>
+<?php		} ?>
+			</td>
+			</tr>
+			</table>
+			<hr />
 
 			<table id="scep_example_table" class="form-table">
 				<tr><td class="scep_example_title">[shortcode arg="value"]</td>
@@ -515,7 +655,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				/* test, save, revert, delete shortcode */
 				$('.scep-update').live('click', function() {
 					action = this.name;
-					entry = this.form;
+					entryid = '<?php echo c_scep_form_entry; ?>' + this.form.id;
 					orgname = this.form.name;
 					editid = '<?php echo c_scep_form_phpcode; ?>' + this.form.id;
 					shortcode = $('[name=<?php echo c_scep_form_shortcode; ?>' + this.form.id + ']').val();
@@ -560,7 +700,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							else if (action == '<?php echo c_scep_action_revert; ?>')
 								editAreaLoader.setValue(editid, result);
 							else if (action == '<?php echo c_scep_action_delete; ?>')
-								$(entry).remove();
+								$('#' + entryid).remove();
 							else
 								msg.text(result);
 						},
@@ -589,6 +729,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			if ($scep_height <= 0)
 				$scep_height = 200;
 ?>
+			<a name="<?php echo $name; ?>"></a>
+			<div id="<?php echo c_scep_form_entry . $i; ?>">
+			<table><tr><td>
 			<form method="post" action="" name="<?php echo $name; ?>" id="<?php echo $i; ?>">
 			<table>
 			<tr><td>[<input name="<?php echo c_scep_form_shortcode . $i; ?>" type="text" value="<?php echo $name; ?>">]
@@ -596,6 +739,14 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<input name="<?php echo c_scep_form_enabled . $i; ?>" type="checkbox" <?php if ($enabled) echo 'checked="checked"'; ?>>
 			<span><?php _e('Output echoed', c_scep_text_domain) ?></span>
 			<input name="<?php echo c_scep_form_buffer . $i; ?>" type="checkbox" <?php if ($buffer) echo 'checked="checked"'; ?>></td></tr>
+<?php
+			$params = self::Get_option(c_scep_option_param . $name);
+			if ($params) {
+				echo '<tr><td><span class="scep_parameters">' . __('Last attributes:', c_scep_text_domain) . ' ';
+				echo substr(print_r($params, true), 6);
+				echo '</span></td></tr>';
+			}
+?>
 			<tr><td><textarea name="<?php echo c_scep_form_phpcode . $i; ?>" id="<?php echo c_scep_form_phpcode . $i; ?>"
 			style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"
 			><?php echo self::Get_option(c_scep_option_noent) ? $code : htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
@@ -608,8 +759,21 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<input type="button" class="button-primary scep-update" name="<?php echo c_scep_action_delete; ?>" value="<?php _e('Delete', c_scep_text_domain) ?>" />
 			</td></tr>
 			</table>
-			<hr />
 			</form>
+			</td>
+			<td style="vertical-align: bottom;">
+<?php		if (!self::Get_option(c_scep_option_donated)) { ?>
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+			<input type="hidden" name="cmd" value="_s-xclick">
+			<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+			<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+			</form>
+<?php		} ?>
+			</td>
+			</tr>
+			</table>
+			<hr />
+			</div>
 <?php
 		}
 
@@ -650,23 +814,47 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 		// Shortcode execution
 		function Shortcode_handler($atts, $content, $code) {
-			$buffer = self::Get_option(c_scep_option_buffer . $code);
-			if ($buffer)
-				ob_start();
-			$result = eval(self::Get_option(c_scep_option_phpcode . $code));
-			if ($buffer) {
-				$output = ob_get_contents();
-				ob_end_clean();
+			// Check if in RSS feed
+			if (is_feed() && !self::Get_option(c_scep_option_rss))
+				return '[' . $code . ']' . ($content ? $content . '[/' . $code . ']' : '');
+
+			// Security check
+			global $post;
+			global $in_comment_loop;
+			if (!in_the_loop() ||
+				!empty($in_comment_loop) ||
+				author_can($post, self::Get_option(c_scep_option_author_cap))) {
+				// Log last used parameters
+				if ($atts)
+					self::Update_option(c_scep_option_param . $code, $atts);
+				else
+					self::Delete_option(c_scep_option_param . $code);
+
+				$buffer = self::Get_option(c_scep_option_buffer . $code);
+				if ($buffer)
+					ob_start();
+				$result = eval(self::Get_option(c_scep_option_phpcode . $code));
+				if ($buffer) {
+					$output = ob_get_contents();
+					ob_end_clean();
+				}
+				else
+					$output = '';
+
+				return $output . $result;
 			}
 			else
-				$output = '';
-
-			return $output . $result;
+				return '[' . $code . ']?';
 		}
 
 		// Handle ajax calls
 		function Check_ajax() {
 			if (isset($_REQUEST[c_scep_action_arg])) {
+				if ($_REQUEST[c_scep_action_arg] == c_scep_action_tinymce) {
+					$this->TinyMCE_handle();
+					exit();
+				}
+
 				// Security check
 				$nonce = $_REQUEST[c_scep_param_nonce];
 				if (!wp_verify_nonce($nonce, c_scep_nonce_ajax))
@@ -742,9 +930,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							break;
 						}
 					self::Update_option(c_scep_option_names, $names);
-					self::Delete_option(c_scep_option_enabled . $name, $enabled);
-					self::Delete_option(c_scep_option_buffer . $name, $buffer);
-					self::Delete_option(c_scep_option_phpcode . $name, $phpcode);
+					self::Delete_option(c_scep_option_enabled . $name);
+					self::Delete_option(c_scep_option_buffer . $name);
+					self::Delete_option(c_scep_option_phpcode . $name);
+					self::Delete_option(c_scep_option_param . $name);
 					self::Update_option(c_scep_option_deleted, self::Get_option(c_scep_option_deleted) + 1);
 				}
 
@@ -781,6 +970,71 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 				exit();
 			}
+		}
+
+		// TinyMCE integration
+
+		function TinyMCE_version($version) {
+			return $version . 'scep';
+		}
+
+		function TinyMCE_plugin($plugins) {
+			$plugins['ShortcodeExecPHP'] =  $this->plugin_url . '/tinymce/shortcode.js';
+			return $plugins;
+		}
+
+		function TinyMCE_button($buttons) {
+			array_push($buttons, 'separator', 'ShortcodeExecPHP');
+			return $buttons;
+		}
+
+		function TinyMCE_handle() {
+			// Load text domain
+			load_plugin_textdomain(c_scep_text_domain, false, basename(dirname($this->main_file)));
+
+			// Send header
+			header('Content-Type: text/html; charset=' . get_option('blog_charset'));
+?>
+			<html xmlns="http://www.w3.org/1999/xhtml">
+			<head>
+			<title>Shortcode</title>
+			<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/jquery.js"></script>
+			<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
+			<script type='text/javascript'>
+				/* <![CDATA[ */
+				jQuery(document).ready(function($) {
+					$('#scep-tinymce-form').submit(function() {
+						if (window.tinyMCE) {
+							window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, '[' + $('#scep-tinymce-shortcode').val() + ']');
+							tinyMCEPopup.editor.execCommand('mceRepaint');
+							tinyMCEPopup.close();
+						}
+						return false;
+					});
+				});
+				/* ]]> */
+			</script>
+			</head>
+			<body>
+			<form method="post" action="#" id="scep-tinymce-form">
+			<select id="scep-tinymce-shortcode">
+<?php
+			if (self::Get_option(c_scep_option_tinymce) &&
+				current_user_can(self::Get_option(c_scep_option_tinymce_cap)) &&
+				current_user_can(self::Get_option(c_scep_option_author_cap))) {
+				$names = self::Get_option(c_scep_option_names);
+				foreach($names as $name)
+					echo '<option value="' . $name . '">' . htmlspecialchars($name) . '</option>' . PHP_EOL;
+			}
+?>
+			</select>
+			<br />
+			<br />
+			<input type="submit" value="<?php _e('Insert', c_scep_text_domain); ?>" />
+			</form>
+			</body>
+			</html>
+<?php
 		}
 
 		// Helpers global option management
