@@ -160,6 +160,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				wp_register_style('scep_style', $css_url);
 				wp_enqueue_style('scep_style');
 
+				// Make sure capabilities are set
+				if (!self::Get_option(c_scep_option_tinymce_cap))
+					self::Update_option(c_scep_option_tinymce_cap, 'edit_posts');
+				if (!self::Get_option(c_scep_option_author_cap))
+					self::Update_option(c_scep_option_author_cap, 'edit_posts');
+
 				// http://codex.wordpress.org/TinyMCE_Custom_Buttons
 				if (self::Get_option(c_scep_option_tinymce) &&
 					current_user_can(self::Get_option(c_scep_option_tinymce_cap)) &&
@@ -279,9 +285,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			}
 
 			// Hook admin head for option page
-			if ($plugin_page)
+			if (!empty($plugin_page))
 				add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
-			if ($tools_page)
+			if (!empty($tools_page))
 				add_action('admin_head-' . $tools_page, array(&$this, 'Admin_head'));
 		}
 
@@ -296,7 +302,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					array(&$this, 'Administration'));
 
 			// Hook admin head for option page
-			if ($plugin_page)
+			if (!empty($plugin_page))
 				add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
 		}
 
@@ -355,7 +361,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			// Get shortcodes
 			$name = self::Get_option(c_scep_option_names);
 			self::Update_option(c_scep_option_deleted, 0);
-			usort($name, strcasecmp);
+			usort($name, 'strcasecmp');
 
 			// Render shortcuts
 			if (count($name)) {
