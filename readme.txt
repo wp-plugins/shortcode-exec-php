@@ -89,6 +89,12 @@ Indirectly, by using default values.
 
 No, omit both *`<?php`* and *`?>`*.
 
+= My code doesn't work! =
+
+Note that your code is not directly executed in the WordPress environment, but in a function.
+This means for example that a *global $wpdb;* is needed to access the [database class](http://codex.wordpress.org/Function_Reference/wpdb_Class "wpdb class").
+If I am around I am happy to help you with your code, see next question.
+
 = Where can I ask questions, report bugs and request features? =
 
 You can write a comment on the [support page](http://blog.bokhorst.biz/3626/computers-en-internet/wordpress-plugin-shortcode-exec-php/ "Marcel's weblog").
