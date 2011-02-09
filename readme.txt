@@ -89,6 +89,10 @@ Indirectly, by using default values.
 
 No, omit both *`<?php`* and *`?>`*.
 
+= Can I embed HTML code? =
+
+Yes, if you enclose the HTML code with *`?>`* and *`<?`*.
+
 = My shortcode appears with a question mark behind it =
 
 The post or page author has insufficient privileges to execute shortcodes.
