@@ -89,6 +89,10 @@ Indirectly, by using default values.
 
 No, omit both *`<?php`* and *`?>`*.
 
+= My shortcode appears with a question mark behind it =
+
+The post or page author has insufficient privileges to execute shortcodes.
+
 = My code doesn't work! =
 
 Note that your code is not directly executed in the WordPress environment, but in a function.
