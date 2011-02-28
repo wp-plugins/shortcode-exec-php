@@ -131,12 +131,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$backtrack_limit = WPShortcodeExecPHP::Get_option(c_scep_option_backtrack_limit);
 			if ($backtrack_limit < $this->default_backtrack_limit)
 				$backtrack_limit = $this->default_backtrack_limit;
-			ini_set('pcre.backtrack_limit', $backtrack_limit);
+			@ini_set('pcre.backtrack_limit', $backtrack_limit);
 
 			$recursion_limit = WPShortcodeExecPHP::Get_option(c_scep_option_recursion_limit);
 			if ($recursion_limit < $this->default_recursion_limit)
 				$recursion_limit = $this->default_recursion_limit;
-			ini_set('pcre.recursion_limit', $recursion_limit);
+			@ini_set('pcre.recursion_limit', $recursion_limit);
 		}
 
 		function Init() {
@@ -317,6 +317,27 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				// Check security
 				check_admin_referer(c_scep_nonce_form);
 
+				if (empty($_POST[c_scep_option_global]))
+					$_POST[c_scep_option_global] = null;
+				if (empty($_POST[c_scep_option_widget]))
+					$_POST[c_scep_option_widget] = null;
+				if (empty($_POST[c_scep_option_excerpt]))
+					$_POST[c_scep_option_excerpt] = null;
+				if (empty($_POST[c_scep_option_comment]))
+					$_POST[c_scep_option_comment] = null;
+				if (empty($_POST[c_scep_option_rss]))
+					$_POST[c_scep_option_rss] = null;
+				if (empty($_POST[c_scep_option_noent]))
+					$_POST[c_scep_option_noent] = null;
+				if (empty($_POST[c_scep_option_editarea_later]))
+					$_POST[c_scep_option_editarea_later] = null;
+				if (empty($_POST[c_scep_option_tinymce]))
+					$_POST[c_scep_option_tinymce] = null;
+				if (empty($_POST[c_scep_option_cleanup]))
+					$_POST[c_scep_option_cleanup] = null;
+				if (empty($_POST[c_scep_option_donated]))
+					$_POST[c_scep_option_donated] = null;
+
 				// Update settings
 				if (WPShortcodeExecPHP::Is_multisite() && function_exists('update_site_option'))
 					update_site_option(c_scep_option_global, $_POST[c_scep_option_global]);
@@ -325,11 +346,11 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				WPShortcodeExecPHP::Update_option(c_scep_option_comment, $_POST[c_scep_option_comment]);
 				WPShortcodeExecPHP::Update_option(c_scep_option_rss, $_POST[c_scep_option_rss]);
 				WPShortcodeExecPHP::Update_option(c_scep_option_noent, $_POST[c_scep_option_noent]);
-				WPShortcodeExecPHP::Update_option(c_scep_option_codewidth, $_POST[c_scep_option_codewidth]);
-				WPShortcodeExecPHP::Update_option(c_scep_option_codeheight, $_POST[c_scep_option_codeheight]);
+				WPShortcodeExecPHP::Update_option(c_scep_option_codewidth, trim($_POST[c_scep_option_codewidth]));
+				WPShortcodeExecPHP::Update_option(c_scep_option_codeheight, trim($_POST[c_scep_option_codeheight]));
 				WPShortcodeExecPHP::Update_option(c_scep_option_editarea_later, $_POST[c_scep_option_editarea_later]);
-				WPShortcodeExecPHP::Update_option(c_scep_option_backtrack_limit, $_POST[c_scep_option_backtrack_limit]);
-				WPShortcodeExecPHP::Update_option(c_scep_option_recursion_limit, $_POST[c_scep_option_recursion_limit]);
+				WPShortcodeExecPHP::Update_option(c_scep_option_backtrack_limit, trim($_POST[c_scep_option_backtrack_limit]));
+				WPShortcodeExecPHP::Update_option(c_scep_option_recursion_limit, trim($_POST[c_scep_option_recursion_limit]));
 				WPShortcodeExecPHP::Update_option(c_scep_option_tinymce, $_POST[c_scep_option_tinymce]);
 				WPShortcodeExecPHP::Update_option(c_scep_option_tinymce_cap, $_POST[c_scep_option_tinymce_cap]);
 				WPShortcodeExecPHP::Update_option(c_scep_option_author_cap, $_POST[c_scep_option_author_cap]);
