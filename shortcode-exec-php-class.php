@@ -5,6 +5,9 @@
 	Copyright (c) 2010, 2011 by Marcel Bokhorst
 */
 
+if (!function_exists('is_plugin_active_for_network'))
+	require_once(ABSPATH . '/wp-admin/includes/plugin.php');
+
 // Define constants
 define('c_scep_option_global', 'scep_global');
 define('c_scep_option_widget', 'scep_widget');
@@ -68,8 +71,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		function WPShortcodeExecPHP() {
 			global $wp_version;
 
-			$bt = debug_backtrace();
-			$this->main_file = $bt[0]['file'];
+			$this->main_file = str_replace('-class', '', __FILE__);
+
 			$this->plugin_url = WP_PLUGIN_URL . '/' . basename(dirname($this->main_file));
 			if (strpos($this->plugin_url, 'http') === 0 && is_ssl())
 				$this->plugin_url = str_replace('http://', 'https://', $this->plugin_url);
@@ -81,7 +84,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			// Register actions
 			add_action('init', array(&$this, 'Init'), 0);
 			if (is_admin()) {
-				if (WPShortcodeExecPHP::Is_multisite() && version_compare($wp_version, '3.1') >= 0)
+				if (WPShortcodeExecPHP::Is_multisite() &&
+					is_plugin_active_for_network(plugin_basename($this->main_file)) &&
+					version_compare($wp_version, '3.1') >= 0)
 					add_action('network_admin_menu', array(&$this, 'Admin_menu_network'));
 				else
 					add_action('admin_menu', array(&$this, 'Admin_menu'));
