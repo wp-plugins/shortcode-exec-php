@@ -197,8 +197,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				$name[] = 'hello_world';
 				WPShortcodeExecPHP::Update_option(c_scep_option_names, $name);
 				WPShortcodeExecPHP::Update_option(c_scep_option_enabled . $name[0], true);
-				WPShortcodeExecPHP::Update_option(c_scep_option_buffer . $name[0], false);
-				WPShortcodeExecPHP::Update_option(c_scep_option_phpcode . $name[0], "return 'Hello world!';");
+				WPShortcodeExecPHP::Update_option(c_scep_option_buffer . $name[0], true);
+				$phpcode = "extract(shortcode_atts(array('arg' => 'default'), \$atts));" . PHP_EOL;
+				$phpcode .= "echo \"Hello world!\" . PHP_EOL;" . PHP_EOL;
+				$phpcode .= "echo \"Arg=\" . \$arg . PHP_EOL;" . PHP_EOL;
+				$phpcode .= "echo \"Content=\" . \$content . PHP_EOL;" . PHP_EOL;
+				WPShortcodeExecPHP::Update_option(c_scep_option_phpcode . $name[0], $phpcode);
 			}
 
 			// Fix spelling mistake
@@ -899,8 +903,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				load_plugin_textdomain(c_scep_text_domain, false, basename(dirname($this->main_file)));
 
 				// Decode parameters
-				$name = $_REQUEST[c_scep_param_name];
-				$shortcode = trim($_REQUEST[c_scep_param_shortcode]);
+				$name = stripslashes($_REQUEST[c_scep_param_name]);
+				$shortcode = trim(stripslashes($_REQUEST[c_scep_param_shortcode]));
 				$enabled = ($_REQUEST[c_scep_param_enabled] == 'true');
 				$buffer = ($_REQUEST[c_scep_param_buffer] == 'true');
 				$phpcode = $_REQUEST[c_scep_param_phpcode];
@@ -914,7 +918,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					$names = WPShortcodeExecPHP::Get_option(c_scep_option_names);
 					for ($i = 0; $i < count($names); $i++)
 						if ($names[$i] == $name) {
-							remove_shortcode($name[$i]);
+							remove_shortcode($name);
+							WPShortcodeExecPHP::Delete_option(c_scep_option_enabled . $name);
+							WPShortcodeExecPHP::Delete_option(c_scep_option_buffer . $name);
+							WPShortcodeExecPHP::Delete_option(c_scep_option_phpcode . $name);
 							$names[$i] = $shortcode;
 							break;
 						}
