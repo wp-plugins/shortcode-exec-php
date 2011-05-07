@@ -784,7 +784,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<input name="<?php echo c_scep_form_enabled . $i; ?>" type="checkbox" <?php if ($enabled) echo 'checked="checked"'; ?>>
 			<span><?php _e('Output echoed', c_scep_text_domain) ?></span>
 			<input name="<?php echo c_scep_form_buffer . $i; ?>" type="checkbox" <?php if ($buffer) echo 'checked="checked"'; ?>></td></tr>
-			<tr><td><input class="scep_shortcode_description" name="<?php echo c_scep_form_description . $i; ?>" type="text" value="<?php echo $description ?>"></td></tr>
+			<tr><td><?php _e('Optional description:', c_scep_text_domain); ?><input class="scep_shortcode_description" name="<?php echo c_scep_form_description . $i; ?>" type="text" value="<?php echo $description ?>"></td></tr>
 <?php
 			$params = WPShortcodeExecPHP::Get_option(c_scep_option_param . $name);
 			if ($params) {
