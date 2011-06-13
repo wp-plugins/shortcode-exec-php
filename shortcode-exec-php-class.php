@@ -912,11 +912,29 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				// Load text domain
 				load_plugin_textdomain(c_scep_text_domain, false, basename(dirname($this->main_file)));
 
+				if (empty($_REQUEST[c_scep_param_enabled]))
+					$_REQUEST[c_scep_param_enabled] = false;
+				else if ($_REQUEST[c_scep_param_enabled] == 'true')
+					$_REQUEST[c_scep_param_enabled] = true;
+				else if ($_REQUEST[c_scep_param_enabled] == 'checked')
+					$_REQUEST[c_scep_param_enabled] = true;
+				else
+					$_REQUEST[c_scep_param_enabled] = false;
+
+				if (empty($_REQUEST[c_scep_param_buffer]))
+					$_REQUEST[c_scep_param_buffer] = false;
+				else if ($_REQUEST[c_scep_param_buffer] == 'true')
+					$_REQUEST[c_scep_param_buffer] = true;
+				else if ($_REQUEST[c_scep_param_buffer] == 'checked')
+					$_REQUEST[c_scep_param_buffer] = true;
+				else
+					$_REQUEST[c_scep_param_buffer] = false;
+
 				// Decode parameters
 				$name = stripslashes($_REQUEST[c_scep_param_name]);
 				$shortcode = trim(stripslashes($_REQUEST[c_scep_param_shortcode]));
-				$enabled = ($_REQUEST[c_scep_param_enabled] == 'true');
-				$buffer = ($_REQUEST[c_scep_param_buffer] == 'true');
+				$enabled = $_REQUEST[c_scep_param_enabled];
+				$buffer = $_REQUEST[c_scep_param_buffer];
 				$description = trim(stripslashes($_REQUEST[c_scep_param_description]));
 				$phpcode = $_REQUEST[c_scep_param_phpcode];
 				if (!WPShortcodeExecPHP::Get_option(c_scep_option_noent))
