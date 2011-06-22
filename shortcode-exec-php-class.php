@@ -912,6 +912,15 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				// Load text domain
 				load_plugin_textdomain(c_scep_text_domain, false, basename(dirname($this->main_file)));
 
+				if (empty($_REQUEST[c_scep_param_name]))
+					$_REQUEST[c_scep_param_name] = null;
+				if (empty($_REQUEST[c_scep_param_shortcode]))
+					$_REQUEST[c_scep_param_shortcode] = null;
+				if (empty($_REQUEST[c_scep_param_description]))
+					$_REQUEST[c_scep_param_description] = null;
+				if (empty($_REQUEST[c_scep_param_phpcode]))
+					$_REQUEST[c_scep_param_phpcode] = null;
+
 				if (empty($_REQUEST[c_scep_param_enabled]))
 					$_REQUEST[c_scep_param_enabled] = false;
 				else if ($_REQUEST[c_scep_param_enabled] == 'true')
