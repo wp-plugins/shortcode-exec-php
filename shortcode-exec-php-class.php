@@ -389,9 +389,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				echo '<div id="message" class="updated fade"><p><strong>' . __('Settings updated', c_scep_text_domain) . '</strong></p></div>';
 			}
 
-			// Sustainable Plugins Sponsorship Network
-			$this->Render_pluginsponsor();
-
 			echo '<div class="wrap">';
 
 			// Get shortcodes
@@ -823,19 +820,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 <?php
 		}
 
-		function Render_pluginsponsor() {
-			if (!WPShortcodeExecPHP::Get_option(c_scep_option_donated)) {
-?>
-				<script type="text/javascript">
-				var psHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-				document.write(unescape("%3Cscript src='" + psHost + "pluginsponsors.com/direct/spsn/display.php?client=shortcode-exec-php&spot=' type='text/javascript'%3E%3C/script%3E"));
-				</script>
-				<a id="scep_sponsorship" href="http://pluginsponsors.com/privacy.html" target=_blank">
-				<?php _e('Privacy in the Sustainable Plugins Sponsorship Network', c_scep_text_domain); ?></a>
-<?php
-			}
-		}
-
 		function Render_info_panel() {
 ?>
 			<div id="scep_resources_panel">
@@ -911,6 +895,15 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 				// Load text domain
 				load_plugin_textdomain(c_scep_text_domain, false, basename(dirname($this->main_file)));
+
+				if (empty($_REQUEST[c_scep_param_name]))
+					$_REQUEST[c_scep_param_name] = null;
+				if (empty($_REQUEST[c_scep_param_shortcode]))
+					$_REQUEST[c_scep_param_shortcode] = null;
+				if (empty($_REQUEST[c_scep_param_description]))
+					$_REQUEST[c_scep_param_description] = null;
+				if (empty($_REQUEST[c_scep_param_phpcode]))
+					$_REQUEST[c_scep_param_phpcode] = null;
 
 				if (empty($_REQUEST[c_scep_param_enabled]))
 					$_REQUEST[c_scep_param_enabled] = false;
