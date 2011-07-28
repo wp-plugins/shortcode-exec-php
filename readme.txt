@@ -116,6 +116,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 = 1.33 =
 * Improvement: removed dependency on *PLUGINDIR*
 * Changed to minimum WordPress version 3.1
+* Updated Norwegian (nb\_NO) translation by [Stein Ivar Johnsen](http://www.idyrøy.no/ "Stein Ivar Johnsen")
 
 = 1.32 =
 * Added *Sustainable Plugins Sponsorship Network* again
