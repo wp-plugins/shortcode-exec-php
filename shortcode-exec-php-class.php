@@ -155,8 +155,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 				// Enqueue scripts
 				wp_enqueue_script('jquery');
-				$plugin_dir = '/' . PLUGINDIR .  '/' . basename(dirname($this->main_file));
-				wp_enqueue_script('editarea', $plugin_dir . '/editarea/edit_area/edit_area_full.js');
+				wp_enqueue_script('editarea', $this->plugin_url . '/editarea/edit_area/edit_area_full.js');
 
 				// Enqueue style sheet
 				$css_name = $this->Change_extension(basename($this->main_file), '.css');
