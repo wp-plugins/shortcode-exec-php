@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Shortcode Exec PHP\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/shortcode-exec-php\n"
 "POT-Creation-Date: 2010-04-19 05:47+0000\n"
-"PO-Revision-Date: 2011-05-07 11:03+0100\n"
+"PO-Revision-Date: 2011-07-16 08:35+0100\n"
 "Last-Translator: Marcel Bokhorst <marcel@bokhorst.biz>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -151,4 +151,7 @@ msgstr "Vereiste capability voor auteurs om shortcodes uit te voeren"
 
 msgid "Optional description:"
 msgstr "Optionele beschrijving:"
+
+msgid "I don't want to support this plugin with the Sustainable Plugins Sponsorship Network"
+msgstr "Ik wil deze plugin niet ondersteunen met het Sustainable Plugins Sponsorship Network"
 
