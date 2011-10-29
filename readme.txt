@@ -19,6 +19,7 @@ Advantages over other solutions:
 1. All PHP code is organized at one place
 1. [Syntax highlighting](http://en.wikipedia.org/wiki/Syntax_highlighting "Syntax highlighting")
 1. You can test your PHP code before using it
+1. Import/export available
 
 For those concerned about security (hopefully everybody): only administrators can define shortcodes and associated PHP code (see also the [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")).
 
