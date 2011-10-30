@@ -117,6 +117,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 = 1.34 =
 * New feature: import/export (requires [SimpleXML](http://php.net/manual/en/book.simplexml.php "SimpleXML"))
 * Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
+* Updated Norwegian (nb\_NO) translation by [Stein Ivar Johnsen](http://www.idyrøy.no/ "Stein Ivar Johnsen")
 * Tested with WordPress 3.3
 
 = 1.33 =
