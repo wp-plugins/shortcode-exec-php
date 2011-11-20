@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
 Tested up to: 3.3
-Stable tag: 1.34
+Stable tag: 1.35
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -113,6 +113,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 1. Shortcode exec PHP
 
 == Changelog ==
+
+= 1.35 =
+* Bugfix: no EditArea on network sites
 
 = 1.34 =
 * New feature: import/export (requires [SimpleXML](http://php.net/manual/en/book.simplexml.php "SimpleXML"))
@@ -300,6 +303,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.35 =
+One bugfix
 
 = 1.34 =
 One new feature, compatibility

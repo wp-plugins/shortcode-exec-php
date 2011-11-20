@@ -290,7 +290,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		function Admin_menu() {
 			if (WPShortcodeExecPHP::Is_multisite()) {
 				if (function_exists('add_submenu_page'))
-					$plugin_page = add_submenu_page(
+					$tools_page = add_submenu_page(
 						'wpmu-admin.php',
 						__('Shortcode Exec PHP Administration', c_scep_text_domain),
 						__('Shortcode Exec PHP', c_scep_text_domain),
@@ -299,14 +299,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						array(&$this, 'Administration'));
 			}
 			else {
-				//if (function_exists('add_options_page'))
-				//	$plugin_page = add_options_page(
-				//		__('Shortcode Exec PHP Administration', c_scep_text_domain),
-				//		__('Shortcode Exec PHP', c_scep_text_domain),
-				//		'manage_options',
-				//		$this->main_file,
-				//		array(&$this, 'Administration'));
-
 				if (function_exists('add_submenu_page'))
 					$tools_page = add_submenu_page(
 						'tools.php',
@@ -318,8 +310,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			}
 
 			// Hook admin head for option page
-			//if (!empty($plugin_page))
-			//	add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
 			if (!empty($tools_page))
 				add_action('admin_head-' . $tools_page, array(&$this, 'Admin_head'));
 		}
