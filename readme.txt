@@ -114,6 +114,10 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 == Changelog ==
 
+= Development version =
+* Bugfix: PHP 4 compatibility
+* You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
+
 = 1.35 =
 * Bugfix: no EditArea on network sites
 
@@ -303,6 +307,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.36 =
+Compatibility
 
 = 1.35 =
 One bugfix
