@@ -67,7 +67,7 @@ define('c_scep_nonce_ajax', 'scep-nonce-ajax');
 // http://coffeerings.posterous.com/php-simplexml-and-cdata
 if (class_exists('SimpleXMLElement')) {
 	class SimpleXMLExtended extends SimpleXMLElement {
-		public addCData($cdata_text) {
+		function addCData($cdata_text) {
 			$node = dom_import_simplexml($this);
 			$n = $node->ownerDocument;
 			$node->appendChild($n->createCDATASection($cdata_text));
