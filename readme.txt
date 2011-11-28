@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
 Tested up to: 3.3
-Stable tag: 1.36
+Stable tag: 1.37
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -116,6 +116,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 = Development version =
 * You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
+
+= 1.37 =
+* Removed [Sustainable Plugins Sponsorship Network](http://pluginsponsors.com/)
 
 = 1.36 =
 * Bugfix: PHP 4 compatibility
@@ -309,6 +312,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.37 =
+Compliance
 
 = 1.36 =
 Compatibility
