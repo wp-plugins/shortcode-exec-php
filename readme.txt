@@ -115,6 +115,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 == Changelog ==
 
 = Development version =
+* Updated Chinese (zh\_CN) translation by [yinrenjieone](http:// "yinrenjieone")
 * You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
 
 = 1.37 =
