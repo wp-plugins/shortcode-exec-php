@@ -15,6 +15,7 @@ define('c_scep_option_excerpt', 'scep_excerpt');
 define('c_scep_option_comment', 'scep_comment');
 define('c_scep_option_rss', 'scep_rss');
 define('c_scep_option_noent', 'scep_noent');
+define('c_scep_option_noautop', 'scep_noautop');
 define('c_scep_option_cleanup', 'scep_cleanup');
 define('c_scep_option_donated', 'scep_donated');
 define('c_scep_option_codewidth', 'scep_codewidth');
@@ -138,6 +139,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					add_filter('comment_text_rss', 'do_shortcode');
 			}
 
+			// wpautop handling
+			if (WPShortcodeExecPHP::Get_option(c_scep_option_noautop)) {
+				add_filter('the_content', array(&$this, 'noautop'), 1);
+				add_filter('the_excerpt', array(&$this, 'noautop'), 1);
+			}
+
 			// Wire shortcode handlers
 			$name = WPShortcodeExecPHP::Get_option(c_scep_option_names);
 			for ($i = 0; $i < count($name); $i++)
@@ -244,6 +251,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				WPShortcodeExecPHP::Delete_option(c_scep_option_comment);
 				WPShortcodeExecPHP::Delete_option(c_scep_option_rss);
 				WPShortcodeExecPHP::Delete_option(c_scep_option_noent);
+				WPShortcodeExecPHP::Delete_option(c_scep_option_noautop);
 				WPShortcodeExecPHP::Delete_option(c_scep_option_codewidth);
 				WPShortcodeExecPHP::Delete_option(c_scep_option_codeheight);
 				WPShortcodeExecPHP::Delete_option(c_scep_option_editarea_later);
@@ -353,6 +361,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						$_POST[c_scep_option_rss] = null;
 					if (empty($_POST[c_scep_option_noent]))
 						$_POST[c_scep_option_noent] = null;
+					if (empty($_POST[c_scep_option_noautop]))
+						$_POST[c_scep_option_noautop] = null;
 					if (empty($_POST[c_scep_option_editarea_later]))
 						$_POST[c_scep_option_editarea_later] = null;
 					if (empty($_POST[c_scep_option_tinymce]))
@@ -370,6 +380,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					WPShortcodeExecPHP::Update_option(c_scep_option_comment, $_POST[c_scep_option_comment]);
 					WPShortcodeExecPHP::Update_option(c_scep_option_rss, $_POST[c_scep_option_rss]);
 					WPShortcodeExecPHP::Update_option(c_scep_option_noent, $_POST[c_scep_option_noent]);
+					WPShortcodeExecPHP::Update_option(c_scep_option_noautop, $_POST[c_scep_option_noautop]);
 					WPShortcodeExecPHP::Update_option(c_scep_option_codewidth, trim($_POST[c_scep_option_codewidth]));
 					WPShortcodeExecPHP::Update_option(c_scep_option_codeheight, trim($_POST[c_scep_option_codeheight]));
 					WPShortcodeExecPHP::Update_option(c_scep_option_editarea_later, $_POST[c_scep_option_editarea_later]);
@@ -438,7 +449,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$scep_excerpt = (WPShortcodeExecPHP::Get_option(c_scep_option_excerpt) ? 'checked="checked"' : '');
 			$scep_comment = (WPShortcodeExecPHP::Get_option(c_scep_option_comment) ? 'checked="checked"' : '');
 			$scep_rss = (WPShortcodeExecPHP::Get_option(c_scep_option_rss) ? 'checked="checked"' : '');
-			$scep_noent	= (WPShortcodeExecPHP::Get_option(c_scep_option_noent) ? 'checked="checked"' : '');
+			$scep_noent = (WPShortcodeExecPHP::Get_option(c_scep_option_noent) ? 'checked="checked"' : '');
+			$scep_noautop = (WPShortcodeExecPHP::Get_option(c_scep_option_noautop) ? 'checked="checked"' : '');
 			$scep_width = (WPShortcodeExecPHP::Get_option(c_scep_option_codewidth));
 			$scep_height = (WPShortcodeExecPHP::Get_option(c_scep_option_codeheight));
 			$scep_editarea_later = (WPShortcodeExecPHP::Get_option(c_scep_option_editarea_later) ? 'checked="checked"' : '');
@@ -505,6 +517,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				<label for="scep_option_noent"><?php _e('Disable html entity encoding', c_scep_text_domain); ?></label>
 			</th><td>
 				<input id="scep_option_noent" name="<?php echo c_scep_option_noent; ?>" type="checkbox"<?php echo $scep_noent; ?> />
+			</td></tr>
+
+			<tr valign="top"><th scope="row">
+				<label for="scep_option_noautop"><?php _e('Disable wpautop', c_scep_text_domain); ?></label>
+			</th><td>
+				<input id="scep_option_noautop" name="<?php echo c_scep_option_noautop; ?>" type="checkbox"<?php echo $scep_noautop; ?> />
 			</td></tr>
 
 			<tr valign="top"><th scope="row">
@@ -1164,7 +1182,14 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				WPShortcodeExecPHP::Update_option(c_scep_option_names, $names);
 			}
 			return $count;
-  		}
+		}
+
+		// Disable wpautop
+		function noautop($content) {
+			remove_filter('the_content', 'wpautop');
+			remove_filter('the_excerpt', 'wpautop');
+			return $content;
+		}
 
 		// TinyMCE integration
 
