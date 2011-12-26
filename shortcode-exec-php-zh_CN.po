@@ -8,174 +8,172 @@ msgstr ""
 "Project-Id-Version: Shortcode Exec PHP\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/shortcode-exec-php\n"
 "POT-Creation-Date: 2010-04-19 05:47+0000\n"
-"PO-Revision-Date: 2011-12-25 15:38+0100\n"
+"PO-Revision-Date: 2011-12-08 08:50+0100\n"
 "Last-Translator: Marcel Bokhorst\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Dutch\n"
-"X-Poedit-Country: BELGIUM\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 msgid "Shortcode Exec PHP Administration"
-msgstr "Shortcode Exec PHP Administratie"
+msgstr "Shortcode Exec PHP 管理"
 
 msgid "Shortcode Exec PHP"
 msgstr "Shortcode Exec PHP"
 
 msgid "Settings updated"
-msgstr "Instellingen bijgewerkt"
+msgstr "设置已更新"
 
 msgid "Options"
-msgstr "Opties"
+msgstr "选项"
 
 msgid "Make shortcodes global"
-msgstr "Maak shortcodes globaal"
+msgstr "制作全局简码"
 
 msgid "Execute shortcodes in (sidebar) widgets"
-msgstr "Voer shortcodes in (sidebar) widgets uit"
+msgstr "在侧边栏小工具中运行简码"
 
 msgid "Execute shortcodes in excerpts"
-msgstr "Voer shortcodes in samenvattingen uit"
+msgstr "在摘要中运行简码"
 
 msgid "Execute shortcodes in comments"
-msgstr "Voer shortcodes in commentaar uit"
+msgstr "在评论中运行简码"
 
 msgid "Execute shortcodes in RSS feeds"
-msgstr "Voer shortcodes in RSS feeds uit"
+msgstr "在 RSS feeds 中运行简码"
 
 msgid "Disable html entity encoding"
-msgstr "Zet html entity encoding uit"
+msgstr "禁用HTML实体编码"
 
 msgid "Width of code box"
-msgstr "Breedte van de code box"
+msgstr "代码盒宽度"
 
 msgid "Height of code box"
-msgstr "Hoogte van de code box"
+msgstr "代码盒高度"
 
 msgid "Do not display code editor initially"
-msgstr "Toon code editor initiëel niet"
+msgstr "打开此页面时不显示代码编辑器"
 
 msgid "Delete options and shortcodes on deactivation (and when upgrading!)"
-msgstr "Verwijder opties en shortcodes bij het deactiveren (en bij upgraden!)"
+msgstr "删除选项和无效的简码（升级时！）"
 
 msgid "I have donated to this plugin"
-msgstr "Ik heb gedoneerd voor deze plugin"
+msgstr "我已经捐赠了这个插件"
 
 msgid "Save Changes"
-msgstr "Bewaar wijzigingen"
+msgstr "保存"
 
 msgid "Shortcodes"
-msgstr "Shortcodes"
+msgstr "简码"
 
 msgid "Add"
-msgstr "Toevoegen"
+msgstr "添加"
 
 msgid "Error"
-msgstr "Fout"
+msgstr "错误"
 
 msgid "Are you sure to delete"
-msgstr "Zeker weten verwijderen"
+msgstr "确定删除"
 
 msgid "Enabled"
-msgstr "Aan"
+msgstr "可用"
 
 msgid "Output echoed"
-msgstr "Uitvoer met echo"
+msgstr "输出回显"
 
 msgid "Save"
-msgstr "Bewaar"
+msgstr "保存"
 
 msgid "Test"
-msgstr "Test"
+msgstr "测试"
 
 msgid "Revert"
-msgstr "Terugdraaien"
+msgstr "重置"
 
 msgid "Delete"
-msgstr "Verwijderen"
+msgstr "删除"
 
 msgid "Privacy in the Sustainable Plugins Sponsorship Network"
-msgstr "Privacy binnen het Sustainable Plugins Sponsorship Network"
+msgstr "不在赞助名单中显示"
 
 msgid "Resources"
-msgstr "Bronnen"
+msgstr "资源"
 
 msgid "Frequently asked questions"
-msgstr "Vaak gestelde vragen"
+msgstr "FAQ"
 
 msgid "Shortcode API"
 msgstr "Shortcode API"
 
 msgid "PHP manual"
-msgstr "PHP handboek"
+msgstr "PHP 手册"
 
 msgid "Support page"
-msgstr "Support pagina"
+msgstr "支持"
 
 msgid "About the author"
-msgstr "Over de auteur"
+msgstr "关于"
 
 msgid "Saved"
-msgstr "Bewaard"
+msgstr "已保存"
 
 msgid "Unexpected output, do not use ECHO but RETURN"
-msgstr "Onverwachte uitvoer, gebruik geen ECHO maar RETURN"
+msgstr "意外的输出，不使用echo，但返回"
 
 msgid "not enabled"
-msgstr "niet aan"
+msgstr "禁能"
 
 msgid "Shortcode exists"
-msgstr "Shortcode bestaat"
+msgstr "简码存在"
 
 msgid "Name missing"
-msgstr "Naam mist"
+msgstr "名称缺失"
 
 msgid "Insert"
-msgstr "Invoegen"
+msgstr "插入"
 
 msgid "Add button to TinyMCE editor"
-msgstr "Voeg knop toe aan TinyMCE editor"
+msgstr "为 TinyMCE 编辑器添加按钮"
 
 msgid "Required capability for TinyMCE button"
-msgstr "Vereiste capability voor TinyMCE button"
+msgstr "TinyMCE的按钮权限设置"
 
 msgid "Last attributes:"
-msgstr "Laatste attributen:"
+msgstr "最后的属性："
 
 msgid "Go to"
-msgstr "Ga naar"
+msgstr "转到"
 
 msgid "Required capability for authors to execute shortcodes"
-msgstr "Vereiste capability voor auteurs om shortcodes uit te voeren"
+msgstr "作者权限设置"
 
 msgid "Optional description:"
-msgstr "Optionele beschrijving:"
+msgstr "描述（选填）："
 
 msgid "I don't want to support this plugin with the Sustainable Plugins Sponsorship Network"
-msgstr "Ik wil deze plugin niet ondersteunen met het Sustainable Plugins Sponsorship Network"
+msgstr "我不想通过 Sustainable Plugins Sponsorship Network 赞助这个插件"
 
 msgid "Import/export"
-msgstr "Importeren/exporteren"
+msgstr "导入/导出"
 
 msgid "Try right click if it doesn't work"
-msgstr "Probeer rechterklik als het niet werkt"
+msgstr "如果无效请尝试右键点击"
 
 msgid "Export"
-msgstr "Exporteren"
+msgstr "导出"
 
 msgid "Existing shortcodes with the same name will be overwritten!"
-msgstr "Bestaande shortcodes met dezelfde naam zullen worden overschreven!"
+msgstr "具有相同名称的现有的简码将被覆盖！"
 
 msgid "Import"
-msgstr "Importeren"
+msgstr "导入"
 
 msgid "Only available if SimpleXML available"
-msgstr "Alleen beschikbaar als SimpleXML beschikbaar"
+msgstr "仅当 SimpleXML 可用时激活"
 
 msgid "Shortcodes imported:"
-msgstr "Shortcodes geïmporteerd:"
-
-msgid "Disable wpautop"
-msgstr "Zet wpautop uit"
+msgstr "简码导入："
 
