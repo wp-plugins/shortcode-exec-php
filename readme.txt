@@ -119,6 +119,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 
 = 1.38 =
 * New feature: option to disable [wpautop](http://codex.wordpress.org/Function_Reference/wpautop "wpautop")
+* Updated support page
 * Updated Chinese (zh\_CN) translation by [Jie](http://thejie.org/ "Jie")
 * Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
 * You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
