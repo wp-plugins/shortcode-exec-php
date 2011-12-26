@@ -122,6 +122,7 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Updated support page
 * Updated Chinese (zh\_CN) translation by [Jie](http://thejie.org/ "Jie")
 * Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
+* Updated Norwegian (nb\_NO) translation by [Stein Ivar Johnsen](http://www.idyrøy.no/ "Stein Ivar Johnsen")
 * You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
 
 = 1.37 =
