@@ -2,7 +2,7 @@
 
 /*
 	Support class Shortcode Exec PHP Plugin
-	Copyright (c) 2010, 2011 by Marcel Bokhorst
+	Copyright (c) 2010, 2011, 2012 by Marcel Bokhorst
 */
 
 if (!function_exists('is_plugin_active_for_network'))
@@ -300,7 +300,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						'wpmu-admin.php',
 						__('Shortcode Exec PHP Administration', c_scep_text_domain),
 						__('Shortcode Exec PHP', c_scep_text_domain),
-						'manage_network',
+						is_plugin_active_for_network(plugin_basename($this->main_file)) ? 'manage_network' : 'manage_options',
 						$this->main_file,
 						array(&$this, 'Administration'));
 			}
