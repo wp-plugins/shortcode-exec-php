@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 1.39
+Stable tag: 1.41
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -117,9 +117,12 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 = Development version =
 * ...
 
-= 1.39 =
-* Bugfix: require *manage_options* capability when site activate on a multisite network
+= 1.41 =
+* Bugfix: require *manage_options* capability when site activated on a multisite network
 * Note: PHP4 support will be dropped from the next release
+
+= 1.39 =
+* Bugfix: require *manage_options* capability when site activated on a multisite network
 
 = 1.38 =
 * New feature: option to disable [wpautop](http://codex.wordpress.org/Function_Reference/wpautop "wpautop")
@@ -324,6 +327,9 @@ You can write a comment on the [support page](http://blog.bokhorst.biz/3626/comp
 * Development version
 
 == Upgrade Notice ==
+
+= 1.41 =
+One bugfix
 
 = 1.39 =
 One bugfix

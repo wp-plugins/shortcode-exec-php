@@ -338,7 +338,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		// Handle option page
 		function Administration() {
 			// Secirity check
-			if (!current_user_can(WPShortcodeExecPHP::Is_multisite() ? 'manage_network' : 'manage_options'))
+			if (!current_user_can(
+				WPShortcodeExecPHP::Is_multisite() && is_plugin_active_for_network(plugin_basename($this->main_file)) 
+				? 'manage_network' : 'manage_options'))
 				die('Unauthorized');
 
 			// Check post back
