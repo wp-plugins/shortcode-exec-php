@@ -106,7 +106,7 @@ If I am around I am happy to help you with your code, see next question.
 
 = Where can I ask questions, report bugs and request features? =
 
-You can write a comment on the [support page](http://blog.bokhorst.biz/3626/computers-en-internet/wordpress-plugin-shortcode-exec-php/ "Marcel's weblog").
+You can write a comment in the [the forum](http://forum.bokhorst.biz/).
 
 == Screenshots ==
 
