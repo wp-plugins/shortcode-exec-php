@@ -176,6 +176,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				// Enqueue scripts
 				wp_enqueue_script('jquery');
 				wp_enqueue_script('editarea', $this->plugin_url . '/editarea/edit_area/edit_area_full.js');
+				wp_enqueue_script('simplemodal', $this->plugin_url . '/simplemodal/js/jquery.simplemodal.js');
 
 				// Enqueue style sheet
 				$css_name = $this->Change_extension(basename($this->main_file), '.css');
@@ -187,6 +188,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					$css_url = $this->plugin_url . '/' . $css_name;
 				wp_register_style('scep_style', $css_url);
 				wp_enqueue_style('scep_style');
+
+				wp_register_style('simplemodal', $this->plugin_url . '/simplemodal/css/basic.css');
+				wp_enqueue_style('simplemodal');
 
 				// Make sure capabilities are set
 				if (!WPShortcodeExecPHP::Get_option(c_scep_option_tinymce_cap))
@@ -339,7 +343,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		function Administration() {
 			// Secirity check
 			if (!current_user_can(
-				WPShortcodeExecPHP::Is_multisite() && is_plugin_active_for_network(plugin_basename($this->main_file)) 
+				WPShortcodeExecPHP::Is_multisite() && is_plugin_active_for_network(plugin_basename($this->main_file))
 				? 'manage_network' : 'manage_options'))
 				die('Unauthorized');
 
@@ -809,8 +813,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							input.removeAttr('disabled');
 							editAreaLoader.execCommand(editid, 'set_editable', true);
 
-							if (action == '<?php echo c_scep_action_test; ?>')
+							if (action == '<?php echo c_scep_action_test; ?>') {
 								alert(result);
+							}
 							else if (action == '<?php echo c_scep_action_revert; ?>')
 								editAreaLoader.setValue(editid, result);
 							else if (action == '<?php echo c_scep_action_delete; ?>')
