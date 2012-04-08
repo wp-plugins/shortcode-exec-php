@@ -115,7 +115,7 @@ You can write a comment in the [the forum](http://forum.bokhorst.biz/).
 == Changelog ==
 
 = Development version =
-* ...
+* Added [Pro version](http://scepro.bokhorst.biz/ "Pro version")
 
 = 1.41 =
 * Bugfix: require *manage_options* capability when site activated on a multisite network
