@@ -26,6 +26,7 @@ define('c_scep_option_editarea_later', 'scep_editarea_later');
 define('c_scep_option_tinymce', 'scep_tinymce');
 define('c_scep_option_tinymce_cap', 'scep_tinymce_cap');
 define('c_scep_option_author_cap', 'scep_author_cap');
+define('c_scep_option_procode', 'scep_procode');
 
 define('c_scep_option_names', 'scep_names');
 define('c_scep_option_deleted', 'scep_deleted');
@@ -177,6 +178,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				wp_enqueue_script('jquery');
 				wp_enqueue_script('editarea', $this->plugin_url . '/editarea/edit_area/edit_area_full.js');
 				wp_enqueue_script('simplemodal', $this->plugin_url . '/simplemodal/js/jquery.simplemodal.js');
+				$procode = WPShortcodeExecPHP::Get_option(c_scep_option_procode);
+				if (!empty($procode))
+					wp_enqueue_script('scepro', 'http://updates.bokhorst.biz/scepro?url=' . urlencode(self::Get_url()) . '&code=' .urlencode($procode));
 
 				// Enqueue style sheet
 				$css_name = $this->Change_extension(basename($this->main_file), '.css');
@@ -352,7 +356,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				// Check security
 				check_admin_referer(c_scep_nonce_form);
 
-				if (isset($_REQUEST['scep_action']) && $_REQUEST['scep_action'] == 'import')
+				if (isset($_POST['scep_action']) && $_POST['scep_action'] == 'import')
 					echo '<div id="message" class="updated fade"><p><strong>' .  __('Shortcodes imported:', c_scep_text_domain) . ' ' . $this->imported . '</strong></p></div>';
 				else {
 					if (empty($_POST[c_scep_option_global]))
@@ -415,6 +419,11 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 					echo '<div id="message" class="updated fade"><p><strong>' . __('Settings updated', c_scep_text_domain) . '</strong></p></div>';
 				}
+			}
+
+			if (isset($_REQUEST['procode'])) {
+				WPShortcodeExecPHP::Update_option(c_scep_option_procode, $_REQUEST['procode']);
+				echo '<div id="message" class="updated fade"><p><strong>' . __('Code stored', c_scep_text_domain) . '</strong></p></div>';
 			}
 
 			echo '<div class="wrap">';
@@ -652,13 +661,24 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				</td></tr>
 				</table>
 <?php
-		}
-		else {
+			}
+			else {
 ?>
-			<p><?php _e('Only available if SimpleXML available', c_scep_text_domain); ?></p>
-			<br />
+				<p><?php _e('Only available if SimpleXML available', c_scep_text_domain); ?></p>
+				<br />
 <?php
-		}
+			}
+
+			$procode = WPShortcodeExecPHP::Get_option(c_scep_option_procode);
+			if (empty($procode)) {
+				$charset = get_bloginfo('charset');
+				echo '<div id="scep_pro">';
+				echo '<h3>Pro version</h3>';
+				echo '<p>With the <a href="http://scepro.bokhorst.biz?url=' . urlencode(self::Get_url()) . '" target="_blank">Pro version</a>';
+				echo ' you get <a href="http://en.wikipedia.org/wiki/WYSIWYG" target="_blank">WYSIWYG</a> when testing shortcodes</p>';
+				echo '<span style="color: red;">' .  htmlspecialchars(self::Get_url(), ENT_QUOTES, $charset) . '</span><br>';
+				echo '</div>';
+			}
 ?>
 			<h3><?php _e('Shortcodes', c_scep_text_domain); ?></h3>
 <?php
@@ -813,9 +833,11 @@ if (!class_exists('WPShortcodeExecPHP')) {
 							input.removeAttr('disabled');
 							editAreaLoader.execCommand(editid, 'set_editable', true);
 
-							if (action == '<?php echo c_scep_action_test; ?>') {
-								alert(result);
-							}
+							if (action == '<?php echo c_scep_action_test; ?>')
+								if (typeof scepro == 'function')
+									scepro($, result);
+								else
+									alert(result);
 							else if (action == '<?php echo c_scep_action_revert; ?>')
 								editAreaLoader.setValue(editid, result);
 							else if (action == '<?php echo c_scep_action_delete; ?>')
@@ -1308,6 +1330,17 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		function Is_multisite() {
 			global $wpmu_version;
 			return (function_exists('is_multisite') && is_multisite()) || !empty($wpmu_version);
+		}
+
+		function Get_url() {
+			if (is_multisite()) {
+				$current_site = get_current_site();
+				$blog_details = get_blog_details($current_site->blog_id, true);
+				$main_site_url = strtolower(trailingslashit($blog_details->siteurl));
+				return $main_site_url;
+			}
+			else
+				return strtolower(trailingslashit(get_site_url()));
 		}
 
 		// Helper check environment
