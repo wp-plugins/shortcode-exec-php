@@ -422,7 +422,9 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			}
 
 			if (isset($_REQUEST['procode'])) {
-				WPShortcodeExecPHP::Update_option(c_scep_option_procode, $_REQUEST['procode']);
+				$procode = $_REQUEST['procode'];
+				WPShortcodeExecPHP::Update_option(c_scep_option_procode, $procode);
+				WPShortcodeExecPHP::Update_option(c_scep_option_donated, !empty($procode));
 				echo '<div id="message" class="updated fade"><p><strong>' . __('Code stored', c_scep_text_domain) . '</strong></p></div>';
 			}
 
