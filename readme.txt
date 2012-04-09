@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
 Tested up to: 3.3.1
-Stable tag: 1.41
+Stable tag: 1.42
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -115,7 +115,10 @@ You can write a comment in the [the forum](http://forum.bokhorst.biz/).
 == Changelog ==
 
 = Development version =
-* Added [Pro version](http://scepro.bokhorst.biz/ "Pro version")
+* ...
+
+= 1.42 =
+* Added link to [Pro version](http://scepro.bokhorst.biz/ "Shortcode Exec PHP Pro")
 
 = 1.41 =
 * Bugfix: require *manage_options* capability when site activated on a multisite network
@@ -327,6 +330,9 @@ You can write a comment in the [the forum](http://forum.bokhorst.biz/).
 * Development version
 
 == Upgrade Notice ==
+
+= 1.42
+Added link to Pro version
 
 = 1.41 =
 One bugfix
