@@ -25,7 +25,7 @@ For those concerned about security (hopefully everybody): only administrators ca
 
 Please report any issue you have with this plugin in [the forum](http://forum.bokhorst.biz/).
 
-See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
+See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst")
 
 == Installation ==
 
