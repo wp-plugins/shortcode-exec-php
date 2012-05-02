@@ -115,7 +115,7 @@ You can write a comment in the [the forum](http://forum.bokhorst.biz/).
 == Changelog ==
 
 = Development version =
-* ...
+* Added Lithuanian (lt\_LT) by [Host1Free](http://www.host1free.com/ "Host1Free")
 
 = 1.43 =
 * Bugfix: added missing file
