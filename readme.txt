@@ -110,6 +110,8 @@ If I am around I am happy to help you with your code, see next question.
 
 You can write a comment in the [the forum](http://forum.bokhorst.biz/).
 
+**From May 15, 2012 only the [Pro version](http://www.faircode.eu/scepro/) will be supported**
+
 == Screenshots ==
 
 1. Shortcode exec PHP
