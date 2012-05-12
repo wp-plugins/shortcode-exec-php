@@ -929,7 +929,8 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<li><a href="http://wordpress.org/extend/plugins/shortcode-exec-php/faq/" target="_blank"><?php _e('Frequently asked questions', c_scep_text_domain); ?></a></li>
 			<li><a href="http://codex.wordpress.org/Shortcode_API" target="_blank"><?php _e('Shortcode API', c_scep_text_domain); ?></a></li>
 			<li><a href="http://www.php.net/manual/" target="_blank"><?php _e('PHP manual', c_scep_text_domain); ?></a></li>
-			<li><a href="http://forum.bokhorst.biz/shortcode-exec-php/" target="_blank"><?php _e('Support page', c_scep_text_domain); ?></a></li>
+			<li><a href="http://www.faircode.eu/scepro/" target="_blank"><?php _e('Pro version', c_scep_text_domain); ?></a></li>
+			<li><a href="http://www.faircode.eu/scepro/" target="_blank"><?php _e('Support page', c_scep_text_domain); ?></a></li>
 			<li><a href="http://blog.bokhorst.biz/about/" target="_blank"><?php _e('About the author', c_scep_text_domain); ?></a></li>
 			</ul>
 <?php		if (!WPShortcodeExecPHP::Get_option(c_scep_option_donated)) { ?>
