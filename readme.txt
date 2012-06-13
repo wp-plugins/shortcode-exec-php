@@ -23,7 +23,7 @@ Advantages over other solutions:
 
 For those concerned about security (hopefully everybody): only administrators can define shortcodes and associated PHP code (see also the [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")).
 
-Please report any issue you have with this plugin in [the forum](http://forum.bokhorst.biz/).
+Please report any issue you have with this plugin in [the forum](http://forum.faircode.eu/).
 
 See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
 
@@ -106,11 +106,10 @@ The post or page author has insufficient privileges to execute shortcodes.
 
 Note that your code is not directly executed in the WordPress environment, but in a function.
 This means for example that a *global $wpdb;* is needed to access the [database class](http://codex.wordpress.org/Function_Reference/wpdb_Class "wpdb class").
-If I am around I am happy to help you with your code, see next question.
 
 = Where can I ask questions, report bugs and request features? =
 
-You can write a comment in the [the forum](http://forum.bokhorst.biz/).
+You can use the [the forum](http://forum.faircode.eu/).
 
 == Screenshots ==
 
@@ -125,7 +124,7 @@ You can write a comment in the [the forum](http://forum.bokhorst.biz/).
 * Bugfix: added missing file
 
 = 1.42 =
-* Added link to [Pro version](http://scepro.bokhorst.biz/ "Shortcode Exec PHP Pro")
+* Added link to [Pro version](http://www.faircode.eu/scepro/ "Shortcode Exec PHP Pro")
 
 = 1.41 =
 * Bugfix: require *manage_options* capability when site activated on a multisite network
