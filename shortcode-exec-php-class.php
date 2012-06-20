@@ -180,7 +180,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				wp_enqueue_script('simplemodal', $this->plugin_url . '/simplemodal/js/jquery.simplemodal.js');
 				$procode = WPShortcodeExecPHP::Get_option(c_scep_option_procode);
 				if (!empty($procode))
-					wp_enqueue_script('scepro', 'http://updates.bokhorst.biz/scepro?url=' . urlencode(self::Get_url()) . '&code=' .urlencode($procode));
+					wp_register_script('scepro', 'http://updates.faircode.eu/scepro?url=' . urlencode(self::Get_url()) . '&code=' .urlencode($procode));
 
 				// Enqueue style sheet
 				$css_name = $this->Change_extension(basename($this->main_file), '.css');
@@ -324,8 +324,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			}
 
 			// Hook admin head for option page
-			if (!empty($tools_page))
+			if (!empty($tools_page)) {
 				add_action('admin_head-' . $tools_page, array(&$this, 'Admin_head'));
+				add_action('admin_print_styles-' . $tools_page, array(&$this, 'Print_scripts'));
+			}
 		}
 
 		function Admin_menu_network() {
@@ -339,8 +341,14 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					array(&$this, 'Administration'));
 
 			// Hook admin head for option page
-			if (!empty($plugin_page))
+			if (!empty($plugin_page)) {
 				add_action('admin_head-' . $plugin_page, array(&$this, 'Admin_head'));
+				add_action('admin_print_styles-' . $plugin_page, array(&$this, 'Print_scripts'));
+			}
+		}
+
+		function Print_scripts() {
+			wp_enqueue_script('scepro');
 		}
 
 		// Handle option page
