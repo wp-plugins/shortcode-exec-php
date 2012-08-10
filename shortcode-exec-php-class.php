@@ -694,8 +694,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			<table>
 			<tr><td>[<input name="<?php echo c_scep_form_shortcode; ?>0" type="text" value="">]</td></tr>
 			<tr><td><textarea class="scep_table_code" name="<?php echo c_scep_form_phpcode; ?>0" id="<?php echo c_scep_form_phpcode; ?>0"
-			style="width:<?php echo $scep_width; ?>px;height:<?php echo $scep_height; ?>px;" >
-			</textarea></td></tr>
+			style="width:<?php echo $scep_width; ?>px;height:<?php echo $scep_height; ?>px;"></textarea></td></tr>
 			<tr><td align="right">
 			<span name="scep_message" class="scep_message"></span>
 			<img src="<?php echo $this->plugin_url  . '/img/ajax-loader.gif'; ?>" alt="wait" name="scep_wait" style="display: none;" />
@@ -888,8 +887,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			}
 ?>
 			<tr><td><textarea name="<?php echo c_scep_form_phpcode . $i; ?>" id="<?php echo c_scep_form_phpcode . $i; ?>"
-			style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"
-			><?php echo htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
+			style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"><?php echo htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
 			<tr><td align="right">
 			<span name="scep_message" class="scep_message"></span>
 			<img src="<?php echo $this->plugin_url  . '/img/ajax-loader.gif'; ?>" alt="wait" name="scep_wait" style="display: none;" />
