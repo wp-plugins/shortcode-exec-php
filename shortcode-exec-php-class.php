@@ -14,7 +14,6 @@ define('c_scep_option_widget', 'scep_widget');
 define('c_scep_option_excerpt', 'scep_excerpt');
 define('c_scep_option_comment', 'scep_comment');
 define('c_scep_option_rss', 'scep_rss');
-define('c_scep_option_noent', 'scep_noent');
 define('c_scep_option_noautop', 'scep_noautop');
 define('c_scep_option_cleanup', 'scep_cleanup');
 define('c_scep_option_donated', 'scep_donated');
@@ -258,7 +257,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				WPShortcodeExecPHP::Delete_option(c_scep_option_excerpt);
 				WPShortcodeExecPHP::Delete_option(c_scep_option_comment);
 				WPShortcodeExecPHP::Delete_option(c_scep_option_rss);
-				WPShortcodeExecPHP::Delete_option(c_scep_option_noent);
 				WPShortcodeExecPHP::Delete_option(c_scep_option_noautop);
 				WPShortcodeExecPHP::Delete_option(c_scep_option_codewidth);
 				WPShortcodeExecPHP::Delete_option(c_scep_option_codeheight);
@@ -377,8 +375,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 						$_POST[c_scep_option_comment] = null;
 					if (empty($_POST[c_scep_option_rss]))
 						$_POST[c_scep_option_rss] = null;
-					if (empty($_POST[c_scep_option_noent]))
-						$_POST[c_scep_option_noent] = null;
 					if (empty($_POST[c_scep_option_noautop]))
 						$_POST[c_scep_option_noautop] = null;
 					if (empty($_POST[c_scep_option_editarea_later]))
@@ -397,7 +393,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 					WPShortcodeExecPHP::Update_option(c_scep_option_excerpt, $_POST[c_scep_option_excerpt]);
 					WPShortcodeExecPHP::Update_option(c_scep_option_comment, $_POST[c_scep_option_comment]);
 					WPShortcodeExecPHP::Update_option(c_scep_option_rss, $_POST[c_scep_option_rss]);
-					WPShortcodeExecPHP::Update_option(c_scep_option_noent, $_POST[c_scep_option_noent]);
 					WPShortcodeExecPHP::Update_option(c_scep_option_noautop, $_POST[c_scep_option_noautop]);
 					WPShortcodeExecPHP::Update_option(c_scep_option_codewidth, trim($_POST[c_scep_option_codewidth]));
 					WPShortcodeExecPHP::Update_option(c_scep_option_codeheight, trim($_POST[c_scep_option_codeheight]));
@@ -474,7 +469,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			$scep_excerpt = (WPShortcodeExecPHP::Get_option(c_scep_option_excerpt) ? 'checked="checked"' : '');
 			$scep_comment = (WPShortcodeExecPHP::Get_option(c_scep_option_comment) ? 'checked="checked"' : '');
 			$scep_rss = (WPShortcodeExecPHP::Get_option(c_scep_option_rss) ? 'checked="checked"' : '');
-			$scep_noent = (WPShortcodeExecPHP::Get_option(c_scep_option_noent) ? 'checked="checked"' : '');
 			$scep_noautop = (WPShortcodeExecPHP::Get_option(c_scep_option_noautop) ? 'checked="checked"' : '');
 			$scep_width = (WPShortcodeExecPHP::Get_option(c_scep_option_codewidth));
 			$scep_height = (WPShortcodeExecPHP::Get_option(c_scep_option_codeheight));
@@ -536,12 +530,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				<label for="scep_option_rss"><?php _e('Execute shortcodes in RSS feeds', c_scep_text_domain); ?></label>
 			</th><td>
 				<input id="scep_option_rss" name="<?php echo c_scep_option_rss; ?>" type="checkbox"<?php echo $scep_rss; ?> />
-			</td></tr>
-
-			<tr valign="top"><th scope="row">
-				<label for="scep_option_noent"><?php _e('Disable html entity encoding', c_scep_text_domain); ?></label>
-			</th><td>
-				<input id="scep_option_noent" name="<?php echo c_scep_option_noent; ?>" type="checkbox"<?php echo $scep_noent; ?> />
 			</td></tr>
 
 			<tr valign="top"><th scope="row">
@@ -901,7 +889,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 ?>
 			<tr><td><textarea name="<?php echo c_scep_form_phpcode . $i; ?>" id="<?php echo c_scep_form_phpcode . $i; ?>"
 			style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"
-			><?php echo WPShortcodeExecPHP::Get_option(c_scep_option_noent) ? $code : htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
+			><?php echo htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
 			<tr><td align="right">
 			<span name="scep_message" class="scep_message"></span>
 			<img src="<?php echo $this->plugin_url  . '/img/ajax-loader.gif'; ?>" alt="wait" name="scep_wait" style="display: none;" />
@@ -1044,8 +1032,6 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				$buffer = $_REQUEST[c_scep_param_buffer];
 				$description = trim(stripslashes($_REQUEST[c_scep_param_description]));
 				$phpcode = $_REQUEST[c_scep_param_phpcode];
-				if (!WPShortcodeExecPHP::Get_option(c_scep_option_noent))
-					$phpcode = html_entity_decode($phpcode, ENT_NOQUOTES);
 				$phpcode = stripslashes($phpcode);
 
 				// Save, test

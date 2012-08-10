@@ -118,6 +118,7 @@ You can use the [the forum](http://forum.faircode.eu/).
 == Changelog ==
 
 = Development version =
+* Fixed html entities (by *q7joey*, thanks!)
 * Added Lithuanian (lt\_LT) by [Host1Free](http://www.host1free.com/ "Host1Free")
 
 = 1.43 =
