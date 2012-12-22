@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
 Tested up to: 3.5
-Stable tag: 1.44
+Stable tag: 1.45
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -116,6 +116,9 @@ You can use the [the forum](http://forum.faircode.eu/).
 1. Shortcode exec PHP
 
 == Changelog ==
+
+= 1.45 =
+* Added Slovak (sk\_SK) translation
 
 = 1.44 =
 * Bugfix: html entities (by *Joe Pruett*, thanks!)
@@ -337,6 +340,9 @@ You can use the [the forum](http://forum.faircode.eu/).
 * Development version
 
 == Upgrade Notice ==
+
+= 1.45 =
+New translation
 
 = 1.44 =
 One bugfix, new translation
