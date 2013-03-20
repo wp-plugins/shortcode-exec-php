@@ -886,8 +886,12 @@ if (!class_exists('WPShortcodeExecPHP')) {
 				echo '</span></td></tr>';
 			}
 ?>
-			<tr><td><textarea name="<?php echo c_scep_form_phpcode . $i; ?>" id="<?php echo c_scep_form_phpcode . $i; ?>"
-			style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"><?php echo htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
+			<tr><td><textarea
+				name="<?php echo c_scep_form_phpcode . $i; ?>"
+				id="<?php echo c_scep_form_phpcode . $i; ?>"
+				style="width: <?php echo $scep_width; ?>px;height: <?php echo $scep_height; ?>px;"
+			><?php echo htmlentities($code, ENT_NOQUOTES, get_option('blog_charset')); ?></textarea></td></tr>
+			<tr><td><em><?php _e('Insert your PHP code, minus the &lt;?php and ?&gt; tags', c_scep_text_domain); ?></em></td></tr>
 			<tr><td align="right">
 			<span name="scep_message" class="scep_message"></span>
 			<img src="<?php echo $this->plugin_url  . '/img/ajax-loader.gif'; ?>" alt="wait" name="scep_wait" style="display: none;" />

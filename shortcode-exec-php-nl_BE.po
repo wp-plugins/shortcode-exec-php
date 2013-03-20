@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Shortcode Exec PHP\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/shortcode-exec-php\n"
 "POT-Creation-Date: 2010-04-19 05:47+0000\n"
-"PO-Revision-Date: 2011-12-25 15:38+0100\n"
+"PO-Revision-Date: 2013-03-20 18:23+0100\n"
 "Last-Translator: Marcel Bokhorst\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -178,4 +178,7 @@ msgstr "Shortcodes geïmporteerd:"
 
 msgid "Disable wpautop"
 msgstr "Zet wpautop uit"
+
+msgid "Insert your PHP code, minus the &lt;?php and ?&gt; tags"
+msgstr "Voeg uw PHP code in, zonder de &lt;?php en ?&gt; tags"
 
