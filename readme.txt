@@ -23,7 +23,7 @@ Advantages over other solutions:
 
 For those concerned about security (hopefully everybody): only administrators can define shortcodes and associated PHP code (see also the [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")).
 
-Please report any issue you have with this plugin in [the forum](http://forum.faircode.eu/).
+Please report any issue you have with this plugin in [the forum](http://forum.faircode.eu/), but please note there is no support on shortcode definitions.
 
 See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
 
@@ -102,6 +102,9 @@ Yes, if you enclose the HTML code with *`?>`* and *`<?`*.
 
 The post or page author has insufficient privileges to execute shortcodes.
 
+= I get 'Warning: ... in ... : eval()’d code on line xxx' =
+This means there is an error in your shortcode definition on line xxx.
+
 = My code doesn't work! =
 
 Note that your code is not directly executed in the WordPress environment, but in a function.
@@ -109,7 +112,7 @@ This means for example that a *global $wpdb;* is needed to access the [database 
 
 = Where can I ask questions, report bugs and request features? =
 
-You can use the [the forum](http://forum.faircode.eu/).
+You can use the [the forum](http://forum.faircode.eu/), but please note there is no support on shortcode definitions.
 
 == Screenshots ==
 
