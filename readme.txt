@@ -25,7 +25,7 @@ For those concerned about security (hopefully everybody): only administrators ca
 
 Please report any issue you have with this plugin in [the forum](http://forum.faircode.eu/), but please note there is no support on shortcode definitions.
 
-See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst")
+See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
 
 == Installation ==
 
@@ -121,6 +121,7 @@ You can use the [the forum](http://forum.faircode.eu/), but please note there is
 == Changelog ==
 
 = Development version =
+* Updated SimpleModal to version 1.4.4
 * Added clarification
 * Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
 
