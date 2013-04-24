@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
 Tested up to: 3.5.1
-Stable tag: 1.45
+Stable tag: 1.46
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -121,10 +121,12 @@ You can use the [the forum](http://forum.faircode.eu/), but please note there is
 == Changelog ==
 
 = Development version =
+* You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
+
+= 1.46 =
 * Updated SimpleModal to version 1.4.4
 * Added clarification
 * Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
-* You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
 
 = 1.45 =
 * Added Slovak (sk\_SK) translation
@@ -348,6 +350,9 @@ You can use the [the forum](http://forum.faircode.eu/), but please note there is
 * Development version
 
 == Upgrade Notice ==
+
+= 1.46 =
+Updated SimpleModal
 
 = 1.45 =
 New translation
