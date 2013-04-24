@@ -121,6 +121,7 @@ You can use the [the forum](http://forum.faircode.eu/), but please note there is
 == Changelog ==
 
 = Development version =
+* Updated SimpleModal to version 1.4.4
 * Added clarification
 * Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
 
