@@ -2,7 +2,7 @@
 
 /*
 	Support class Shortcode Exec PHP Plugin
-	Copyright (c) 2010, 2011, 2012 by Marcel Bokhorst
+	Copyright (c) 2010-2013 by Marcel Bokhorst
 */
 
 if (!function_exists('is_plugin_active_for_network'))
@@ -1343,7 +1343,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 		}
 
 		// Helper check environment
-		function Check_prerequisites() {
+		static function Check_prerequisites() {
 			// Check PHP version
 			if (version_compare(PHP_VERSION, '4.3.0', '<'))
 				die('Shortcode Exec PHP requires at least PHP 4.3.0');
@@ -1363,7 +1363,7 @@ if (!class_exists('WPShortcodeExecPHP')) {
 			WPShortcodeExecPHP::Check_function('wp_enqueue_style');
 		}
 
-		function Check_function($name) {
+		static function Check_function($name) {
 			if (!function_exists($name))
 				die('Required WordPress function "' . $name . '" does not exist');
 		}

@@ -3,8 +3,8 @@ Contributors: Marcel Bokhorst
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Shortcode%20Exec%20PHP%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
-Tested up to: 3.5.1
-Stable tag: 1.45
+Tested up to: 3.6
+Stable tag: 1.47
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -23,7 +23,7 @@ Advantages over other solutions:
 
 For those concerned about security (hopefully everybody): only administrators can define shortcodes and associated PHP code (see also the [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")).
 
-Please report any issue you have with this plugin in [the forum](http://forum.faircode.eu/).
+Please report any issue you have with this plugin in [the forum](http://forum.faircode.eu/), but please note there is no support on shortcode definitions.
 
 See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
 
@@ -102,6 +102,9 @@ Yes, if you enclose the HTML code with *`?>`* and *`<?`*.
 
 The post or page author has insufficient privileges to execute shortcodes.
 
+= I get 'Warning: ... in ... : eval()’d code on line xxx' =
+This means there is an error in your shortcode definition on line xxx.
+
 = My code doesn't work! =
 
 Note that your code is not directly executed in the WordPress environment, but in a function.
@@ -109,7 +112,7 @@ This means for example that a *global $wpdb;* is needed to access the [database 
 
 = Where can I ask questions, report bugs and request features? =
 
-You can use the [the forum](http://forum.faircode.eu/).
+You can use the [the forum](http://forum.faircode.eu/), but please note there is no support on shortcode definitions.
 
 == Screenshots ==
 
@@ -118,6 +121,13 @@ You can use the [the forum](http://forum.faircode.eu/).
 == Changelog ==
 
 = Development version =
+* You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
+
+= 1.47 =
+* Fixed a PHP warning
+
+= 1.46 =
+* Updated SimpleModal to version 1.4.4
 * Added clarification
 * Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
 
@@ -147,7 +157,6 @@ You can use the [the forum](http://forum.faircode.eu/).
 * Updated Chinese (zh\_CN) translation by [Jie](http://thejie.org/ "Jie")
 * Updated Dutch (nl\_NL) and Flemish (nl\_BE) translations
 * Updated Norwegian (nb\_NO) translation by [Stein Ivar Johnsen](http://www.idyrøy.no/ "Stein Ivar Johnsen")
-* You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
 
 = 1.37 =
 * Removed [Sustainable Plugins Sponsorship Network](http://pluginsponsors.com/)
@@ -344,6 +353,12 @@ You can use the [the forum](http://forum.faircode.eu/).
 * Development version
 
 == Upgrade Notice ==
+
+= 1.47 =
+Fixed a PHP warning
+
+= 1.46 =
+Updated SimpleModal
 
 = 1.45 =
 New translation
