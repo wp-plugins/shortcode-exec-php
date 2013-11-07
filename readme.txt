@@ -3,8 +3,8 @@ Contributors: Marcel Bokhorst
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=Shortcode%20Exec%20PHP%20WordPress%20Plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
-Tested up to: 3.6.1
-Stable tag: 1.47
+Tested up to: 3.7.1
+Stable tag: 1.48
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -122,6 +122,9 @@ You can use the [the forum](http://forum.faircode.eu/), but please note there is
 
 = Development version =
 * You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
+
+= 1.48 =
+* Tested with WordPress 3.7.x
 
 = 1.47 =
 * Fixed a PHP warning
