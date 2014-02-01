@@ -2,7 +2,7 @@
 
 /*
 	Support class Shortcode Exec PHP Plugin
-	Copyright (c) 2010-2013 by Marcel Bokhorst
+	Copyright (c) 2010-2014 by Marcel Bokhorst
 */
 
 if (!function_exists('is_plugin_active_for_network'))
