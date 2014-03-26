@@ -4,11 +4,13 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
 Tested up to: 3.8.1
-Stable tag: 1.50
+Stable tag: 1.51
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
 == Description ==
+
+**This plugin is not supported anymore**
 
 Using this plugin you can execute arbitrary [PHP](http://www.php.net/ "PHP") code using [shortcodes](http://codex.wordpress.org/Shortcode_API "Shortcode API") in your posts, pages, comments, widgets and RSS feeds, just like manually defined shortcodes. The shortcodes and associated PHP code are defined using the settings of this plugin. It is possible to parse and use shortcode parameters and to use shortcode content. Defined shortcodes can be deleted and disabled.
 
@@ -122,6 +124,10 @@ You can use the [the forum](http://forum.faircode.eu/), but please note there is
 
 = Development version =
 * You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
+
+= 1.51 =
+* Make pro feature free
+* End support
 
 = 1.50 =
 * Tested with WordPress 3.8.1
@@ -362,6 +368,9 @@ You can use the [the forum](http://forum.faircode.eu/), but please note there is
 * Development version
 
 == Upgrade Notice ==
+
+= 1.51 =
+Make pro feature free, end support
 
 = 1.50 =
 Tested with WordPress 3.8.1
