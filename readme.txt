@@ -25,8 +25,6 @@ Advantages over other solutions:
 
 For those concerned about security (hopefully everybody): only administrators can define shortcodes and associated PHP code (see also the [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")).
 
-Please report any issue you have with this plugin in [the forum](http://forum.faircode.eu/), but please note there is no support on shortcode definitions.
-
 See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
 
 == Installation ==
@@ -114,7 +112,7 @@ This means for example that a *global $wpdb;* is needed to access the [database 
 
 = Where can I ask questions, report bugs and request features? =
 
-You can use the [the forum](http://forum.faircode.eu/), but please note there is no support on shortcode definitions.
+**This plugin is not supported anymore**
 
 == Screenshots ==
 
