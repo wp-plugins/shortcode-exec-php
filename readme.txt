@@ -25,7 +25,7 @@ Advantages over other solutions:
 
 For those concerned about security (hopefully everybody): only administrators can define shortcodes and associated PHP code (see also the [FAQ](http://wordpress.org/extend/plugins/shortcode-exec-php/faq/ "FAQ")).
 
-See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst").
+See my [other plugins](http://wordpress.org/extend/plugins/profile/m66b "Marcel Bokhorst")
 
 == Installation ==
 
