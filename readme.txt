@@ -121,8 +121,7 @@ This means for example that a *global $wpdb;* is needed to access the [database 
 * You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
 
 = 1.51 =
-* Make pro feature free
-* End support
+* Made pro feature free
 
 = 1.50 =
 * Tested with WordPress 3.8.1
@@ -365,7 +364,7 @@ This means for example that a *global $wpdb;* is needed to access the [database 
 == Upgrade Notice ==
 
 = 1.51 =
-Make pro feature free, end support
+Made pro feature free
 
 = 1.50 =
 Tested with WordPress 3.8.1
