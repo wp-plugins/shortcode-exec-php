@@ -9,7 +9,7 @@ Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS 
 
 == Description ==
 
-**This plugin is not support anymore**
+**This plugin is not supported anymore**
 
 Using this plugin you can execute arbitrary [PHP](http://www.php.net/ "PHP") code using [shortcodes](http://codex.wordpress.org/Shortcode_API "Shortcode API") in your posts, pages, comments, widgets and RSS feeds, just like manually defined shortcodes. The shortcodes and associated PHP code are defined using the settings of this plugin. It is possible to parse and use shortcode parameters and to use shortcode content. Defined shortcodes can be deleted and disabled.
 
