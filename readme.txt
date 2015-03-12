@@ -1,5 +1,5 @@
 ﻿=== Shortcode Exec PHP ===
-Contributors: M66B, canopusresearch
+Contributors: M66B, dabelon
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
 Tested up to: 3.8.1
