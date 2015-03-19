@@ -2,7 +2,7 @@
 
 /*
 	Support class Shortcode Exec PHP Plugin
-	Copyright (c) 2010-2014 by Marcel Bokhorst
+	Copyright (c) 2010-2015 by Marcel Bokhorst
 */
 
 if (!function_exists('is_plugin_active_for_network'))
@@ -1188,7 +1188,10 @@ if (!class_exists('WPShortcodeExecPHP')) {
 
 					$('#scep-tinymce-form').submit(function() {
 						if (window.tinyMCE) {
-							window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, '[' + $('#scep-tinymce-shortcode').val() + ']');
+							if (tinyMCE.majorVersion >= '4')
+								window.tinyMCE.execCommand('mceInsertContent', false, '[' + $('#scep-tinymce-shortcode').val() + ']');
+							else
+								window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, '[' + $('#scep-tinymce-shortcode').val() + ']');
 							tinyMCEPopup.editor.execCommand('mceRepaint');
 							tinyMCEPopup.close();
 						}
