@@ -2,8 +2,8 @@
 Contributors: M66B, dabelon
 Tags: admin, shortcode, run, php, eval, execute, exec, code, post, posts, page, pages, comment, comments, sidebar, widget, widgets, rss, feed, feeds, AJAX, wpmu, tinymce
 Requires at least: 3.1
-Tested up to: 3.8.1
-Stable tag: 1.51
+Tested up to: 4.1.1
+Stable tag: 1.52
 
 Execute arbitrary, reusable PHP code in posts, pages, comments, widgets and RSS feeds using shortcodes in a safe and easy way
 
@@ -119,6 +119,9 @@ This means for example that a *global $wpdb;* is needed to access the [database 
 
 = Development version =
 * You can download the development version [here](http://downloads.wordpress.org/plugin/shortcode-exec-php.zip)
+
+= 1.52 =
+* Fixed inserting shortcode
 
 = 1.51 =
 * Made pro feature free
@@ -362,6 +365,9 @@ This means for example that a *global $wpdb;* is needed to access the [database 
 * Development version
 
 == Upgrade Notice ==
+
+= 1.52 =
+Fixed inserting shortcode
 
 = 1.51 =
 Made pro feature free
